@@ -1,0 +1,47 @@
+{
+  "name": "vyuldashev/laravel-openapi",
+  "description": "Generate OpenAPI Documentation for Laravel Applications",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vladimir Yuldashev",
+      "email": "misterio92@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "ext-json": "*",
+    "doctrine/annotations": "^1.6",
+    "goldspecdigital/oooas": "^2.1",
+    "laravel/framework": "5.8.*",
+    "phpdocumentor/reflection-docblock": "^4.3"
+  },
+  "require-dev": {
+    "fzaninotto/faker": "^1.8",
+    "orchestra/testbench": "^3.8",
+    "phpunit/phpunit": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vyuldashev\\LaravelOpenApi\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Vyuldashev\\LaravelOpenApi\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Vyuldashev\\LaravelOpenApi\\OpenApiServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
