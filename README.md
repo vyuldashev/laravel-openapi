@@ -4,6 +4,7 @@
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/vyuldashev/laravel-openapi.svg?style=flat-square)](https://packagist.org/packages/vyuldashev/laravel-openapi)
 
+
 ## Installation
 
 You can install the package via composer:
@@ -33,7 +34,13 @@ Of course, if your application does not use the App namespace, you should update
 
 ## Usage
 
-*If you are using PhpStorm consider installing [PHP Annotations](https://plugins.jetbrains.com/plugin/7320-php-annotations/) plugin.*
+*This package use some annotations. If you are using PhpStorm consider installing [PHP Annotations](https://plugins.jetbrains.com/plugin/7320-php-annotations/) plugin.*
+
+Before starting using this package you need to be familiar with OpenAPI specification and it's terms.
+
+Here are some useful links that will help to gain enough knowledge:
+* [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md)
+* [Swagger Editor](https://editor.swagger.io/)
 
 ### Adding route to paths
 
