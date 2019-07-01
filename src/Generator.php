@@ -4,14 +4,11 @@ namespace Vyuldashev\LaravelOpenApi;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Components;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Server;
 use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
-use Illuminate\Support\Collection;
-use Vyuldashev\LaravelOpenApi\Contracts\ParametersNormalizerInterface;
-use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyNormalizerInterface;
-use Vyuldashev\LaravelOpenApi\Contracts\ResponseNormalizerInterface;
+use Illuminate\Contracts\Foundation\Application;
+use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\SchemasBuilder;
 
 class Generator
 {
@@ -21,81 +18,17 @@ class Generator
     /** @var Server[] */
     public $servers;
     public $schemas = [];
-    public $schemasByClass = [];
+
+    protected $app;
+
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     public function generate(): OpenApi
     {
-        $paths = Routes::resolve()
-            ->groupBy(static function (RouteInformation $routeInformation) {
-                return $routeInformation->uri;
-            })
-            ->map(static function (Collection $routes, $uri) {
-                $pathItem = PathItem::create()->route($uri);
-
-                $operations = [];
-
-                /** @var RouteInformation[] $routes */
-                foreach ($routes as $route) {
-                    // Operation ID
-                    $operationId = collect($route->actionAnnotations)->first(static function ($annotation) {
-                        return $annotation instanceof Annotations\Operation;
-                    });
-
-                    // Parameters
-
-                    /** @var Annotations\Parameters|null $parameters */
-                    $parameters = collect($route->actionAnnotations)->first(static function ($annotation) {
-                        return $annotation instanceof Annotations\Parameters;
-                    }, []);
-
-                    if ($parameters) {
-                        /** @var ParametersNormalizerInterface $parametersNormalizer */
-                        $parametersNormalizer = resolve($parameters->normalizer);
-
-                        $parameters = $parametersNormalizer->normalize();
-                    }
-
-                    /** @var Annotations\RequestBody|null $requestBody */
-                    $requestBody = collect($route->actionAnnotations)->first(static function ($annotation) {
-                        return $annotation instanceof Annotations\RequestBody;
-                    });
-
-                    if ($requestBody) {
-                        /** @var RequestBodyNormalizerInterface $requestBodyNormalizer */
-                        $requestBodyNormalizer = resolve($requestBody->normalizer);
-
-                        $requestBody = $requestBodyNormalizer->normalize();
-                    }
-
-                    $responses = collect($route->actionAnnotations)
-                        ->filter(static function ($annotation) {
-                            return $annotation instanceof Annotations\Response;
-                        })
-                        ->map(static function (Annotations\Response $annotation) {
-                            return resolve($annotation->normalizer);
-                        })
-                        ->map(static function (ResponseNormalizerInterface $normalizer) {
-                            return $normalizer->normalize();
-                        })
-                        ->values()
-                        ->toArray();
-
-                    $operation = Operation::create()
-                        ->action($route->method)
-                        ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
-                        ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
-                        ->operationId(optional($operationId)->id)
-                        ->parameters(...$parameters)
-                        ->requestBody($requestBody)
-                        ->responses(...$responses);
-
-                    $operations[] = $operation;
-                }
-
-                return $pathItem->operations(...$operations);
-            })
-            ->values()
-            ->toArray();
+        $paths = $this->app[PathsBuilder::class]->build();
 
         $openApi = OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
@@ -104,8 +37,10 @@ class Generator
             ->paths(...$paths);
 
         if (count($this->schemas) > 0) {
+            $schemas = $this->app[SchemasBuilder::class]->build($this->schemas);
+
             $openApi = $openApi->components(
-                Components::create()->schemas(...$this->schemas)
+                Components::create()->schemas(...$schemas)
             );
         }
 
@@ -135,17 +70,7 @@ class Generator
 
     public function setSchemas($schemas)
     {
-        $schemas = collect($schemas)
-            ->mapWithKeys(static function ($definition, $class) {
-                $normalizer = resolve($definition)->normalize();
-
-                return [
-                    $class => $normalizer
-                ];
-            });
-
-        $this->schemas = $schemas->values()->toArray();
-        $this->schemasByClass = $schemas->toArray();
+        $this->schemas = $schemas;
 
         return $this;
     }

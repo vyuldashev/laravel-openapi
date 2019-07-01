@@ -12,8 +12,8 @@ class OpenApiApplicationServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->app->singleton(Generator::class, function () {
-            return (new Generator())
+        $this->app->singleton(Generator::class, function ($app) {
+            return (new Generator($app))
                 ->setVersion(OpenApi::OPENAPI_3_0_2)
                 ->setInfo($this->info())
                 ->setServers($this->servers())
