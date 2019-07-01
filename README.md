@@ -56,9 +56,9 @@ use Vyuldashev\LaravelOpenApi\Annotations as OpenApi;
 class UserController extends Controller 
 {
     /**
-    * Create new user.
-    * 
-    * @OpenApi\Operation()
+     * Create new user.
+     * 
+     * @OpenApi\Operation()
     */
     public function store() 
     {
