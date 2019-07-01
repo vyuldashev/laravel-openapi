@@ -14,7 +14,7 @@ class RequestBodyNormalizerMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/requestbody-normalizer.php';
+        return __DIR__ . '/stubs/requestbody-normalizer.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string

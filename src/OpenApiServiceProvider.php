@@ -10,6 +10,7 @@ use Vyuldashev\LaravelOpenApi\Console\GenerateCommand;
 use Vyuldashev\LaravelOpenApi\Console\InstallCommand;
 use Vyuldashev\LaravelOpenApi\Console\ParametersNormalizerMakeCommand;
 use Vyuldashev\LaravelOpenApi\Console\RequestBodyNormalizerMakeCommand;
+use Vyuldashev\LaravelOpenApi\Console\ResponseNormalizerMakeCommand;
 
 class OpenApiServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,7 @@ class OpenApiServiceProvider extends ServiceProvider
             InstallCommand::class,
             ParametersNormalizerMakeCommand::class,
             RequestBodyNormalizerMakeCommand::class,
+            ResponseNormalizerMakeCommand::class,
         ]);
     }
 

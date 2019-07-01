@@ -14,7 +14,7 @@ class ParametersNormalizerMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/parameters-normalizer.php';
+        return __DIR__ . '/stubs/parameters-normalizer.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
