@@ -4,10 +4,10 @@ namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Types\BooleanType;
+use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\DBAL\Types\DateType;
 use Doctrine\DBAL\Types\DecimalType;
 use Doctrine\DBAL\Types\IntegerType;
-use Doctrine\DBAL\Types\StringType;
 use DomainException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Illuminate\Database\Eloquent\Model;
@@ -50,20 +50,21 @@ class SchemasBuilder
                 /** @var Column $column */
                 $column = $connection->getDoctrineColumn($model->getTable(), $column);
                 $name = $column->getName();
+                $default = $column->getDefault();
 
                 switch (get_class($column->getType())) {
                     case IntegerType::class:
-                        return Schema::integer($name)->default($column->getDefault());
+                        return Schema::integer($name)->default($default);
                     case BooleanType::class:
-                        return Schema::boolean($name)->default($column->getDefault());
+                        return Schema::boolean($name)->default($default);
                     case DateType::class:
-                        return Schema::string($name)->format(Schema::FORMAT_DATE)->default($column->getDefault());
-                    case StringType::class:
-                        return Schema::string($name)->default($column->getDefault());
+                        return Schema::string($name)->format(Schema::FORMAT_DATE)->default($default);
+                    case DateTimeType::class:
+                        return Schema::string($name)->format(Schema::FORMAT_DATE_TIME)->default($default);
                     case DecimalType::class:
-                        return Schema::number($name)->format(Schema::FORMAT_FLOAT)->default($column->getDefault());
+                        return Schema::number($name)->format(Schema::FORMAT_FLOAT)->default($default);
                     default:
-                        throw new DomainException('No schema defined for ' . get_class($column->getType()));
+                        return Schema::string($name)->default($default);
                 }
             })
             ->values()
