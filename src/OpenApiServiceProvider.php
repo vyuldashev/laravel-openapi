@@ -8,6 +8,8 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Console\GenerateCommand;
 use Vyuldashev\LaravelOpenApi\Console\InstallCommand;
+use Vyuldashev\LaravelOpenApi\Console\ParametersNormalizerMakeCommand;
+use Vyuldashev\LaravelOpenApi\Console\RequestBodyNormalizerMakeCommand;
 
 class OpenApiServiceProvider extends ServiceProvider
 {
@@ -15,7 +17,7 @@ class OpenApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/Console/stubs/OpenApiServiceProvider.stub' => app_path('Providers/OpenApiServiceProvider.php'),
+                __DIR__ . '/Console/stubs/provider.stub' => app_path('Providers/OpenApiServiceProvider.php'),
             ], 'openapi-provider');
         }
 
@@ -27,6 +29,8 @@ class OpenApiServiceProvider extends ServiceProvider
         $this->commands([
             GenerateCommand::class,
             InstallCommand::class,
+            ParametersNormalizerMakeCommand::class,
+            RequestBodyNormalizerMakeCommand::class,
         ]);
     }
 

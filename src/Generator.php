@@ -97,14 +97,19 @@ class Generator
             ->values()
             ->toArray();
 
-        return OpenApi::create()
+        $openApi = OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($this->info)
             ->servers(...$this->servers)
-            ->paths(...$paths)
-            ->components(
+            ->paths(...$paths);
+
+        if (count($this->schemas) > 0) {
+            $openApi = $openApi->components(
                 Components::create()->schemas(...$this->schemas)
             );
+        }
+
+        return $openApi;
     }
 
     public function setVersion(string $version)
