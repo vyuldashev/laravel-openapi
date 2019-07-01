@@ -2,32 +2,30 @@
 
 namespace Vyuldashev\LaravelOpenApi;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Components;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Server;
+use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Contracts\ParametersNormalizerInterface;
 use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyNormalizerInterface;
 use Vyuldashev\LaravelOpenApi\Contracts\ResponseNormalizerInterface;
 
-class Container
+class Generator
 {
-    /** @var RouteInformation[] */
-    public static $routes = [];
+    public $version = OpenApi::OPENAPI_3_0_2;
+    /** @var Info */
+    public $info;
+    /** @var Server[] */
+    public $servers;
+    public $schemas = [];
+    public $schemasByClass = [];
 
-    public static $schemas = [];
-
-    public static $schemasByClass = [];
-
-    public static $paths = [];
-
-    /**
-     * @param RouteInformation[] $routes
-     */
-    public static function routes(array $routes): void
+    public function generate(): OpenApi
     {
-        static::$routes = $routes;
-
-        static::$paths = collect($routes)
+        $paths = Routes::resolve()
             ->groupBy(static function (RouteInformation $routeInformation) {
                 return $routeInformation->uri;
             })
@@ -39,14 +37,14 @@ class Container
                 /** @var RouteInformation[] $routes */
                 foreach ($routes as $route) {
                     // Operation ID
-                    $operationId = collect($route->actionAnnotations)->first(function ($annotation) {
+                    $operationId = collect($route->actionAnnotations)->first(static function ($annotation) {
                         return $annotation instanceof Annotations\Operation;
                     });
 
                     // Parameters
 
                     /** @var Annotations\Parameters|null $parameters */
-                    $parameters = collect($route->actionAnnotations)->first(function ($annotation) {
+                    $parameters = collect($route->actionAnnotations)->first(static function ($annotation) {
                         return $annotation instanceof Annotations\Parameters;
                     }, []);
 
@@ -58,7 +56,7 @@ class Container
                     }
 
                     /** @var Annotations\RequestBody|null $requestBody */
-                    $requestBody = collect($route->actionAnnotations)->first(function ($annotation) {
+                    $requestBody = collect($route->actionAnnotations)->first(static function ($annotation) {
                         return $annotation instanceof Annotations\RequestBody;
                     });
 
@@ -70,13 +68,13 @@ class Container
                     }
 
                     $responses = collect($route->actionAnnotations)
-                        ->filter(function ($annotation) {
+                        ->filter(static function ($annotation) {
                             return $annotation instanceof Annotations\Response;
                         })
-                        ->map(function (Annotations\Response $annotation) {
+                        ->map(static function (Annotations\Response $annotation) {
                             return resolve($annotation->normalizer);
                         })
-                        ->map(function (ResponseNormalizerInterface $normalizer) {
+                        ->map(static function (ResponseNormalizerInterface $normalizer) {
                             return $normalizer->normalize();
                         })
                         ->values()
@@ -84,8 +82,8 @@ class Container
 
                     $operation = Operation::create()
                         ->action($route->method)
-                        ->description($route->actionDocBlock->getDescription())
-                        ->summary($route->actionDocBlock->getSummary())
+                        ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
+                        ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
                         ->operationId(optional($operationId)->id)
                         ->parameters(...$parameters)
                         ->requestBody($requestBody)
@@ -98,9 +96,39 @@ class Container
             })
             ->values()
             ->toArray();
+
+        return OpenApi::create()
+            ->openapi(OpenApi::OPENAPI_3_0_2)
+            ->info($this->info)
+            ->servers(...$this->servers)
+            ->paths(...$paths)
+            ->components(
+                Components::create()->schemas(...$this->schemas)
+            );
     }
 
-    public static function schemas($schemas): void
+    public function setVersion(string $version)
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    public function setInfo(Info $info)
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    public function setServers(array $servers)
+    {
+        $this->servers = $servers;
+
+        return $this;
+    }
+
+    public function setSchemas($schemas)
     {
         $schemas = collect($schemas)
             ->mapWithKeys(static function ($definition, $class) {
@@ -111,8 +139,9 @@ class Container
                 ];
             });
 
-        static::$schemas = $schemas->values()->toArray();
-        static::$schemasByClass = $schemas->toArray();
+        $this->schemas = $schemas->values()->toArray();
+        $this->schemasByClass = $schemas->toArray();
 
+        return $this;
     }
 }
