@@ -29,3 +29,12 @@ php artisan openapi:install
 
 After running this command, verify that the App\Providers\OpenApiServiceProvider was added to the providers array in your app configuration file. If it wasn't, you should add it manually.
 Of course, if your application does not use the App namespace, you should update the provider class name as needed. 
+
+
+## Usage
+
+**TODO**
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
