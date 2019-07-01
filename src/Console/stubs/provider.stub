@@ -12,6 +12,8 @@ class OpenApiServiceProvider extends OpenApiApplicationServiceProvider
      */
     protected function schemas(): array
     {
-        return parent::schemas();
+        return [
+            //
+        ];
     }
 }
