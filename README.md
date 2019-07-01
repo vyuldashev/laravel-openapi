@@ -33,7 +33,32 @@ Of course, if your application does not use the App namespace, you should update
 
 ## Usage
 
-**TODO**
+*If you are using PhpStorm consider installing [PHP Annotations](https://plugins.jetbrains.com/plugin/7320-php-annotations/) plugin.*
+
+### Adding route to paths
+
+Add `PathItem` annotation to controller class and `Operation` to particular action method.
+This annotations will indicate that route which has `UserController@store` definition should be included in `paths`.
+
+```php
+use Vyuldashev\LaravelOpenApi\Annotations as OpenApi;
+
+/**
+ * @OpenApi\PathItem()
+ */
+class UserController extends Controller 
+{
+    /**
+    * Create new user.
+    * 
+    * @OpenApi\Operation()
+    */
+    public function store() 
+    {
+        //
+    }
+}
+```
 
 ## License
 
