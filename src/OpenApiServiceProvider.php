@@ -7,27 +7,27 @@ namespace Vyuldashev\LaravelOpenApi;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Console\GenerateCommand;
+use Vyuldashev\LaravelOpenApi\Console\InstallCommand;
 
 class OpenApiServiceProvider extends ServiceProvider
 {
-    public function register(): void
-    {
-        $this->registerAnnotations();
-
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/openapi.php' => config_path('openapi.php')
-            ], 'openapi-config');
-
-            $this->commands([
-                GenerateCommand::class,
-            ]);
-        }
-    }
-
     public function boot(): void
     {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/Console/stubs/OpenApiServiceProvider.stub' => app_path('Providers/OpenApiServiceProvider.php'),
+            ], 'openapi-provider');
+        }
 
+        $this->registerAnnotations();
+    }
+
+    public function register(): void
+    {
+        $this->commands([
+            GenerateCommand::class,
+            InstallCommand::class,
+        ]);
     }
 
     protected function registerAnnotations(): void

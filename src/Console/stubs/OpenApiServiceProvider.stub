@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Providers;
+
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Vyuldashev\LaravelOpenApi\OpenApiApplicationServiceProvider;
+
+class OpenApiServiceProvider extends OpenApiApplicationServiceProvider
+{
+    /**
+     * @return Schema[]
+     */
+    protected function schemas(): array
+    {
+        return parent::schemas();
+    }
+}

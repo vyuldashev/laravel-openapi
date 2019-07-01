@@ -6,9 +6,6 @@ namespace Vyuldashev\LaravelOpenApi\Console;
 
 use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
 use Illuminate\Console\Command;
-use Illuminate\Routing\Route;
-use Illuminate\Routing\Router;
-use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class GenerateCommand extends Command
 {
