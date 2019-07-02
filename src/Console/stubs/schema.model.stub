@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Vyuldashev\LaravelOpenApi\Factory\SchemaFactory;
+
+class DummyClass extends SchemaFactory
+{
+    public function build(): Schema
+    {
+        DummyDefinition
+    }
+}
