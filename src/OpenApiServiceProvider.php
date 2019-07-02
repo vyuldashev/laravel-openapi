@@ -35,7 +35,7 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
 
         $this->commands([
             Console\GenerateCommand::class,
-            Console\ParametersNormalizerMakeCommand::class,
+            Console\ParametersFactoryMakeCommand::class,
             Console\RequestBodyNormalizerMakeCommand::class,
             Console\ResponseNormalizerMakeCommand::class,
             Console\SchemaMakeCommand::class,

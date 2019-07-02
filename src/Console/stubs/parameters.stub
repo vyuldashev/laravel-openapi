@@ -4,14 +4,14 @@ namespace DummyNamespace;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
-use Vyuldashev\LaravelOpenApi\Contracts\ParametersNormalizerInterface;
+use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 
-class DummyClass implements ParametersNormalizerInterface
+class DummyClass extends ParametersFactory
 {
     /**
      * @return Parameter[]
      */
-    public function normalize(): array
+    public function build(): array
     {
         return [
 

@@ -4,7 +4,7 @@ namespace Vyuldashev\LaravelOpenApi\Annotations;
 
 use Doctrine\Common\Annotations\Annotation\Required;
 use InvalidArgumentException;
-use Vyuldashev\LaravelOpenApi\Contracts\ParametersNormalizerInterface;
+use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 
 /**
  * @Annotation
@@ -16,14 +16,14 @@ class Parameters
     /**
      * @Required()
      */
-    public $normalizer;
+    public $factory;
 
     public function __construct($values)
     {
-        $this->normalizer = $values['normalizer'];
+        $this->factory = $values['factory'];
 
-        if (!is_a($this->normalizer, ParametersNormalizerInterface::class, true)) {
-            throw new InvalidArgumentException('Parameters normalizer must be instance of ParametersNormalizerInterface');
+        if (!is_a($this->factory, ParametersFactory::class, true)) {
+            throw new InvalidArgumentException('Factory class must be instance of ParametersFactory');
         }
     }
 }
