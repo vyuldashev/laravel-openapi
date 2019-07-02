@@ -29,6 +29,7 @@ Before starting using this package you need to be familiar with OpenAPI specific
 
 Here are some useful links that will help to gain enough knowledge:
 * [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md)
+* [OpenAPI Map](https://openapi-map.apihandyman.io)
 * [Swagger Editor](https://editor.swagger.io/)
 
 ### Adding route to paths
