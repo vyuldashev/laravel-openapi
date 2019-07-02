@@ -2,6 +2,9 @@
 
 namespace Vyuldashev\LaravelOpenApi\Annotations;
 
+use InvalidArgumentException;
+use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
+
 /**
  * @Annotation
  *
@@ -9,5 +12,14 @@ namespace Vyuldashev\LaravelOpenApi\Annotations;
  */
 class Response
 {
-    public $normalizer;
+    public $factory;
+
+    public function __construct($values)
+    {
+        $this->factory = $values['factory'];
+
+        if (!is_a($this->factory, ResponseFactory::class, true)) {
+            throw new InvalidArgumentException('Factory class must be instance of ResponseFactory');
+        }
+    }
 }

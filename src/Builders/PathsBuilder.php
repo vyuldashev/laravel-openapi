@@ -8,9 +8,9 @@ use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations;
-use Vyuldashev\LaravelOpenApi\Contracts\ResponseNormalizerInterface;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
+use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class PathsBuilder
@@ -64,10 +64,10 @@ class PathsBuilder
                             return $annotation instanceof Annotations\Response;
                         })
                         ->map(static function (Annotations\Response $annotation) {
-                            return resolve($annotation->normalizer);
+                            return resolve($annotation->factory);
                         })
-                        ->map(static function (ResponseNormalizerInterface $normalizer) {
-                            return $normalizer->normalize();
+                        ->map(static function (ResponseFactory $factory) {
+                            return $factory->build();
                         })
                         ->values()
                         ->toArray();

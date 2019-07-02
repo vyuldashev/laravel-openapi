@@ -6,10 +6,10 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class SchemaMakeCommand extends GeneratorCommand
+class SchemaFactoryMakeCommand extends GeneratorCommand
 {
     protected $name = 'openapi:make-schema';
-    protected $description = 'Create a new Schema class';
+    protected $description = 'Create a new Schema factory class';
     protected $type = 'Schema';
 
     protected function buildClass($name)
