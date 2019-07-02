@@ -5,34 +5,40 @@ declare(strict_types=1);
 namespace Vyuldashev\LaravelOpenApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
-use Vyuldashev\LaravelOpenApi\Console\GenerateCommand;
-use Vyuldashev\LaravelOpenApi\Console\InstallCommand;
-use Vyuldashev\LaravelOpenApi\Console\ParametersNormalizerMakeCommand;
-use Vyuldashev\LaravelOpenApi\Console\RequestBodyNormalizerMakeCommand;
-use Vyuldashev\LaravelOpenApi\Console\ResponseNormalizerMakeCommand;
 
-class OpenApiServiceProvider extends ServiceProvider
+class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/Console/stubs/provider.stub' => app_path('Providers/OpenApiServiceProvider.php'),
-            ], 'openapi-provider');
+                __DIR__ . '/../config/openapi.php' => config_path('openapi.php'),
+            ], 'openapi-config');
         }
 
         $this->registerAnnotations();
+
+        $this->app->singleton(Generator::class, static function ($app) {
+            $config = config('openapi');
+
+            return new Generator($app, $config);
+        });
     }
 
     public function register(): void
     {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/openapi.php', 'openapi'
+        );
+
         $this->commands([
-            GenerateCommand::class,
-            InstallCommand::class,
-            ParametersNormalizerMakeCommand::class,
-            RequestBodyNormalizerMakeCommand::class,
-            ResponseNormalizerMakeCommand::class,
+            Console\GenerateCommand::class,
+            Console\ParametersNormalizerMakeCommand::class,
+            Console\RequestBodyNormalizerMakeCommand::class,
+            Console\ResponseNormalizerMakeCommand::class,
+            Console\SchemaMakeCommand::class,
         ]);
     }
 
@@ -43,5 +49,12 @@ class OpenApiServiceProvider extends ServiceProvider
         foreach ($files as $file) {
             AnnotationRegistry::registerFile($file);
         }
+    }
+
+    public function provides(): array
+    {
+        return [
+            Generator::class,
+        ];
     }
 }

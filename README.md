@@ -22,16 +22,6 @@ The service provider will automatically get registered. Or you may manually add 
 ];
 ```
 
-Run `openapi:install` in order to install OpenApi service provider:
-
-```bash
-php artisan openapi:install
-```
-
-After running this command, verify that the App\Providers\OpenApiServiceProvider was added to the providers array in your app configuration file. If it wasn't, you should add it manually.
-Of course, if your application does not use the App namespace, you should update the provider class name as needed. 
-
-
 ## Usage
 
 *This package use some annotations. If you are using PhpStorm consider installing [PHP Annotations](https://plugins.jetbrains.com/plugin/7320-php-annotations/) plugin.*
