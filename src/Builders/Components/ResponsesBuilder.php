@@ -1,19 +1,21 @@
 <?php
 
-namespace Vyuldashev\LaravelOpenApi\Builders;
+namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
+use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
 use Vyuldashev\LaravelOpenApi\Factory\SchemaFactory;
 
-class SchemasBuilder
+class ResponsesBuilder
 {
-    public function build(string $schemasDirectory): array
+    public function build(string $responsesDirectory): array
     {
         $namespace = app()->getNamespace();
 
-        $files = (new Finder())->in($schemasDirectory)->files();
+        $files = (new Finder())->in($responsesDirectory)->files();
 
         return collect($files)
             ->map(static function (SplFileInfo $file) use ($namespace) {
@@ -26,7 +28,9 @@ class SchemasBuilder
                 return $schema;
             })
             ->filter(static function ($class) {
-                return is_a($class, SchemaFactory::class, true);
+                return
+                    is_a($class, ResponseFactory::class, true) &&
+                    is_a($class, Reusable::class, true);
             })
             ->map(static function ($class) {
                 /** @var SchemaFactory $instance */

@@ -13,6 +13,7 @@ return [
         ],
     ],
 
+    'responses' => app_path('OpenApi/Responses'),
     'schemas' => app_path('OpenApi/Schemas'),
 
 ];

@@ -4,10 +4,12 @@ namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Response;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations;
+use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
 use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
@@ -67,7 +69,14 @@ class PathsBuilder
                             return resolve($annotation->factory);
                         })
                         ->map(static function (ResponseFactory $factory) {
-                            return $factory->build();
+                            // TODO
+                            $response = $factory->build();
+
+                            if ($factory instanceof Reusable) {
+                                return Response::ref('#/components/responses/' . $response->objectId);
+                            }
+
+                            return $response;
                         })
                         ->values()
                         ->toArray();
