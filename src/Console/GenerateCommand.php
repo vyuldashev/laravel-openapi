@@ -14,8 +14,10 @@ class GenerateCommand extends Command
 
     public function handle(Generator $generator): void
     {
-        echo $generator
-            ->generate()
-            ->toJson(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $this->line(
+            $generator
+                ->generate()
+                ->toJson(JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
+        );
     }
 }
