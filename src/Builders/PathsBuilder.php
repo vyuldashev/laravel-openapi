@@ -8,9 +8,9 @@ use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations;
-use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyNormalizerInterface;
 use Vyuldashev\LaravelOpenApi\Contracts\ResponseNormalizerInterface;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
+use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class PathsBuilder
@@ -41,10 +41,10 @@ class PathsBuilder
                     }, []);
 
                     if ($parameters) {
-                        /** @var ParametersFactory $parametersNormalizer */
-                        $parametersNormalizer = resolve($parameters->factory);
+                        /** @var ParametersFactory $parametersFactory */
+                        $parametersFactory = resolve($parameters->factory);
 
-                        $parameters = $parametersNormalizer->build();
+                        $parameters = $parametersFactory->build();
                     }
 
                     /** @var Annotations\RequestBody|null $requestBody */
@@ -53,10 +53,10 @@ class PathsBuilder
                     });
 
                     if ($requestBody) {
-                        /** @var RequestBodyNormalizerInterface $requestBodyNormalizer */
-                        $requestBodyNormalizer = resolve($requestBody->normalizer);
+                        /** @var RequestBodyFactory $requestBodyFactory */
+                        $requestBodyFactory = resolve($requestBody->factory);
 
-                        $requestBody = $requestBodyNormalizer->normalize();
+                        $requestBody = $requestBodyFactory->build();
                     }
 
                     $responses = collect($route->actionAnnotations)

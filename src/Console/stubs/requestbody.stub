@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
+use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
+
+class DummyClass extends RequestBodyFactory
+{
+    public function build(): RequestBody
+    {
+        return RequestBody::create();
+    }
+}
