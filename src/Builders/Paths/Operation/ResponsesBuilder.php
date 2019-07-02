@@ -20,7 +20,6 @@ class ResponsesBuilder
                 return resolve($annotation->factory);
             })
             ->map(static function (ResponseFactory $factory) {
-                // TODO
                 $response = $factory->build();
 
                 if ($factory instanceof Reusable) {
