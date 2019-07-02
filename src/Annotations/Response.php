@@ -2,6 +2,7 @@
 
 namespace Vyuldashev\LaravelOpenApi\Annotations;
 
+use Doctrine\Common\Annotations\Annotation\Required;
 use InvalidArgumentException;
 use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
 
@@ -12,6 +13,9 @@ use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
  */
 class Response
 {
+    /**
+     * @Required()
+     */
     public $factory;
 
     public function __construct($values)
