@@ -11,6 +11,10 @@ class SchemasBuilder
 {
     public function build(string $schemasDirectory): array
     {
+        if (!file_exists($schemasDirectory)) {
+            return [];
+        }
+
         $namespace = app()->getNamespace();
 
         $files = (new Finder())->in($schemasDirectory)->files();

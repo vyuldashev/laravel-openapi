@@ -13,6 +13,10 @@ class ResponsesBuilder
 {
     public function build(string $responsesDirectory): array
     {
+        if (!file_exists($responsesDirectory)) {
+            return [];
+        }
+
         $namespace = app()->getNamespace();
 
         $files = (new Finder())->in($responsesDirectory)->files();
