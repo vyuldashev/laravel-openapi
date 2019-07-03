@@ -56,27 +56,28 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
                 $column = $connection->getDoctrineColumn($model->getTable(), $column);
                 $name = $column->getName();
                 $default = $column->getDefault();
+                $notNull = $column->getNotnull();
 
                 switch (get_class($column->getType())) {
                     case IntegerType::class:
                         $format = 'Schema::integer(%s)->default(%s)';
-                        $args = [$name, $default];
+                        $args = [$name, $notNull ? (int)$default : null];
                         break;
                     case BooleanType::class:
                         $format = 'Schema::boolean(%s)->default(%s)';
-                        $args = [$name, $default];
+                        $args = [$name, $notNull ? $default : null];
                         break;
                     case DateType::class:
                         $format = 'Schema::string(%s)->format(Schema::FORMAT_DATE)->default(%s)';
-                        $args = [$name, $default];
+                        $args = [$name, $notNull ? $default : null];
                         break;
                     case DateTimeType::class:
                         $format = 'Schema::string(%s)->format(Schema::FORMAT_DATE_TIME)->default(%s)';
-                        $args = [$name, $default];
+                        $args = [$name, $notNull ? $default : null];
                         break;
                     case DecimalType::class:
                         $format = 'Schema::number(%s)->format(Schema::FORMAT_FLOAT)->default(%s)';
-                        $args = [$name, $default];
+                        $args = [$name, $notNull ? (float)$default : null];
                         break;
                     default:
                         $format = 'Schema::string(%s)->default(%s)';
@@ -87,6 +88,10 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
                 $args = array_map(static function ($value) {
                     if ($value === null) {
                         return 'null';
+                    }
+
+                    if (is_numeric($value)) {
+                        return $value;
                     }
 
                     return '\'' . $value . '\'';
