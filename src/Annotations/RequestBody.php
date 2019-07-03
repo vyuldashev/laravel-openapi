@@ -20,7 +20,7 @@ class RequestBody
 
     public function __construct($values)
     {
-        $this->factory = $values['factory'];
+        $this->factory = class_exists($values['factory']) ? $values['factory'] : app()->getNamespace().'OpenApi\\RequestBodies\\'.$values['factory'];
 
         if (!is_a($this->factory, RequestBodyFactory::class, true)) {
             throw new InvalidArgumentException('Factory class must be instance of RequestBodyFactory');
