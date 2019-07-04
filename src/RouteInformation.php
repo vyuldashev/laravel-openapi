@@ -20,6 +20,8 @@ class RouteInformation
     public $name;
     public $controller;
 
+    public $parameters;
+
     /** @var array */
     public $controllerAnnotations;
 
@@ -48,6 +50,18 @@ class RouteInformation
 
             [$controller, $action] = explode('@', $route->getActionName());
 
+            preg_match_all('/\{(.*?)\}/', $route->uri, $parameters);
+            $parameters = $parameters[1];
+
+            if (count($parameters) > 0) {
+                $parameters = collect($parameters)->map(static function ($parameter) {
+                    return [
+                        'name' => Str::replaceLast('?', '', $parameter),
+                        'required' => !Str::endsWith($parameter, '?'),
+                    ];
+                });
+            }
+
             $reflectionMethod = new ReflectionMethod($controller, $action);
 
             $docComment = $reflectionMethod->getDocComment();
@@ -62,6 +76,7 @@ class RouteInformation
             $instance->uri = Str::start($route->uri(), '/');
             $instance->name = $route->getName();
             $instance->controller = $controller;
+            $instance->parameters = $parameters;
             $instance->controllerAnnotations = $controllerAnnotations;
             $instance->action = $action;
             $instance->actionParameters = $reflectionMethod->getParameters();
