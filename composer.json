@@ -1,6 +1,6 @@
 {
   "name": "vyuldashev/laravel-openapi",
-  "description": "Generate OpenAPI Documentation for Laravel Applications",
+  "description": "Generate OpenAPI Specification for Laravel Applications",
   "keywords": [
     "laravel",
     "openapi",
