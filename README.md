@@ -70,9 +70,13 @@ class UserController extends Controller
 
 In order to add path or query parameters to route you need to create `Parameters` object factory. 
 
+You may generate a new one using Artisan command:
+
 ```bash
 php artisan openapi:make-parameters GetUser
 ```
+
+Here is an example of `Parameters` object factory:
 
 ```php
 class GetUserParameters extends ParametersFactory
@@ -87,7 +91,7 @@ class GetUserParameters extends ParametersFactory
             Parameter::path()
                 ->name('user')
                 ->description('User ID')
-                ->required(true)
+                ->required()
                 ->schema(Schema::integer()),
 
         ];
@@ -95,7 +99,7 @@ class GetUserParameters extends ParametersFactory
 }
 ```
 
-Add `Parameters` annotation below `Operation`:
+Finally, add `Parameters` annotation below `Operation` annotation:
 
 ```php
 class UserController extends Controller 
