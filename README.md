@@ -66,27 +66,27 @@ class UserController extends Controller
 
 ### Factories
 
-### Route Parameters
+#### Route Parameters
 
-In order to add path or query parameters to route you need to create `Parameters` object. 
+In order to add path or query parameters to route you need to create `Parameters` object factory. 
 
 ```bash
 php artisan openapi:make-parameters GetUser
 ```
 
-### Request Bodies
+#### Request Bodies
 
 ```bash
 php artisan openapi:make-requestbody StoreUser
 ```
 
-### Responses
+#### Responses
 
 ```bash
 php artisan openapi:make-response ListUsers
 ```
 
-### Schemas
+#### Schemas
 
 ```bash
 php artisan openapi:make-schema User
