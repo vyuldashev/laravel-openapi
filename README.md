@@ -74,6 +74,45 @@ In order to add path or query parameters to route you need to create `Parameters
 php artisan openapi:make-parameters GetUser
 ```
 
+```php
+class GetUserParameters extends ParametersFactory
+{
+    /**
+     * @return Parameter[]
+     */
+    public function build(): array
+    {
+        return [
+
+            Parameter::path()
+                ->name('user')
+                ->description('User ID')
+                ->required(true)
+                ->schema(Schema::integer()),
+
+        ];
+    }
+}
+```
+
+Add `Parameters` annotation below `Operation`:
+
+```php
+class UserController extends Controller 
+{
+    /**
+     * Get user.
+     * 
+     * @OpenApi\Operation()
+     * @OpenApi\Parameters(factory="GetUserParameters")
+    */
+    public function show(User $user) 
+    {
+        //
+    }
+}
+```
+
 #### Request Bodies
 
 ```bash
