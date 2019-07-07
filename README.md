@@ -74,6 +74,24 @@ In order to add path or query parameters to route you need to create `Parameters
 php artisan openapi:make-parameters GetUser
 ```
 
+### Request Bodies
+
+```bash
+php artisan openapi:make-requestbody StoreUser
+```
+
+### Responses
+
+```bash
+php artisan openapi:make-response ListUsers
+```
+
+### Schemas
+
+```bash
+php artisan openapi:make-schema User
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
