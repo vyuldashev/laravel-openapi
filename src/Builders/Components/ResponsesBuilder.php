@@ -2,33 +2,37 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
-use Illuminate\Support\Str;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflection\ReflectionClass;
+use Roave\BetterReflection\Reflector\ClassReflector;
+use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
-use Vyuldashev\LaravelOpenApi\Factory\SchemaFactory;
 
 class ResponsesBuilder
 {
+    protected static $directories = [];
+
+    public static function in(array $directories): void
+    {
+        static::$directories = collect($directories)
+            ->filter(static function ($directory) {
+                return file_exists($directory) && is_dir($directory);
+            })
+            ->values()
+            ->toArray();
+    }
+
     public function build(): array
     {
-        $namespace = app()->getNamespace();
+        $astLocator = (new BetterReflection())->astLocator();
+        $reflector = new ClassReflector(
+            new DirectoriesSourceLocator(static::$directories, $astLocator)
+        );
 
-        $files = (new Finder())
-            ->in(base_path())
-            ->exclude(base_path('vendor'))
-            ->files();
-
-        return collect($files)
-            ->map(static function (SplFileInfo $file) use ($namespace) {
-                $schema = $namespace . str_replace(
-                        ['/', '.php'],
-                        ['\\', ''],
-                        Str::after($file->getPathname(), realpath(app_path()) . DIRECTORY_SEPARATOR)
-                    );
-
-                return $schema;
+        return collect($reflector->getAllClasses())
+            ->map(static function (ReflectionClass $reflectionClass) {
+                return $reflectionClass->getName();
             })
             ->filter(static function ($class) {
                 return
@@ -36,7 +40,7 @@ class ResponsesBuilder
                     is_a($class, Reusable::class, true);
             })
             ->map(static function ($class) {
-                /** @var SchemaFactory $instance */
+                /** @var ResponseFactory $instance */
                 $instance = resolve($class);
 
                 return $instance->build();

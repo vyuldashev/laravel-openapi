@@ -2,6 +2,8 @@
 
 namespace Vyuldashev\LaravelOpenApi\Tests;
 
+use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
+use Vyuldashev\LaravelOpenApi\Generator;
 use Vyuldashev\LaravelOpenApi\OpenApiServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -11,5 +13,10 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         return [
             OpenApiServiceProvider::class,
         ];
+    }
+
+    protected function generate(): OpenApi
+    {
+        return $this->app[Generator::class]->generate();
     }
 }

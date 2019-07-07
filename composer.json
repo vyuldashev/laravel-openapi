@@ -25,7 +25,8 @@
     "doctrine/dbal": "^2.9",
     "goldspecdigital/oooas": "^2.1",
     "laravel/framework": "5.8.*",
-    "phpdocumentor/reflection-docblock": "^4.3"
+    "phpdocumentor/reflection-docblock": "^4.3",
+    "roave/better-reflection": "^3.5"
   },
   "require-dev": {
     "fzaninotto/faker": "^1.8",
@@ -39,7 +40,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Vyuldashev\\LaravelOpenApi\\Tests\\": "tests/"
+      "Vyuldashev\\LaravelOpenApi\\Tests\\": "tests/",
+      "Examples\\Petstore\\": "examples/petstore/"
     }
   },
   "config": {

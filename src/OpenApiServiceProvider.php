@@ -7,6 +7,8 @@ namespace Vyuldashev\LaravelOpenApi;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 
 class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -19,6 +21,9 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
         }
 
         $this->registerAnnotations();
+
+        ResponsesBuilder::in($this->responsesIn());
+        SchemasBuilder::in($this->schemasIn());
 
         $this->app->singleton(Generator::class, static function ($app) {
             $config = config('openapi');
@@ -42,6 +47,13 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
         ]);
     }
 
+    public function provides(): array
+    {
+        return [
+            Generator::class,
+        ];
+    }
+
     protected function registerAnnotations(): void
     {
         $files = glob(__DIR__ . '/Annotations/*.php');
@@ -51,10 +63,17 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
         }
     }
 
-    public function provides(): array
+    protected function responsesIn(): array
     {
         return [
-            Generator::class,
+            app_path('OpenApi/Responses'),
+        ];
+    }
+
+    protected function schemasIn(): array
+    {
+        return [
+            app_path('OpenApi/Schemas'),
         ];
     }
 }
