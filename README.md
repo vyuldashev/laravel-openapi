@@ -17,8 +17,14 @@ The service provider will automatically get registered. Or you may manually add 
 ```php
 'providers' => [
     // ...
-    Vyuldashev\LaravelOpenApi\LaravelOpenApiServiceProvider::class,
+    Vyuldashev\LaravelOpenApi\OpenApiServiceProvider::class,
 ];
+```
+
+You can publish the config file with:
+
+```bash
+php artisan vendor:publish --provider="Vyuldashev\LaravelOpenApi\OpenApiServiceProvider" --tag="openapi-config"
 ```
 
 ## Usage
@@ -34,8 +40,9 @@ Here are some useful links that will help to gain enough knowledge:
 
 ### Adding route to paths
 
-Add `PathItem` annotation to controller class and `Operation` to particular action method.
-This annotations will indicate that route which has `UserController@store` definition should be included in `paths`.
+Routes are not automatically added to specification. 
+
+In order to add route, you need to add `PathItem` annotation to controller class and `Operation` to particular action method. This annotations will indicate that route which has `UserController@store` definition should be included in `paths`.
 
 ```php
 use Vyuldashev\LaravelOpenApi\Annotations as OpenApi;
@@ -55,6 +62,16 @@ class UserController extends Controller
         //
     }
 }
+```
+
+### Factories
+
+### Route Parameters
+
+In order to add path or query parameters to route you need to create `Parameters` object. 
+
+```bash
+php artisan openapi:make-parameters GetUser
 ```
 
 ## License

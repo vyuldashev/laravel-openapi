@@ -9,11 +9,8 @@ return [
 
     'servers' => [
         [
-            'url' => url()->to('/'),
+            'url' => env('APP_URL'),
         ],
     ],
-
-    'responses' => app_path('OpenApi/Responses'),
-    'schemas' => app_path('OpenApi/Schemas'),
 
 ];

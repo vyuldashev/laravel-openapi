@@ -11,15 +11,14 @@ use Vyuldashev\LaravelOpenApi\Factory\SchemaFactory;
 
 class ResponsesBuilder
 {
-    public function build(string $responsesDirectory): array
+    public function build(): array
     {
-        if (!file_exists($responsesDirectory)) {
-            return [];
-        }
-
         $namespace = app()->getNamespace();
 
-        $files = (new Finder())->in($responsesDirectory)->files();
+        $files = (new Finder())
+            ->in(base_path())
+            ->exclude(base_path('vendor'))
+            ->files();
 
         return collect($files)
             ->map(static function (SplFileInfo $file) use ($namespace) {

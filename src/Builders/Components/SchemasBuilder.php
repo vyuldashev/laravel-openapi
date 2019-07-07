@@ -9,15 +9,14 @@ use Vyuldashev\LaravelOpenApi\Factory\SchemaFactory;
 
 class SchemasBuilder
 {
-    public function build(string $schemasDirectory): array
+    public function build(): array
     {
-        if (!file_exists($schemasDirectory)) {
-            return [];
-        }
-
         $namespace = app()->getNamespace();
 
-        $files = (new Finder())->in($schemasDirectory)->files();
+        $files = (new Finder())
+            ->in(base_path())
+            ->exclude(base_path('vendor'))
+            ->files();
 
         return collect($files)
             ->map(static function (SplFileInfo $file) use ($namespace) {

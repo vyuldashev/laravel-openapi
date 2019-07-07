@@ -27,7 +27,7 @@ class Generator
         $info = $this->app[InfoBuilder::class]->build($this->config['info']);
         $servers = $this->app[ServersBuilder::class]->build($this->config['servers']);
         $paths = $this->app[PathsBuilder::class]->build();
-        $components = $this->app[ComponentsBuilder::class]->build($this->config);
+        $components = $this->app[ComponentsBuilder::class]->build();
 
         $openApi = OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)

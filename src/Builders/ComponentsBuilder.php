@@ -20,10 +20,10 @@ class ComponentsBuilder
         $this->schemasBuilder = $schemasBuilder;
     }
 
-    public function build(array $config): ?Components
+    public function build(): ?Components
     {
-        $responses = $this->responsesBuilder->build($config['responses']);
-        $schemas = $this->schemasBuilder->build($config['schemas']);
+        $responses = $this->responsesBuilder->build();
+        $schemas = $this->schemasBuilder->build();
 
         $components = Components::create();
 
