@@ -38,6 +38,14 @@ Here are some useful links that will help to gain enough knowledge:
 * [OpenAPI Map](https://openapi-map.apihandyman.io)
 * [Swagger Editor](https://editor.swagger.io/)
 
+### Generating speficiation
+
+In order to generate OpenAPI specification use Artisan command:
+
+```bash
+php artisan openapi:generate
+```
+
 ### Adding route to paths
 
 Routes are not automatically added to specification. 

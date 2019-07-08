@@ -10,7 +10,7 @@ use ReflectionType;
 use Vyuldashev\LaravelOpenApi\Annotations\Parameters;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
-use Vyuldashev\LaravelOpenApi\SchemaFactory;
+use Vyuldashev\LaravelOpenApi\SchemaHelpers;
 
 class ParametersBuilder
 {
@@ -35,7 +35,7 @@ class ParametersBuilder
                     });
 
                 if ($reflectionParameter) {
-                    $schema = SchemaFactory::createFromReflectionType($reflectionParameter->getType());
+                    $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
 
                 return Parameter::path()->name($parameter['name'])
