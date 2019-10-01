@@ -24,7 +24,7 @@
     "doctrine/annotations": "^1.6",
     "doctrine/dbal": "^2.9",
     "goldspecdigital/oooas": "^2.1",
-    "laravel/framework": "5.8.*",
+    "laravel/framework": "5.8.*|^6.0",
     "phpdocumentor/reflection-docblock": "^4.3",
     "roave/better-reflection": "^3.5"
   },
