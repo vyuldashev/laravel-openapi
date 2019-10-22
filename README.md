@@ -144,6 +144,12 @@ php artisan openapi:make-response ListUsers
 php artisan openapi:make-schema User
 ```
 
+If you would like to generate a schema from model, you may use the `--model` or `-m` option:
+
+```bash
+php artisan openapi:make-schema User -m User
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
