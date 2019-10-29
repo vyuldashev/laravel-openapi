@@ -6,7 +6,6 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Illuminate\Support\Collection;
 use ReflectionParameter;
-use ReflectionType;
 use Vyuldashev\LaravelOpenApi\Annotations\Parameters;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
@@ -28,7 +27,7 @@ class ParametersBuilder
             ->map(static function (array $parameter) use ($route) {
                 $schema = Schema::string();
 
-                /** @var ReflectionType|null $reflectionParameter */
+                /** @var ReflectionParameter|null $reflectionParameter */
                 $reflectionParameter = collect($route->actionParameters)
                     ->first(static function (ReflectionParameter $reflectionParameter) use ($parameter) {
                         return $reflectionParameter->name === $parameter['name'];
