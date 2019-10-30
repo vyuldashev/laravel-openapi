@@ -3,7 +3,7 @@
 namespace DummyNamespace;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
-use Vyuldashev\LaravelOpenApi\Factory\SchemaFactory;
+use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
 
 class DummyClass extends SchemaFactory
 {
