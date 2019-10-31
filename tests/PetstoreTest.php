@@ -46,6 +46,11 @@ class PetstoreTest extends TestCase
                     ],
                 ],
             ],
+            'responses' => [
+                422 => [
+                    '$ref' => '#/components/responses/ErrorValidation',
+                ],
+            ],
         ], $spec['paths']['/pets']['get']);
 
         $this->assertArrayHasKey('components', $spec);
