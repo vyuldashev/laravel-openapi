@@ -14,7 +14,7 @@ class PetController
      *
      * @OpenApi\Operation(id="listPets")
      * @OpenApi\Parameters(factory="Examples\Petstore\OpenApi\Parameters\ListPetsParameters")
-     * @OpenApi\Response(ref="#/components/responses/ErrorValidation", statusCode=422)
+     * @OpenApi\Response(factory="Examples\Petstore\OpenApi\Responses\ErrorValidationResponse", statusCode=422)
      */
     public function index()
     {
