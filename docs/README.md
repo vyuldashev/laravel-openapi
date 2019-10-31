@@ -1,0 +1,34 @@
+# Installation
+
+You can install the package via composer:
+
+```bash
+composer require vyuldashev/laravel-openapi
+```
+
+The service provider will automatically get registered. Or you may manually add the service provider in your config/app.php file:
+
+```bash
+'providers' => [
+    // ...
+    Vyuldashev\LaravelOpenApi\OpenApiServiceProvider::class,
+];
+```
+
+You can publish the config file with:
+
+```bash
+php artisan vendor:publish --provider="Vyuldashev\LaravelOpenApi\OpenApiServiceProvider" --tag="openapi-config"
+```
+
+## Additional information
+
+*This package use some annotations. If you are using PhpStorm consider installing [PHP Annotations](https://plugins.jetbrains.com/plugin/7320-php-annotations/) plugin.*
+
+Before starting using this package you need to be familiar with OpenAPI specification and it's terms.
+
+Here are some useful links that will help to gain enough knowledge:
+* [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md)
+* [OpenAPI Map](https://openapi-map.apihandyman.io)
+* [Swagger Editor](https://editor.swagger.io/)
+
