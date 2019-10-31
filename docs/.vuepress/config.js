@@ -13,11 +13,19 @@ module.exports = {
     ],
     sidebar: [
       '/',
-      '/paths',
-      '/path-parameters',
-      '/request-bodies',
-      '/responses',
+      {
+        title: 'Paths',
+        collapsable: false,
+        children: [
+          '/paths/operations',
+          '/paths/parameters',
+          '/paths/request-bodies',
+          '/paths/responses',
+        ],
+      },
       '/schemas',
     ],
+    displayAllHeaders: true,
+    sidebarDepth: 2,
   },
 };

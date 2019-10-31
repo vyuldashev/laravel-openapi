@@ -1,4 +1,4 @@
-# Paths
+# Operations
 
 Routes are not automatically added to specification. 
 

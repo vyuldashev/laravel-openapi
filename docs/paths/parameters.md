@@ -1,4 +1,4 @@
-# Path Parameters
+# Parameters
 
 In order to add path or query parameters to route you need to create `Parameters` object factory. 
 
