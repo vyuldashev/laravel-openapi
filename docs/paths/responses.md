@@ -36,6 +36,8 @@ class UserController extends Controller
 }
 ```
 
+## Reusable responses
+
 Responses can be reusable. Adding `Vyuldashev\LaravelOpenApi\Contracts\Reusable` will indicate that it should be added to `components/responses` section and reference will be used instead of response definition.
 This can be handy for validation errors object:
 
