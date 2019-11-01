@@ -5,6 +5,7 @@ namespace Vyuldashev\LaravelOpenApi\Builders\Paths\Operation;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use ReflectionParameter;
 use Vyuldashev\LaravelOpenApi\Annotations\Parameters;
@@ -40,13 +41,13 @@ class ParametersBuilder
 
                 /** @var Param $description */
                 $description = collect($route->actionDocBlock->getTagsByName('param'))
-                    ->first(function (Param $param) use ($parameter) {
-                        return $param->getVariableName() === $parameter['name'];
+                    ->first(static function (Param $param) use ($parameter) {
+                        return Str::snake($param->getVariableName()) === Str::snake($parameter['name']);
                     });
 
                 return Parameter::path()->name($parameter['name'])
                     ->required()
-                    ->description(optional($description->getDescription())->render())
+                    ->description(optional(optional($description)->getDescription())->render())
                     ->schema($schema);
             });
     }
