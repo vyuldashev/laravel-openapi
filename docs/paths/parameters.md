@@ -74,3 +74,56 @@ The following definition will be generated:
     }
 }
 ```
+
+## Route Parameters
+
+Route parameters are automatically added to parameters definition. 
+
+Let's assume we have route `Route::get('/users/{user}', 'UserController@show')`.
+
+Add `Parameters` annotation below `Operation` annotation:
+
+```php
+class UserController extends Controller 
+{
+    /**
+     * Show user.
+     *
+     * @Operation()
+     *
+     * @param User $user User ID
+     */
+    public function show(User $user)
+    {
+        //
+    }
+}
+
+::: tip
+Use @param tag in order to add description to {user} parameter.
+:::
+
+The following definition will be generated:
+
+```json
+{
+    "paths": {
+        "\/users\/{user}": {
+            "get": {
+                "summary": "Show user.",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
+```
