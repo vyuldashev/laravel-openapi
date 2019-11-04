@@ -50,11 +50,16 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
 
         $this->commands([
             Console\GenerateCommand::class,
-            Console\ParametersFactoryMakeCommand::class,
-            Console\RequestBodyFactoryMakeCommand::class,
-            Console\ResponseFactoryMakeCommand::class,
-            Console\SchemaFactoryMakeCommand::class,
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Console\ParametersFactoryMakeCommand::class,
+                Console\RequestBodyFactoryMakeCommand::class,
+                Console\ResponseFactoryMakeCommand::class,
+                Console\SchemaFactoryMakeCommand::class,
+            ]);
+        }
     }
 
     public function provides(): array
