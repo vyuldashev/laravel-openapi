@@ -76,12 +76,10 @@ The following definition will be generated:
 ```
 
 ## Route Parameters
+ 
+Let's assume we have route `Route::get('/users/{user}', 'UserController@show')`. 
 
-Route parameters are automatically added to parameters definition. 
-
-Let's assume we have route `Route::get('/users/{user}', 'UserController@show')`.
-
-Add `Parameters` annotation below `Operation` annotation:
+There is no need to add `Parameters` annotation as route parameters are automatically added to parameters definition:
 
 ```php
 class UserController extends Controller 
