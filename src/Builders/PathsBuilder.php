@@ -41,6 +41,9 @@ class PathsBuilder
     protected function routes(): Collection
     {
         return collect(app(Router::class)->getRoutes())
+            ->filter(function (Route $route) {
+                return $route->getActionName() !== 'Closure';
+            })
             ->map(static function (Route $route) {
                 return RouteInformation::createFromRoute($route);
             })

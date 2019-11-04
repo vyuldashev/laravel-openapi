@@ -5,13 +5,13 @@ In order to add path or query parameters to route you need to create `Parameters
 You may generate a new one using Artisan command:
 
 ```bash
-php artisan openapi:make-parameters GetUser
+php artisan openapi:make-parameters ListUsers
 ```
 
 Here is an example of `Parameters` object factory:
 
 ```php
-class GetUserParameters extends ParametersFactory
+class ListUsersParameters extends ParametersFactory
 {
     /**
      * @return Parameter[]
@@ -20,15 +20,16 @@ class GetUserParameters extends ParametersFactory
     {
         return [
 
-            Parameter::path()
-                ->name('user')
-                ->description('User ID')
-                ->required()
-                ->schema(Schema::integer()),
+            Parameter::query()
+                ->name('withTrashed')
+                ->description('Display trashed users too')
+                ->required(false)
+                ->schema(Schema::boolean()),
 
         ];
     }
 }
+
 ```
 
 Finally, add `Parameters` annotation below `Operation` annotation:
@@ -37,14 +38,39 @@ Finally, add `Parameters` annotation below `Operation` annotation:
 class UserController extends Controller 
 {
     /**
-     * Get user.
-     * 
-     * @OpenApi\Operation()
-     * @OpenApi\Parameters(factory="GetUserParameters")
-    */
-    public function show(User $user) 
+     * List users.
+     *
+     * @Operation()
+     * @Parameters(factory="ListUsersParameters")
+     */
+    public function index() 
     {
         //
+    }
+}
+```
+
+The following definition will be generated:
+
+```json
+{
+    "paths": {
+        "\/users": {
+            "get": {
+                "summary": "List users.",
+                "parameters": [
+                    {
+                        "name": "withTrashed",
+                        "in": "query",
+                        "description": "Display trashed users too",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ]
+            }
+        }
     }
 }
 ```
