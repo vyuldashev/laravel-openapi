@@ -38,7 +38,7 @@ class PathsBuilder
             ->toArray();
     }
 
-    protected function routes()
+    protected function routes(): Collection
     {
         return collect(app(Router::class)->getRoutes())
             ->map(static function (Route $route) {

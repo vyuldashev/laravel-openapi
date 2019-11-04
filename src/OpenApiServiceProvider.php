@@ -9,6 +9,10 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
 
 class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -28,7 +32,13 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
         $this->app->singleton(Generator::class, static function ($app) {
             $config = config('openapi');
 
-            return new Generator($app, $config);
+            return new Generator(
+                $config,
+                $app[InfoBuilder::class],
+                $app[ServersBuilder::class],
+                $app[PathsBuilder::class],
+                $app[ComponentsBuilder::class]
+            );
         });
     }
 
