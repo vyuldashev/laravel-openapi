@@ -30,7 +30,7 @@
   },
   "require-dev": {
     "fzaninotto/faker": "^1.8",
-    "orchestra/testbench": "^3.8",
+    "orchestra/testbench": "^4.3",
     "phpunit/phpunit": "^8.1"
   },
   "autoload": {
