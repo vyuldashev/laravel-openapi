@@ -96,6 +96,7 @@ class UserController extends Controller
         //
     }
 }
+```
 
 ::: tip
 Use @param tag in order to add description to {user} parameter.
