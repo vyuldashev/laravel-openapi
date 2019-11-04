@@ -34,3 +34,10 @@ Here are some useful links that will help to gain enough knowledge:
 * [OpenAPI Map](https://openapi-map.apihandyman.io)
 * [Swagger Editor](https://editor.swagger.io/)
 
+## Generating OpenAPI document
+
+In order to generate OpenAPI document run Artisan command:
+
+```bash
+php artisan openapi:generate
+```
