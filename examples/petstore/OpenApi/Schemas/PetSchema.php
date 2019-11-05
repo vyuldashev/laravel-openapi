@@ -2,6 +2,7 @@
 
 namespace Examples\Petstore\OpenApi\Schemas;
 
+use GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract;
 use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
@@ -13,7 +14,7 @@ class PetSchema extends SchemaFactory implements Reusable
      * @return Schema
      * @throws InvalidArgumentException
      */
-    public function build(): Schema
+    public function build(): SchemaContract
     {
         return Schema::object('Pet')
             ->required('id', 'name')
