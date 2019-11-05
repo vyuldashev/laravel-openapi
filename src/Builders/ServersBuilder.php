@@ -6,6 +6,10 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Server;
 
 class ServersBuilder
 {
+    /**
+     * @param array $config
+     * @return Server[]
+     */
     public function build(array $config): array
     {
         return collect($config)

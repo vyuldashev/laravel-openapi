@@ -14,4 +14,13 @@ return [
         ],
     ],
 
+    'tags' => [
+
+        // [
+        //    'name' => 'user',
+        //    'description' => 'Application users',
+        // ],
+
+    ],
+
 ];

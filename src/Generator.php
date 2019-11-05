@@ -7,6 +7,7 @@ use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
 class Generator
 {
@@ -15,6 +16,7 @@ class Generator
     protected $config;
     protected $infoBuilder;
     protected $serversBuilder;
+    protected $tagsBuilder;
     protected $pathsBuilder;
     protected $componentsBuilder;
 
@@ -22,6 +24,7 @@ class Generator
         array $config,
         InfoBuilder $infoBuilder,
         ServersBuilder $serversBuilder,
+        TagsBuilder $tagsBuilder,
         PathsBuilder $pathsBuilder,
         ComponentsBuilder $componentsBuilder
     )
@@ -29,6 +32,7 @@ class Generator
         $this->config = $config;
         $this->infoBuilder = $infoBuilder;
         $this->serversBuilder = $serversBuilder;
+        $this->tagsBuilder = $tagsBuilder;
         $this->pathsBuilder = $pathsBuilder;
         $this->componentsBuilder = $componentsBuilder;
     }
@@ -37,6 +41,7 @@ class Generator
     {
         $info = $this->infoBuilder->build($this->config['info']);
         $servers = $this->serversBuilder->build($this->config['servers']);
+        $tags = $this->tagsBuilder->build($this->config['tags']);
         $paths = $this->pathsBuilder->build();
         $components = $this->componentsBuilder->build();
 
@@ -44,6 +49,7 @@ class Generator
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
+            ->tags(...$tags)
             ->paths(...$paths)
             ->components($components);
 

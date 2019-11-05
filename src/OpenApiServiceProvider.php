@@ -13,6 +13,7 @@ use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
 class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -36,6 +37,7 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
                 $config,
                 $app[InfoBuilder::class],
                 $app[ServersBuilder::class],
+                $app[TagsBuilder::class],
                 $app[PathsBuilder::class],
                 $app[ComponentsBuilder::class]
             );
