@@ -1,9 +1,8 @@
 <?php
 
-
 namespace Vyuldashev\LaravelOpenApi\Builders\Paths;
 
-
+use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations\Operation as OperationAnnotation;
@@ -32,6 +31,7 @@ class OperationsBuilder
     /**
      * @param RouteInformation[]|Collection $routes
      * @return array
+     * @throws InvalidArgumentException
      */
     public function build($routes): array
     {
@@ -39,10 +39,19 @@ class OperationsBuilder
 
         /** @var RouteInformation[] $routes */
         foreach ($routes as $route) {
-            // Operation ID
-            $operationId = collect($route->actionAnnotations)->first(static function ($annotation) {
+            /** @var OperationAnnotation $operationAnnotation */
+            $operationAnnotation = collect($route->actionAnnotations)->first(static function ($annotation) {
                 return $annotation instanceof OperationAnnotation;
             });
+
+            $operationId = optional($operationAnnotation)->id;
+            $tags = [];
+
+            if ($operationAnnotation->tags !== null) {
+                $tags = collect(explode(',', $operationAnnotation->tags))->filter()->map(static function (string $value) {
+                    return trim($value);
+                });
+            }
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
@@ -50,9 +59,10 @@ class OperationsBuilder
 
             $operation = Operation::create()
                 ->action($route->method)
+                ->tags(...$tags)
                 ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
                 ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
-                ->operationId(optional($operationId)->id)
+                ->operationId($operationId)
                 ->parameters(...$parameters)
                 ->requestBody($requestBody)
                 ->responses(...$responses);

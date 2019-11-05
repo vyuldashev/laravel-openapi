@@ -11,4 +11,7 @@ class Operation
 {
     /** @var string */
     public $id;
+
+    /** @var string */
+    public $tags;
 }
