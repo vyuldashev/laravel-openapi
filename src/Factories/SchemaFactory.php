@@ -2,9 +2,17 @@
 
 namespace Vyuldashev\LaravelOpenApi\Factories;
 
+use GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\AllOf;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\AnyOf;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Not;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\OneOf;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 abstract class SchemaFactory
 {
-    abstract public function build(): Schema;
+    /**
+     * @return AllOf|OneOf|AnyOf|Not|Schema
+     */
+    abstract public function build(): SchemaContract;
 }
