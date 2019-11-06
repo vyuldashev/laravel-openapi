@@ -23,4 +23,10 @@ return [
 
     ],
 
+    // Route for exposing specification.
+    // Leave uri null to disable.
+    'route' => [
+        'uri' => '/openapi',
+    ],
+
 ];

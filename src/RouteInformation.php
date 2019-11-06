@@ -48,7 +48,14 @@ class RouteInformation
                 })
                 ->first();
 
-            [$controller, $action] = explode('@', $route->getActionName());
+            $actionNameParts = explode('@', $route->getActionName());
+
+            if (count($actionNameParts) === 2) {
+                [$controller, $action] = $actionNameParts;
+            } else {
+                [$controller] = $actionNameParts;
+                $action = '__invoke';
+            }
 
             preg_match_all('/\{(.*?)\}/', $route->uri, $parameters);
             $parameters = $parameters[1];

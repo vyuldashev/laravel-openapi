@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Vyuldashev\LaravelOpenApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
@@ -15,7 +14,7 @@ use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
-class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvider
+class OpenApiServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
@@ -42,6 +41,10 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
                 $app[ComponentsBuilder::class]
             );
         });
+
+        if ((string)config('openapi.route.uri') !== '') {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        }
     }
 
     public function register(): void
@@ -62,13 +65,6 @@ class OpenApiServiceProvider extends ServiceProvider implements DeferrableProvid
                 Console\SchemaFactoryMakeCommand::class,
             ]);
         }
-    }
-
-    public function provides(): array
-    {
-        return [
-            Generator::class,
-        ];
     }
 
     protected function registerAnnotations(): void
