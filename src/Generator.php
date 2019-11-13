@@ -3,6 +3,7 @@
 namespace Vyuldashev\LaravelOpenApi;
 
 use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
+use Illuminate\Support\Arr;
 use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
@@ -39,9 +40,9 @@ class Generator
 
     public function generate(): OpenApi
     {
-        $info = $this->infoBuilder->build($this->config['info']);
-        $servers = $this->serversBuilder->build($this->config['servers']);
-        $tags = $this->tagsBuilder->build($this->config['tags']);
+        $info = $this->infoBuilder->build(Arr::get($this->config, 'info', []));
+        $servers = $this->serversBuilder->build(Arr::get($this->config, 'servers', []));
+        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'tags', []));
         $paths = $this->pathsBuilder->build();
         $components = $this->componentsBuilder->build();
 
@@ -50,6 +51,7 @@ class Generator
             ->info($info)
             ->servers(...$servers)
             ->tags(...$tags)
+            ->security(...Arr::get($this->config, 'security', []))
             ->paths(...$paths)
             ->components($components);
 

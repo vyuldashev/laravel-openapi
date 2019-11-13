@@ -8,6 +8,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
@@ -28,6 +29,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
         ResponsesBuilder::in($this->responsesIn());
         SchemasBuilder::in($this->schemasIn());
+        SecuritySchemesBuilder::in($this->securitySchemesIn());
 
         $this->app->singleton(Generator::class, static function ($app) {
             $config = config('openapi');
@@ -63,6 +65,7 @@ class OpenApiServiceProvider extends ServiceProvider
                 Console\RequestBodyFactoryMakeCommand::class,
                 Console\ResponseFactoryMakeCommand::class,
                 Console\SchemaFactoryMakeCommand::class,
+                Console\SecuritySchemeFactoryMakeCommand::class,
             ]);
         }
     }
@@ -87,6 +90,13 @@ class OpenApiServiceProvider extends ServiceProvider
     {
         return [
             app_path('OpenApi/Schemas'),
+        ];
+    }
+
+    protected function securitySchemesIn(): array
+    {
+        return [
+            app_path('OpenApi/SecuritySchemes'),
         ];
     }
 }

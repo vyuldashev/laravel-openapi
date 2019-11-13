@@ -23,6 +23,10 @@ return [
 
     ],
 
+    'security' => [
+        // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
+    ],
+
     // Route for exposing specification.
     // Leave uri null to disable.
     'route' => [
