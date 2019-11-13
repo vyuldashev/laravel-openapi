@@ -3,6 +3,7 @@
 namespace Vyuldashev\LaravelOpenApi\Concerns;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use InvalidArgumentException;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
@@ -17,7 +18,7 @@ trait Referencable
         $instance = resolve(static::class);
 
         if (!$instance instanceof Reusable) {
-            return null;
+            throw new InvalidArgumentException('"' . static::class . '" must implement "' . Reusable::class . '" in order to be referencable.');
         }
 
         $baseRef = null;
