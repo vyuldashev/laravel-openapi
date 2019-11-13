@@ -12,7 +12,7 @@ use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
 
 trait Referencable
 {
-    public static function ref(string $objectId): ?Schema
+    public static function ref(string $objectId): Schema
     {
         /** @var SchemaFactory $instance */
         $instance = resolve(static::class);
