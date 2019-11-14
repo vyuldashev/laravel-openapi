@@ -61,6 +61,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Console\ExtensionFactoryMakeCommand::class,
                 Console\ParametersFactoryMakeCommand::class,
                 Console\RequestBodyFactoryMakeCommand::class,
                 Console\ResponseFactoryMakeCommand::class,

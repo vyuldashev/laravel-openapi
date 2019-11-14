@@ -6,12 +6,13 @@ use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations\Operation as OperationAnnotation;
+use Vyuldashev\LaravelOpenApi\Builders\Builder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\RequestBodyBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
-class OperationsBuilder
+class OperationsBuilder extends Builder
 {
     protected $parametersBuilder;
     protected $requestBodyBuilder;
@@ -39,8 +40,10 @@ class OperationsBuilder
 
         /** @var RouteInformation[] $routes */
         foreach ($routes as $route) {
+            $actionAnnotations = collect($route->actionAnnotations);
+
             /** @var OperationAnnotation $operationAnnotation */
-            $operationAnnotation = collect($route->actionAnnotations)->first(static function ($annotation) {
+            $operationAnnotation = $actionAnnotations->first(static function ($annotation) {
                 return $annotation instanceof OperationAnnotation;
             });
 
@@ -66,6 +69,8 @@ class OperationsBuilder
                 ->parameters(...$parameters)
                 ->requestBody($requestBody)
                 ->responses(...$responses);
+
+            $this->addExtensions($operation, $actionAnnotations);
 
             $operations[] = $operation;
         }

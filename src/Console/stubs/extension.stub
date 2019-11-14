@@ -1,0 +1,18 @@
+<?php
+
+namespace DummyNamespace;
+
+use Vyuldashev\LaravelOpenApi\Factories\ExtensionFactory;
+
+class DummyClass extends ExtensionFactory
+{
+    public function key(): string
+    {
+        return 'DummyExtension';
+    }
+
+    public function value()
+    {
+        return null;
+    }
+}
