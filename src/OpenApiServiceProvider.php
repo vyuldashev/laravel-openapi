@@ -6,6 +6,7 @@ namespace Vyuldashev\LaravelOpenApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\ServiceProvider;
+use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
@@ -27,6 +28,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
         $this->registerAnnotations();
 
+        RequestBodiesBuilder::in($this->requestBodiesIn());
         ResponsesBuilder::in($this->responsesIn());
         SchemasBuilder::in($this->schemasIn());
         SecuritySchemesBuilder::in($this->securitySchemesIn());
@@ -78,6 +80,13 @@ class OpenApiServiceProvider extends ServiceProvider
         foreach ($files as $file) {
             AnnotationRegistry::registerFile($file);
         }
+    }
+
+    protected function requestBodiesIn(): array
+    {
+        return [
+            app_path('OpenApi/RequestBodies'),
+        ];
     }
 
     protected function responsesIn(): array

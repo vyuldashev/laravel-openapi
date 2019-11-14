@@ -23,7 +23,7 @@ class RequestBodyBuilder
 
             $requestBody = $requestBodyFactory->build();
 
-            if ($requestBody instanceof Reusable) {
+            if ($requestBodyFactory instanceof Reusable) {
                 return RequestBody::ref('#/components/requestBodies/' . $requestBody->objectId);
             }
         }
