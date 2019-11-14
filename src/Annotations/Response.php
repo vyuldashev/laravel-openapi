@@ -20,6 +20,8 @@ class Response
 
     public $statusCode;
 
+    public $description;
+
     public function __construct($values)
     {
         $this->factory = class_exists($values['factory']) ? $values['factory'] : app()->getNamespace() . 'OpenApi\\Responses\\' . $values['factory'];
@@ -29,5 +31,6 @@ class Response
         }
 
         $this->statusCode = isset($values['statusCode']) ? (int)$values['statusCode'] : null;
+        $this->description = $values['description'] ?? null;
     }
 }
