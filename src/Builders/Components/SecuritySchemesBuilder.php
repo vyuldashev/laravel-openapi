@@ -6,7 +6,6 @@ use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
-use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
 use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
 
 class SecuritySchemesBuilder
@@ -38,7 +37,7 @@ class SecuritySchemesBuilder
                 return is_a($class, SecuritySchemeFactory::class, true);
             })
             ->map(static function ($class) {
-                /** @var ResponseFactory $instance */
+                /** @var SecuritySchemeFactory $instance */
                 $instance = resolve($class);
 
                 return $instance->build();

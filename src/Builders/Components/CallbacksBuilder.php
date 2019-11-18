@@ -7,9 +7,9 @@ use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
-use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
+use Vyuldashev\LaravelOpenApi\Factories\CallbackFactory;
 
-class SchemasBuilder
+class CallbacksBuilder
 {
     protected static $directories = [];
 
@@ -36,11 +36,11 @@ class SchemasBuilder
             })
             ->filter(static function ($class) {
                 return
-                    is_a($class, SchemaFactory::class, true) &&
+                    is_a($class, CallbackFactory::class, true) &&
                     is_a($class, Reusable::class, true);
             })
             ->map(static function ($class) {
-                /** @var SchemaFactory $instance */
+                /** @var CallbackFactory $instance */
                 $instance = resolve($class);
 
                 return $instance->build();

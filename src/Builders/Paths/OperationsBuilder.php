@@ -6,27 +6,34 @@ use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations\Operation as OperationAnnotation;
-use Vyuldashev\LaravelOpenApi\Builders\Builder;
+use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\RequestBodyBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
-class OperationsBuilder extends Builder
+class OperationsBuilder
 {
+    protected $callbacksBuilder;
     protected $parametersBuilder;
     protected $requestBodyBuilder;
     protected $responsesBuilder;
+    protected $extensionsBuilder;
 
     public function __construct(
+        CallbacksBuilder $callbacksBuilder,
         ParametersBuilder $parametersBuilder,
         RequestBodyBuilder $requestBodyBuilder,
-        ResponsesBuilder $responsesBuilder
+        ResponsesBuilder $responsesBuilder,
+        ExtensionsBuilder $extensionsBuilder
     )
     {
+        $this->callbacksBuilder = $callbacksBuilder;
         $this->parametersBuilder = $parametersBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;
         $this->responsesBuilder = $responsesBuilder;
+        $this->extensionsBuilder = $extensionsBuilder;
     }
 
     /**
@@ -59,6 +66,7 @@ class OperationsBuilder extends Builder
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
             $responses = $this->responsesBuilder->build($route);
+            $callbacks = $this->callbacksBuilder->build($route);
 
             $operation = Operation::create()
                 ->action($route->method)
@@ -68,9 +76,10 @@ class OperationsBuilder extends Builder
                 ->operationId($operationId)
                 ->parameters(...$parameters)
                 ->requestBody($requestBody)
-                ->responses(...$responses);
+                ->responses(...$responses)
+                ->callbacks(...$callbacks);
 
-            $this->addExtensions($operation, $actionAnnotations);
+            $this->extensionsBuilder->build($operation, $actionAnnotations);
 
             $operations[] = $operation;
         }
