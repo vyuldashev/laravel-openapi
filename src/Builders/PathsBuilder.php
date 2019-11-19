@@ -7,7 +7,9 @@ use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations;
+use Vyuldashev\LaravelOpenApi\Annotations\Collection as CollectionAnnotation;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
+use Vyuldashev\LaravelOpenApi\Generator;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class PathsBuilder
@@ -21,9 +23,22 @@ class PathsBuilder
         $this->operationsBuilder = $operationsBuilder;
     }
 
-    public function build(): array
+    public function build(string $collection = Generator::COLLECTION_DEFAULT): array
     {
         return $this->routes()
+            ->filter(static function (RouteInformation $routeInformation) use ($collection) {
+                /** @var CollectionAnnotation|null $collectionAnnotation */
+                $collectionAnnotation = collect()
+                    ->merge($routeInformation->controllerAnnotations)
+                    ->merge($routeInformation->actionAnnotations)
+                    ->first(static function ($item) {
+                        return $item instanceof CollectionAnnotation;
+                    });
+
+                return
+                    (!$collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
+                    ($collectionAnnotation && in_array($collection, $collectionAnnotation->name, true));
+            })
             ->groupBy(static function (RouteInformation $routeInformation) {
                 return $routeInformation->uri;
             })
