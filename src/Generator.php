@@ -52,10 +52,10 @@ class Generator
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
-            ->tags(...$tags)
-            ->security(...Arr::get($this->config, 'collections.' . $collection . '.security', []))
             ->paths(...$paths)
-            ->components($components);
+            ->components($components)
+            ->security(...Arr::get($this->config, 'collections.' . $collection . '.security', []))
+            ->tags(...$tags);
 
         return $openApi;
     }
