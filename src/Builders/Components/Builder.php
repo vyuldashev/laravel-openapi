@@ -27,31 +27,31 @@ abstract class Builder
     }
 
     /**
+     * @param string $collection
      * @return ReflectionClass[]|Collection
      */
-    protected function getAllClasses(): Collection
+    protected function getAllClasses(string $collection): Collection
     {
         $astLocator = (new BetterReflection())->astLocator();
         $reflector = new ClassReflector(
             new DirectoriesSourceLocator(static::$directories, $astLocator)
         );
 
-        return collect($reflector->getAllClasses());
-    }
+        return collect($reflector->getAllClasses())
+            ->filter(static function (ReflectionClass $reflectionClass) use ($collection) {
+                $reader = new AnnotationReader();
+                /** @var CollectionAnnotation|null $collectionAnnotation */
+                $collectionAnnotation = $reader->getClassAnnotation(
+                    new StdReflectionClass($reflectionClass->getName()),
+                    CollectionAnnotation::class
+                );
 
-    protected function filterForCollection(string $collection): callable
-    {
-        return static function (ReflectionClass $reflectionClass) use ($collection) {
-            $reader = new AnnotationReader();
-            /** @var CollectionAnnotation|null $collectionAnnotation */
-            $collectionAnnotation = $reader->getClassAnnotation(
-                new StdReflectionClass($reflectionClass->getName()),
-                CollectionAnnotation::class
-            );
-
-            return
-                (!$collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
-                ($collectionAnnotation && in_array($collection, $collectionAnnotation->name, true));
-        };
+                return
+                    (!$collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
+                    ($collectionAnnotation && in_array($collection, $collectionAnnotation->name, true));
+            })
+            ->map(static function (ReflectionClass $reflectionClass) {
+                return $reflectionClass->getName();
+            });
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
-use Roave\BetterReflection\Reflection\ReflectionClass;
 use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
 use Vyuldashev\LaravelOpenApi\Generator;
 
@@ -10,11 +9,7 @@ class SecuritySchemesBuilder extends Builder
 {
     public function build(string $collection = Generator::COLLECTION_DEFAULT): array
     {
-        return $this->getAllClasses()
-            ->filter($this->filterForCollection($collection))
-            ->map(static function (ReflectionClass $reflectionClass) {
-                return $reflectionClass->getName();
-            })
+        return $this->getAllClasses($collection)
             ->filter(static function ($class) {
                 return is_a($class, SecuritySchemeFactory::class, true);
             })
