@@ -35,6 +35,7 @@ return [
             // Leave uri null to disable.
             'route' => [
                 'uri' => '/openapi',
+                'middleware' => [],
             ],
 
         ],

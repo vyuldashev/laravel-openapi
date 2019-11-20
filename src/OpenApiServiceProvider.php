@@ -48,14 +48,7 @@ class OpenApiServiceProvider extends ServiceProvider
             );
         });
 
-        // TODO routes for all collections
-        foreach (config('openapi.collections', []) as $collection) {
-            //
-        }
-
-        if ((string)config('openapi.route.uri') !== '') {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        }
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 
     public function register(): void
