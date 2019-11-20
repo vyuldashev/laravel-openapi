@@ -20,7 +20,7 @@ class CallbacksBuilder
                 $pathItem = $factory->build();
 
                 if ($factory instanceof Reusable) {
-                    return PathItem::ref('#/components/callbacks/' . $pathItem->objectId);
+                    return PathItem::ref('#/components/callbacks/'.$pathItem->objectId);
                 }
 
                 return $pathItem;

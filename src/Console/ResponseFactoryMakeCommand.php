@@ -13,12 +13,12 @@ class ResponseFactoryMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/response.stub';
+        return __DIR__.'/stubs/response.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\Responses';
+        return $rootNamespace.'\OpenApi\Responses';
     }
 
     protected function qualifyClass($name): string
@@ -29,6 +29,6 @@ class ResponseFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'Response';
+        return $name.'Response';
     }
 }

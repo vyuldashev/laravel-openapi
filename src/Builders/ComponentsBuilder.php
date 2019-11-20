@@ -24,8 +24,7 @@ class ComponentsBuilder
         ResponsesBuilder $responsesBuilder,
         SchemasBuilder $schemasBuilder,
         SecuritySchemesBuilder $securitySchemesBuilder
-    )
-    {
+    ) {
         $this->callbacksBuilder = $callbacksBuilder;
         $this->requestBodiesBuilder = $requestBodiesBuilder;
         $this->responsesBuilder = $responsesBuilder;

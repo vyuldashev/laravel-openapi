@@ -18,8 +18,7 @@ class PathsBuilder
 
     public function __construct(
         OperationsBuilder $operationsBuilder
-    )
-    {
+    ) {
         $this->operationsBuilder = $operationsBuilder;
     }
 
@@ -36,7 +35,7 @@ class PathsBuilder
                     });
 
                 return
-                    (!$collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
+                    (! $collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
                     ($collectionAnnotation && in_array($collection, $collectionAnnotation->name, true));
             })
             ->groupBy(static function (RouteInformation $routeInformation) {
