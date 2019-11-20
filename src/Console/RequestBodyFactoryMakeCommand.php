@@ -13,12 +13,12 @@ class RequestBodyFactoryMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/requestbody.stub';
+        return __DIR__.'/stubs/requestbody.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\RequestBodies';
+        return $rootNamespace.'\OpenApi\RequestBodies';
     }
 
     protected function qualifyClass($name): string
@@ -29,6 +29,6 @@ class RequestBodyFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'RequestBody';
+        return $name.'RequestBody';
     }
 }

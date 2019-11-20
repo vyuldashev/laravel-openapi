@@ -18,6 +18,5 @@ class PetController
      */
     public function index()
     {
-
     }
 }

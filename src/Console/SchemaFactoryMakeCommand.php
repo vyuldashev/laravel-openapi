@@ -37,7 +37,7 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
     {
         $model = Str::start($model, $this->laravel->getNamespace());
 
-        if (!is_a($model, Model::class, true)) {
+        if (! is_a($model, Model::class, true)) {
             throw new InvalidArgumentException('Invalid model');
         }
 
@@ -47,8 +47,8 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
         $columns = SchemaFacade::connection($model->getConnectionName())->getColumnListing($model->getTable());
         $connection = $model->getConnection();
 
-        $definition = 'return Schema::object(\'' . class_basename($model) . '\')' . PHP_EOL;
-        $definition .= '            ->properties(' . PHP_EOL;
+        $definition = 'return Schema::object(\''.class_basename($model).'\')'.PHP_EOL;
+        $definition .= '            ->properties('.PHP_EOL;
 
         $properties = collect($columns)
             ->map(static function ($column) use ($model, $connection) {
@@ -61,7 +61,7 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
                 switch (get_class($column->getType())) {
                     case IntegerType::class:
                         $format = 'Schema::integer(%s)->default(%s)';
-                        $args = [$name, $notNull ? (int)$default : null];
+                        $args = [$name, $notNull ? (int) $default : null];
                         break;
                     case BooleanType::class:
                         $format = 'Schema::boolean(%s)->default(%s)';
@@ -77,7 +77,7 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
                         break;
                     case DecimalType::class:
                         $format = 'Schema::number(%s)->format(Schema::FORMAT_FLOAT)->default(%s)';
-                        $args = [$name, $notNull ? (float)$default : null];
+                        $args = [$name, $notNull ? (float) $default : null];
                         break;
                     default:
                         $format = 'Schema::string(%s)->default(%s)';
@@ -94,16 +94,16 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
                         return $value;
                     }
 
-                    return '\'' . $value . '\'';
+                    return '\''.$value.'\'';
                 }, $args);
 
                 $indentation = str_repeat('    ', 4);
 
-                return sprintf($indentation . $format, ...$args);
+                return sprintf($indentation.$format, ...$args);
             })
-            ->implode(',' . PHP_EOL);
+            ->implode(','.PHP_EOL);
 
-        $definition .= $properties . PHP_EOL;
+        $definition .= $properties.PHP_EOL;
         $definition .= '            );';
 
         return str_replace('DummyDefinition', $definition, $output);
@@ -112,15 +112,15 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
     protected function getStub(): string
     {
         if ($this->option('model')) {
-            return __DIR__ . '/stubs/schema.model.stub';
+            return __DIR__.'/stubs/schema.model.stub';
         }
 
-        return __DIR__ . '/stubs/schema.stub';
+        return __DIR__.'/stubs/schema.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\Schemas';
+        return $rootNamespace.'\OpenApi\Schemas';
     }
 
     protected function qualifyClass($name): string
@@ -131,7 +131,7 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'Schema';
+        return $name.'Schema';
     }
 
     protected function getOptions(): array

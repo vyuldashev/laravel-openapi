@@ -23,7 +23,7 @@ class OpenApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/openapi.php' => config_path('openapi.php'),
+                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
             ], 'openapi-config');
         }
 
@@ -48,15 +48,13 @@ class OpenApiServiceProvider extends ServiceProvider
             );
         });
 
-        if ((string)config('openapi.route.uri') !== '') {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
-        }
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/openapi.php', 'openapi'
+            __DIR__.'/../config/openapi.php', 'openapi'
         );
 
         $this->commands([
@@ -78,7 +76,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
     protected function registerAnnotations(): void
     {
-        $files = glob(__DIR__ . '/Annotations/*.php');
+        $files = glob(__DIR__.'/Annotations/*.php');
 
         foreach ($files as $file) {
             AnnotationRegistry::registerFile($file);

@@ -13,12 +13,12 @@ class CallbackFactoryMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/callback.stub';
+        return __DIR__.'/stubs/callback.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\Callbacks';
+        return $rootNamespace.'\OpenApi\Callbacks';
     }
 
     protected function qualifyClass($name): string
@@ -29,6 +29,6 @@ class CallbackFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'Callback';
+        return $name.'Callback';
     }
 }

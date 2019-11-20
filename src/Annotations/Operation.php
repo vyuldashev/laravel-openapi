@@ -12,6 +12,6 @@ class Operation
     /** @var string */
     public $id;
 
-    /** @var string */
+    /** @var array<string> */
     public $tags;
 }

@@ -14,6 +14,8 @@ class Generator
 {
     public $version = OpenApi::OPENAPI_3_0_2;
 
+    public const COLLECTION_DEFAULT = 'default';
+
     protected $config;
     protected $infoBuilder;
     protected $serversBuilder;
@@ -28,8 +30,7 @@ class Generator
         TagsBuilder $tagsBuilder,
         PathsBuilder $pathsBuilder,
         ComponentsBuilder $componentsBuilder
-    )
-    {
+    ) {
         $this->config = $config;
         $this->infoBuilder = $infoBuilder;
         $this->serversBuilder = $serversBuilder;
@@ -38,22 +39,22 @@ class Generator
         $this->componentsBuilder = $componentsBuilder;
     }
 
-    public function generate(): OpenApi
+    public function generate(string $collection = self::COLLECTION_DEFAULT): OpenApi
     {
-        $info = $this->infoBuilder->build(Arr::get($this->config, 'info', []));
-        $servers = $this->serversBuilder->build(Arr::get($this->config, 'servers', []));
-        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'tags', []));
-        $paths = $this->pathsBuilder->build();
-        $components = $this->componentsBuilder->build();
+        $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.info', []));
+        $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.servers', []));
+        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.tags', []));
+        $paths = $this->pathsBuilder->build($collection);
+        $components = $this->componentsBuilder->build($collection);
 
         $openApi = OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
-            ->tags(...$tags)
-            ->security(...Arr::get($this->config, 'security', []))
             ->paths(...$paths)
-            ->components($components);
+            ->components($components)
+            ->security(...Arr::get($this->config, 'collections.'.$collection.'.security', []))
+            ->tags(...$tags);
 
         return $openApi;
     }

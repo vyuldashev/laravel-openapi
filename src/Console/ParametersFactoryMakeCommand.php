@@ -13,12 +13,12 @@ class ParametersFactoryMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/parameters.stub';
+        return __DIR__.'/stubs/parameters.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\Parameters';
+        return $rootNamespace.'\OpenApi\Parameters';
     }
 
     protected function qualifyClass($name): string
@@ -29,6 +29,6 @@ class ParametersFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'Parameters';
+        return $name.'Parameters';
     }
 }

@@ -2,38 +2,15 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
-use Roave\BetterReflection\BetterReflection;
-use Roave\BetterReflection\Reflection\ReflectionClass;
-use Roave\BetterReflection\Reflector\ClassReflector;
-use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
+use Vyuldashev\LaravelOpenApi\Generator;
 
-class SchemasBuilder
+class SchemasBuilder extends Builder
 {
-    protected static $directories = [];
-
-    public static function in(array $directories): void
+    public function build(string $collection = Generator::COLLECTION_DEFAULT): array
     {
-        static::$directories = collect($directories)
-            ->filter(static function ($directory) {
-                return file_exists($directory) && is_dir($directory);
-            })
-            ->values()
-            ->toArray();
-    }
-
-    public function build(): array
-    {
-        $astLocator = (new BetterReflection())->astLocator();
-        $reflector = new ClassReflector(
-            new DirectoriesSourceLocator(static::$directories, $astLocator)
-        );
-
-        return collect($reflector->getAllClasses())
-            ->map(static function (ReflectionClass $reflectionClass) {
-                return $reflectionClass->getName();
-            })
+        return $this->getAllClasses($collection)
             ->filter(static function ($class) {
                 return
                     is_a($class, SchemaFactory::class, true) &&

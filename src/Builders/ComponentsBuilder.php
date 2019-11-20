@@ -8,6 +8,7 @@ use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
+use Vyuldashev\LaravelOpenApi\Generator;
 
 class ComponentsBuilder
 {
@@ -23,8 +24,7 @@ class ComponentsBuilder
         ResponsesBuilder $responsesBuilder,
         SchemasBuilder $schemasBuilder,
         SecuritySchemesBuilder $securitySchemesBuilder
-    )
-    {
+    ) {
         $this->callbacksBuilder = $callbacksBuilder;
         $this->requestBodiesBuilder = $requestBodiesBuilder;
         $this->responsesBuilder = $responsesBuilder;
@@ -32,13 +32,13 @@ class ComponentsBuilder
         $this->securitySchemesBuilder = $securitySchemesBuilder;
     }
 
-    public function build(): ?Components
+    public function build(string $collection = Generator::COLLECTION_DEFAULT): ?Components
     {
-        $callbacks = $this->callbacksBuilder->build();
-        $requestBodies = $this->requestBodiesBuilder->build();
-        $responses = $this->responsesBuilder->build();
-        $schemas = $this->schemasBuilder->build();
-        $securitySchemes = $this->securitySchemesBuilder->build();
+        $callbacks = $this->callbacksBuilder->build($collection);
+        $requestBodies = $this->requestBodiesBuilder->build($collection);
+        $responses = $this->responsesBuilder->build($collection);
+        $schemas = $this->schemasBuilder->build($collection);
+        $securitySchemes = $this->securitySchemesBuilder->build($collection);
 
         $components = Components::create();
 

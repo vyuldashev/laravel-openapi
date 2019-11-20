@@ -27,8 +27,7 @@ class OperationsBuilder
         RequestBodyBuilder $requestBodyBuilder,
         ResponsesBuilder $responsesBuilder,
         ExtensionsBuilder $extensionsBuilder
-    )
-    {
+    ) {
         $this->callbacksBuilder = $callbacksBuilder;
         $this->parametersBuilder = $parametersBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;
@@ -55,13 +54,7 @@ class OperationsBuilder
             });
 
             $operationId = optional($operationAnnotation)->id;
-            $tags = [];
-
-            if ($operationAnnotation->tags !== null) {
-                $tags = collect(explode(',', $operationAnnotation->tags))->filter()->map(static function (string $value) {
-                    return trim($value);
-                });
-            }
+            $tags = $operationAnnotation->tags ?? [];
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
