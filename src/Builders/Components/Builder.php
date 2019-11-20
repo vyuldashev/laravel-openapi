@@ -14,8 +14,6 @@ use Vyuldashev\LaravelOpenApi\Generator;
 
 abstract class Builder
 {
-    protected static $directories = [];
-
     public static function in(array $directories): void
     {
         static::$directories = collect($directories)
@@ -48,7 +46,7 @@ abstract class Builder
 
                 return
                     (! $collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
-                    ($collectionAnnotation && in_array($collection, $collectionAnnotation->name, true));
+                    ($collectionAnnotation && in_array($collection, $collectionAnnotation->name ?? [], true));
             })
             ->map(static function (ReflectionClass $reflectionClass) {
                 return $reflectionClass->getName();
