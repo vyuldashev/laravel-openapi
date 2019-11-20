@@ -74,7 +74,6 @@ class ExtensionsBuilderTest extends TestCase
 
 class FakeExtension extends ExtensionFactory
 {
-
     public function key(): string
     {
         return 'uuid';

@@ -18,15 +18,15 @@ trait Referencable
     {
         $instance = resolve(static::class);
 
-        if (!$instance instanceof Reusable) {
-            throw new InvalidArgumentException('"' . static::class . '" must implement "' . Reusable::class . '" in order to be referencable.');
+        if (! $instance instanceof Reusable) {
+            throw new InvalidArgumentException('"'.static::class.'" must implement "'.Reusable::class.'" in order to be referencable.');
         }
 
         $baseRef = null;
 
         if ($instance instanceof CallbackFactory) {
             $baseRef = '#/components/callbacks/';
-        } else if ($instance instanceof ParametersFactory) {
+        } elseif ($instance instanceof ParametersFactory) {
             $baseRef = '#/components/parameters/';
         } elseif ($instance instanceof RequestBodyFactory) {
             $baseRef = '#/components/requestBodies/';
@@ -38,6 +38,6 @@ trait Referencable
             $baseRef = '#/components/securitySchemes/';
         }
 
-        return Schema::ref($baseRef . $instance->build()->objectId, $objectId);
+        return Schema::ref($baseRef.$instance->build()->objectId, $objectId);
     }
 }

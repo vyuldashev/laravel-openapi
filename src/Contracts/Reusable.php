@@ -9,5 +9,4 @@ namespace Vyuldashev\LaravelOpenApi\Contracts;
  */
 interface Reusable
 {
-
 }

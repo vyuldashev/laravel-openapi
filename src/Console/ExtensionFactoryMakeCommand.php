@@ -21,12 +21,12 @@ class ExtensionFactoryMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/extension.stub';
+        return __DIR__.'/stubs/extension.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\Extensions';
+        return $rootNamespace.'\OpenApi\Extensions';
     }
 
     protected function qualifyClass($name): string
@@ -37,6 +37,6 @@ class ExtensionFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'Extension';
+        return $name.'Extension';
     }
 }

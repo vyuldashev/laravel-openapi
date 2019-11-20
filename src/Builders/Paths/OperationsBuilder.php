@@ -27,8 +27,7 @@ class OperationsBuilder
         RequestBodyBuilder $requestBodyBuilder,
         ResponsesBuilder $responsesBuilder,
         ExtensionsBuilder $extensionsBuilder
-    )
-    {
+    ) {
         $this->callbacksBuilder = $callbacksBuilder;
         $this->parametersBuilder = $parametersBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;

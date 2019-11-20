@@ -2,7 +2,6 @@
 
 namespace Examples\Petstore\OpenApi\Parameters;
 
-
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
@@ -22,7 +21,7 @@ class ListPetsParameters extends ParametersFactory
                 ->required(false)
                 ->schema(
                     Schema::integer()->format(Schema::FORMAT_INT32)
-                )
+                ),
 
         ];
     }

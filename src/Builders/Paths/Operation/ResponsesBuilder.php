@@ -20,7 +20,7 @@ class ResponsesBuilder
                 $response = $factory->build();
 
                 if ($factory instanceof Reusable) {
-                    return Response::ref('#/components/responses/' . $response->objectId)
+                    return Response::ref('#/components/responses/'.$response->objectId)
                         ->statusCode($annotation->statusCode)
                         ->description($annotation->description);
                 }

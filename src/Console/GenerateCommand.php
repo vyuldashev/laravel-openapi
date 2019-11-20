@@ -16,8 +16,8 @@ class GenerateCommand extends Command
     {
         $collectionExists = collect(config('openapi.collections'))->has($this->argument('collection'));
 
-        if (!$collectionExists) {
-            $this->error('Collection "' . $this->argument('collection') . '" does not exist.');
+        if (! $collectionExists) {
+            $this->error('Collection "'.$this->argument('collection').'" does not exist.');
 
             return;
         }

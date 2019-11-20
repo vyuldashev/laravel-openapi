@@ -21,12 +21,12 @@ class SecuritySchemeFactoryMakeCommand extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/securityscheme.stub';
+        return __DIR__.'/stubs/securityscheme.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\OpenApi\SecuritySchemes';
+        return $rootNamespace.'\OpenApi\SecuritySchemes';
     }
 
     protected function qualifyClass($name): string
@@ -37,6 +37,6 @@ class SecuritySchemeFactoryMakeCommand extends GeneratorCommand
             return $name;
         }
 
-        return $name . 'SecurityScheme';
+        return $name.'SecurityScheme';
     }
 }

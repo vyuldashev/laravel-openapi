@@ -17,7 +17,7 @@ class PetstoreTest extends TestCase
 
         parent::setUp();
 
-        SchemasBuilder::in([__DIR__ . '/../examples/petstore/OpenApi/Schemas']);
+        SchemasBuilder::in([__DIR__.'/../examples/petstore/OpenApi/Schemas']);
 
         Route::get('/pets', [PetController::class, 'index']);
     }
