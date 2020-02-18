@@ -14,4 +14,7 @@ class Operation
 
     /** @var array<string> */
     public $tags;
+
+    /** @var string */
+    public $method;
 }

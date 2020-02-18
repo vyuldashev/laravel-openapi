@@ -62,7 +62,7 @@ class OperationsBuilder
             $callbacks = $this->callbacksBuilder->build($route);
 
             $operation = Operation::create()
-                ->action($route->method)
+                ->action($operationAnnotation->method ?: $route->method)
                 ->tags(...$tags)
                 ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
                 ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
