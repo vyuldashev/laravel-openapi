@@ -5,6 +5,7 @@ namespace Vyuldashev\LaravelOpenApi\Builders\Paths;
 use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Annotations\Operation as OperationAnnotation;
 use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
@@ -62,7 +63,7 @@ class OperationsBuilder
             $callbacks = $this->callbacksBuilder->build($route);
 
             $operation = Operation::create()
-                ->action($operationAnnotation->method ?: $route->method)
+                ->action(Str::lower($operationAnnotation->method) ?: $route->method)
                 ->tags(...$tags)
                 ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
                 ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
