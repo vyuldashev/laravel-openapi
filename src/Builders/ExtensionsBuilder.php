@@ -15,7 +15,7 @@ class ExtensionsBuilder
             ->filter(static function ($annotation) {
                 return $annotation instanceof ExtensionAnnotation;
             })
-            ->each(static function (ExtensionAnnotation $annotation) use ($object) {
+            ->each(static function (ExtensionAnnotation $annotation) use ($object): void {
                 if ($annotation->factory) {
                     /** @var ExtensionFactory $factory */
                     $factory = resolve($annotation->factory);

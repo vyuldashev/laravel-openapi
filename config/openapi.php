@@ -38,6 +38,13 @@ return [
                 'middleware' => [],
             ],
 
+            // Register custom middlewares for different objects.
+            'middlewares' => [
+                'paths' => [
+                    //
+                ],
+            ],
+
         ],
 
     ],

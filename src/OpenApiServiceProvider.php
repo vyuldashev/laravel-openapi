@@ -54,7 +54,8 @@ class OpenApiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/openapi.php', 'openapi'
+            __DIR__ . '/../config/openapi.php',
+            'openapi'
         );
 
         $this->commands([

@@ -38,13 +38,13 @@ class RouteInformation
 
     public static function createFromRoute(Route $route)
     {
-        return tap(new static(), static function (self $instance) use ($route) {
+        return tap(new static(), static function (self $instance) use ($route): void {
             $method = collect($route->methods())
                 ->map(static function ($value) {
                     return Str::lower($value);
                 })
                 ->filter(static function ($value) {
-                    return ! in_array($value, ['head', 'options'], true);
+                    return !in_array($value, ['head', 'options'], true);
                 })
                 ->first();
 

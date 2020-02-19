@@ -41,10 +41,12 @@ class Generator
 
     public function generate(string $collection = self::COLLECTION_DEFAULT): OpenApi
     {
-        $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.info', []));
-        $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.servers', []));
-        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.tags', []));
-        $paths = $this->pathsBuilder->build($collection);
+        $middlewares = Arr::get($this->config, 'collections.' . $collection . '.middlewares');
+
+        $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.info', []));
+        $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.servers', []));
+        $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.' . $collection . '.tags', []));
+        $paths = $this->pathsBuilder->build($collection, Arr::get($middlewares, 'paths', []));
         $components = $this->componentsBuilder->build($collection);
 
         $openApi = OpenApi::create()
@@ -53,7 +55,7 @@ class Generator
             ->servers(...$servers)
             ->paths(...$paths)
             ->components($components)
-            ->security(...Arr::get($this->config, 'collections.'.$collection.'.security', []))
+            ->security(...Arr::get($this->config, 'collections.' . $collection . '.security', []))
             ->tags(...$tags);
 
         return $openApi;

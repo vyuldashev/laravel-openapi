@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Vyuldashev\LaravelOpenApi\Annotations;
 use Vyuldashev\LaravelOpenApi\Annotations\Collection as CollectionAnnotation;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
+use Vyuldashev\LaravelOpenApi\Contracts\PathMiddleware;
 use Vyuldashev\LaravelOpenApi\Generator;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
@@ -22,8 +23,15 @@ class PathsBuilder
         $this->operationsBuilder = $operationsBuilder;
     }
 
-    public function build(string $collection = Generator::COLLECTION_DEFAULT): array
-    {
+    /**
+     * @param string $collection
+     * @param PathMiddleware[] $middlewares
+     * @return array
+     */
+    public function build(
+        string $collection,
+        array $middlewares
+    ): array {
         return $this->routes()
             ->filter(static function (RouteInformation $routeInformation) use ($collection) {
                 /** @var CollectionAnnotation|null $collectionAnnotation */
@@ -35,8 +43,15 @@ class PathsBuilder
                     });
 
                 return
-                    (! $collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
+                    (!$collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
                     ($collectionAnnotation && in_array($collection, $collectionAnnotation->name, true));
+            })
+            ->map(static function (RouteInformation $item) use ($middlewares) {
+                foreach ($middlewares as $middleware) {
+                    resolve($middleware)->before($item);
+                }
+
+                return $item;
             })
             ->groupBy(static function (RouteInformation $routeInformation) {
                 return $routeInformation->uri;
@@ -47,6 +62,13 @@ class PathsBuilder
                 $operations = $this->operationsBuilder->build($routes);
 
                 return $pathItem->operations(...$operations);
+            })
+            ->map(static function (PathItem $item) use ($middlewares) {
+                foreach ($middlewares as $middleware) {
+                    $item = resolve($middleware)->after($item);
+                }
+
+                return $item;
             })
             ->values()
             ->toArray();
