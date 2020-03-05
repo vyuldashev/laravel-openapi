@@ -17,7 +17,7 @@ class SecuritySchemesBuilder extends Builder
             })
             ->map(static function ($class) {
                 /** @var SecuritySchemeFactory $instance */
-                $instance = resolve($class);
+                $instance = app($class);
 
                 return $instance->build();
             })
