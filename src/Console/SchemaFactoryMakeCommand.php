@@ -42,7 +42,7 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
         }
 
         /** @var Model $model */
-        $model = resolve($model);
+        $model = app($model);
 
         $columns = SchemaFacade::connection($model->getConnectionName())->getColumnListing($model->getTable());
         $connection = $model->getConnection();

@@ -16,7 +16,7 @@ class ResponsesBuilder
                 return $annotation instanceof ResponseAnnotation;
             })
             ->map(static function (ResponseAnnotation $annotation) {
-                $factory = resolve($annotation->factory);
+                $factory = app($annotation->factory);
                 $response = $factory->build();
 
                 if ($factory instanceof Reusable) {

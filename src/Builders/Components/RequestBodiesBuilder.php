@@ -20,7 +20,7 @@ class RequestBodiesBuilder extends Builder
             })
             ->map(static function ($class) {
                 /** @var RequestBodyFactory $instance */
-                $instance = resolve($class);
+                $instance = app($class);
 
                 return $instance->build();
             })

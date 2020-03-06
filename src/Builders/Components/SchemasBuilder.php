@@ -20,7 +20,7 @@ class SchemasBuilder extends Builder
             })
             ->map(static function ($class) {
                 /** @var SchemaFactory $instance */
-                $instance = resolve($class);
+                $instance = app($class);
 
                 return $instance->build();
             })

@@ -20,7 +20,7 @@ class ResponsesBuilder extends Builder
             })
             ->map(static function ($class) {
                 /** @var ResponseFactory $instance */
-                $instance = resolve($class);
+                $instance = app($class);
 
                 return $instance->build();
             })

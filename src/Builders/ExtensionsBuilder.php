@@ -18,7 +18,7 @@ class ExtensionsBuilder
             ->each(static function (ExtensionAnnotation $annotation) use ($object): void {
                 if ($annotation->factory) {
                     /** @var ExtensionFactory $factory */
-                    $factory = resolve($annotation->factory);
+                    $factory = app($annotation->factory);
                     $key = $factory->key();
                     $value = $factory->value();
                 } else {

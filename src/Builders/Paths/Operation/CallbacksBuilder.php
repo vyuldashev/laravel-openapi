@@ -16,7 +16,7 @@ class CallbacksBuilder
                 return $annotation instanceof CallbackAnnotation;
             })
             ->map(static function (CallbackAnnotation $annotation) {
-                $factory = resolve($annotation->factory);
+                $factory = app($annotation->factory);
                 $pathItem = $factory->build();
 
                 if ($factory instanceof Reusable) {

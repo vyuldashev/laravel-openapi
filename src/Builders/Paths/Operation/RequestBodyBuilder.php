@@ -19,7 +19,7 @@ class RequestBodyBuilder
 
         if ($requestBody) {
             /** @var RequestBodyFactory $requestBodyFactory */
-            $requestBodyFactory = resolve($requestBody->factory);
+            $requestBodyFactory = app($requestBody->factory);
 
             $requestBody = $requestBodyFactory->build();
 

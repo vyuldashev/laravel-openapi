@@ -61,7 +61,7 @@ class ParametersBuilder
 
         if ($parameters) {
             /** @var ParametersFactory $parametersFactory */
-            $parametersFactory = resolve($parameters->factory);
+            $parametersFactory = app($parameters->factory);
 
             $parameters = $parametersFactory->build();
         }

@@ -48,7 +48,7 @@ class PathsBuilder
             })
             ->map(static function (RouteInformation $item) use ($middlewares) {
                 foreach ($middlewares as $middleware) {
-                    resolve($middleware)->before($item);
+                    app($middleware)->before($item);
                 }
 
                 return $item;
@@ -65,7 +65,7 @@ class PathsBuilder
             })
             ->map(static function (PathItem $item) use ($middlewares) {
                 foreach ($middlewares as $middleware) {
-                    $item = resolve($middleware)->after($item);
+                    $item = app($middleware)->after($item);
                 }
 
                 return $item;

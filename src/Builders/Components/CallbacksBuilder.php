@@ -20,7 +20,7 @@ class CallbacksBuilder extends Builder
             })
             ->map(static function ($class) {
                 /** @var CallbackFactory $instance */
-                $instance = resolve($class);
+                $instance = app($class);
 
                 return $instance->build();
             })
