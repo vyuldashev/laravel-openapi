@@ -64,9 +64,11 @@ To use tags, first set them up in `config/openapi.php`:
     ],
 ```
 
-Then add them using in the operation annotation on your controller:
+Then add them using in the `Operation` annotation on your controller:
 
 ```php
+class UserController extends Controller
+{
     /**
      * Create new user.
      *
@@ -78,4 +80,5 @@ Then add them using in the operation annotation on your controller:
     {
         //
     }
+}
 ```
