@@ -6,6 +6,24 @@ Generate a request body with this command:
 php artisan openapi:make-requestbody StoreUser
 ```
 
+You can refer to a schema by implementing `use Vyuldashev\LaravelOpenApi\Contracts\Reusable` on the schema and adding it to the request body like so:
+
+```php
+class UserCreateRequestBody extends RequestBodyFactory
+{
+    public function build(): RequestBody
+    {
+        $userSchema = new UserSchema();
+
+        return RequestBody::create('UserCreate')
+            ->description('User data')
+            ->content(
+                MediaType::json()->schema($userSchema->ref())
+            );
+    }
+}
+```
+
 Use a request body in your controller like this:
 
 ```php
