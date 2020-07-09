@@ -18,7 +18,7 @@ class UserController extends Controller
      *
      * Creates new user or returns already existing user by email.
      *
-     * @Operation()
+     * @OpenApi\Operation()
      */
     public function store(Request $request)
     {
