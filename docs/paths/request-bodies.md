@@ -13,12 +13,10 @@ class UserCreateRequestBody extends RequestBodyFactory
 {
     public function build(): RequestBody
     {
-        $userSchema = new UserSchema();
-
         return RequestBody::create('UserCreate')
             ->description('User data')
             ->content(
-                MediaType::json()->schema($userSchema->ref())
+                MediaType::json()->schema(UserSchema::ref())
             );
     }
 }
