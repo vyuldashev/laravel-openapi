@@ -21,15 +21,15 @@ class ListUsersResponse extends ResponseFactory
 Finally, add `Response` annotation with factory name to your route:
 
 ```php
-class UserController extends Controller 
+class UserController extends Controller
 {
     /**
      * List users.
-     * 
+     *
      * @OpenApi\Operation()
      * @OpenApi\Response(factory="ListUsersResponse")
     */
-    public function index(User $user) 
+    public function index(User $user)
     {
         //
     }
@@ -69,15 +69,43 @@ class ErrorValidationResponse extends ResponseFactory implements Reusable
 And in controller's method:
 
 ```php
-class UserController extends Controller 
+class UserController extends Controller
 {
     /**
      * Create user.
-     * 
+     *
      * @OpenApi\Operation()
      * @OpenApi\Response(factory="ErrorValidationResponse", statusCode=422)
     */
-    public function store(Request $request) 
+    public function store(Request $request)
+    {
+        //
+    }
+}
+```
+
+## Multiple responses
+
+You can use multiple responses on a single controller method (for example, success, not found, and validation errors).
+
+Even if the schema defines a status code, you **must** supply the status code in the controller method annotations, or only one response will be included in the result.
+
+Example:
+
+```php
+class UserController extends Controller
+{
+    /**
+     * Create user.
+     *
+     * @OpenApi\Operation()
+     * @OpenApi\Response(factory="CreatedUserResponse", statusCode=201)
+     * @OpenApi\Response(factory="ErrorUnauthenticatedResponse", statusCode=401)
+     * @OpenApi\Response(factory="ErrorForbiddenResponse", statusCode=401)
+     * @OpenApi\Response(factory="ErrorNotFoundResponse", statusCode=404)
+     * @OpenApi\Response(factory="ErrorValidationResponse", statusCode=422)
+    */
+    public function store(Request $request)
     {
         //
     }
