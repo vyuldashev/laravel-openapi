@@ -24,6 +24,8 @@ module.exports = {
         ],
       },
       '/schemas',
+      '/collections',
+      '/middlewares',
     ],
     displayAllHeaders: true,
     sidebarDepth: 2,
