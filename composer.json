@@ -24,14 +24,14 @@
     "doctrine/annotations": "^1.6",
     "doctrine/dbal": "^2.9",
     "goldspecdigital/oooas": "^2.7.1",
-    "laravel/framework": "5.8.*|^6.0|^7.0",
+    "laravel/framework": "5.8.*|^6.0|^7.0|^8.0",
     "phpdocumentor/reflection-docblock": "^5.0",
     "roave/better-reflection": "^4.0"
   },
   "require-dev": {
     "fzaninotto/faker": "^1.8",
-    "orchestra/testbench": "^5.3",
-    "phpunit/phpunit": "^9.2"
+    "orchestra/testbench": "^5.3|^6.0",
+    "phpunit/phpunit": "^8.5"
   },
   "autoload": {
     "psr-4": {
