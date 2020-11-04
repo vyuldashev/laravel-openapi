@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vyuldashev\LaravelOpenApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\CallbacksBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
@@ -23,7 +24,7 @@ class OpenApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
+                __DIR__ . '/../config/openapi.php' => config_path('openapi.php'),
             ], 'openapi-config');
         }
 
@@ -48,7 +49,7 @@ class OpenApiServiceProvider extends ServiceProvider
             );
         });
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 
     public function register(): void
@@ -77,7 +78,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
     protected function registerAnnotations(): void
     {
-        $files = glob(__DIR__.'/Annotations/*.php');
+        $files = glob(__DIR__ . '/Annotations/*.php');
 
         foreach ($files as $file) {
             AnnotationRegistry::registerFile($file);
@@ -86,36 +87,60 @@ class OpenApiServiceProvider extends ServiceProvider
 
     protected function callbacksIn(): array
     {
-        return [
+        $directories = $this->getPathsFromConfig('callbacks');
+
+        return array_merge($directories, [
             app_path('OpenApi/Callbacks'),
-        ];
+        ]);
     }
 
     protected function requestBodiesIn(): array
     {
-        return [
+        $directories = $this->getPathsFromConfig('request_bodies');
+
+        return array_merge($directories, [
             app_path('OpenApi/RequestBodies'),
-        ];
+        ]);
     }
 
     protected function responsesIn(): array
     {
-        return [
+        $directories = $this->getPathsFromConfig('responses');
+
+        return array_merge($directories, [
             app_path('OpenApi/Responses'),
-        ];
+        ]);
     }
 
     protected function schemasIn(): array
     {
-        return [
+        $directories = $this->getPathsFromConfig('schemas');
+
+        return array_merge($directories, [
             app_path('OpenApi/Schemas'),
-        ];
+        ]);
     }
 
     protected function securitySchemesIn(): array
     {
-        return [
+        $directories = $this->getPathsFromConfig('security_schemes');
+
+        return array_merge($directories, [
             app_path('OpenApi/SecuritySchemes'),
-        ];
+        ]);
+    }
+
+    protected function getPathsFromConfig(string $type): array
+    {
+        $directories = config("openapi.paths.{$type}", []);
+
+        foreach ($directories as &$directory) {
+            $directory = glob(app_path($directory), GLOB_ONLYDIR);
+        }
+
+        return (new Collection($directories))
+            ->flatten()
+            ->unique()
+            ->toArray();
     }
 }

@@ -7,9 +7,9 @@ return [
         'default' => [
 
             'info' => [
-                'title' => config('app.name'),
+                'title'       => config('app.name'),
                 'description' => null,
-                'version' => '1.0.0',
+                'version'     => '1.0.0',
             ],
 
             'servers' => [
@@ -27,14 +27,14 @@ return [
 
             ],
 
-            'security' => [
+            'security'    => [
                 // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
             ],
 
             // Route for exposing specification.
             // Leave uri null to disable.
-            'route' => [
-                'uri' => '/openapi',
+            'route'       => [
+                'uri'        => '/openapi',
                 'middleware' => [],
             ],
 
@@ -47,6 +47,28 @@ return [
 
         ],
 
+    ],
+
+    'paths' => [
+        'callbacks' => [
+            //
+        ],
+
+        'request_bodies' => [
+            //
+        ],
+
+        'responses' => [
+            //
+        ],
+
+        'schemas' => [
+            //
+        ],
+
+        'security_schemes' => [
+            //
+        ],
     ],
 
 ];
