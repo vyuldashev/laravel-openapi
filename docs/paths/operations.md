@@ -82,3 +82,28 @@ class UserController extends Controller
     }
 }
 ```
+
+## Resource Controllers and Multiple HTTP Verbs
+
+When using [resource controllers](https://laravel.com/docs/master/controllers#resource-controllers), the `update` method accepts both `PUT` and `PATCH` requests.
+
+When a controller method accepts multiple methods, by default only the first is included in the generated documentation.
+
+To override which verb or method should be used on a particular operation, add the `method` parameter the `Operation` annotation on your controller:
+
+```php
+class UserController extends Controller
+{
+    /**
+     * Update user.
+     *
+     * Updates a user.
+     *
+     * @Operation(tags="user",method="PATCH")
+     */
+    public function update(Request $request)
+    {
+        //
+    }
+}
+```
