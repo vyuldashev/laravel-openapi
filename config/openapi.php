@@ -7,9 +7,9 @@ return [
         'default' => [
 
             'info' => [
-                'title'       => config('app.name'),
+                'title' => config('app.name'),
                 'description' => null,
-                'version'     => '1.0.0',
+                'version' => '1.0.0',
             ],
 
             'servers' => [
@@ -27,14 +27,14 @@ return [
 
             ],
 
-            'security'    => [
+            'security' => [
                 // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
             ],
 
             // Route for exposing specification.
             // Leave uri null to disable.
-            'route'       => [
-                'uri'        => '/openapi',
+            'route' => [
+                'uri' => '/openapi',
                 'middleware' => [],
             ],
 
@@ -49,25 +49,26 @@ return [
 
     ],
 
-    'paths' => [
+    // Directories to use for locating OpenAPI object definitions.
+    'locations' => [
         'callbacks' => [
-            //
+            app_path('OpenApi/Callbacks'),
         ],
 
         'request_bodies' => [
-            //
+            app_path('OpenApi/RequestBodies'),
         ],
 
         'responses' => [
-            //
+            app_path('OpenApi/Responses'),
         ],
 
         'schemas' => [
-            //
+            app_path('OpenApi/Schemas'),
         ],
 
         'security_schemes' => [
-            //
+            app_path('OpenApi/SecuritySchemes'),
         ],
     ],
 
