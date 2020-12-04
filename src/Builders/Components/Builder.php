@@ -14,14 +14,11 @@ use Vyuldashev\LaravelOpenApi\Generator;
 
 abstract class Builder
 {
-    public static function in(array $directories): void
+    protected $directories = [];
+
+    public function __construct(array $directories)
     {
-        static::$directories = collect($directories)
-            ->filter(static function ($directory) {
-                return file_exists($directory) && is_dir($directory);
-            })
-            ->values()
-            ->toArray();
+        $this->directories = $directories;
     }
 
     /**
@@ -32,7 +29,7 @@ abstract class Builder
     {
         $astLocator = (new BetterReflection())->astLocator();
         $reflector = new ClassReflector(
-            new DirectoriesSourceLocator(static::$directories, $astLocator)
+            new DirectoriesSourceLocator($this->directories, $astLocator)
         );
 
         return collect($reflector->getAllClasses())

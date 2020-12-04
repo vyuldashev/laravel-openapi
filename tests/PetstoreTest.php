@@ -4,7 +4,6 @@ namespace Vyuldashev\LaravelOpenApi\Tests;
 
 use Examples\Petstore\PetController;
 use Illuminate\Support\Facades\Route;
-use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 
 /**
  * @see https://github.com/OAI/OpenAPI-Specification/blob/master/examples/v3.0/petstore.yaml
@@ -17,21 +16,26 @@ class PetstoreTest extends TestCase
 
         parent::setUp();
 
-        SchemasBuilder::in([__DIR__.'/../examples/petstore/OpenApi/Schemas']);
-
         Route::get('/pets', [PetController::class, 'index']);
+    }
+
+    protected function getEnvironmentSetUp($app): void
+    {
+        $app['config']->set('openapi.locations.schemas', [
+            __DIR__ . '/../examples/petstore/OpenApi/Schemas',
+        ]);
     }
 
     public function testGenerate(): void
     {
         $spec = $this->generate()->toArray();
 
-        $this->assertSame('http://petstore.swagger.io/v1', $spec['servers'][0]['url']);
+        self::assertSame('http://petstore.swagger.io/v1', $spec['servers'][0]['url']);
 
-        $this->assertArrayHasKey('/pets', $spec['paths']);
-        $this->assertArrayHasKey('get', $spec['paths']['/pets']);
+        self::assertArrayHasKey('/pets', $spec['paths']);
+        self::assertArrayHasKey('get', $spec['paths']['/pets']);
 
-        $this->assertSame([
+        self::assertSame([
             'summary' => 'List all pets.',
             'operationId' => 'listPets',
             'parameters' => [
@@ -53,11 +57,11 @@ class PetstoreTest extends TestCase
             ],
         ], $spec['paths']['/pets']['get']);
 
-        $this->assertArrayHasKey('components', $spec);
-        $this->assertArrayHasKey('schemas', $spec['components']);
-        $this->assertArrayHasKey('Pet', $spec['components']['schemas']);
+        self::assertArrayHasKey('components', $spec);
+        self::assertArrayHasKey('schemas', $spec['components']);
+        self::assertArrayHasKey('Pet', $spec['components']['schemas']);
 
-        $this->assertSame([
+        self::assertSame([
             'type' => 'object',
             'required' => [
                 'id',

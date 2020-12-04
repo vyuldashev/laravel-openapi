@@ -1,59 +1,58 @@
 {
-  "name": "vyuldashev/laravel-openapi",
-  "description": "Generate OpenAPI Specification for Laravel Applications",
-  "keywords": [
-    "laravel",
-    "openapi",
-    "api",
-    "documentation",
-    "docs",
-    "rest",
-    "swagger"
-  ],
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Vladimir Yuldashev",
-      "email": "misterio92@gmail.com"
-    }
-  ],
-  "require": {
-    "php": "^7.2",
-    "ext-json": "*",
-    "doctrine/annotations": "^1.6",
-    "doctrine/dbal": "^2.9",
-    "goldspecdigital/oooas": "^2.7.1",
-    "laravel/framework": "5.8.*|^6.0|^7.0|^8.0",
-    "phpdocumentor/reflection-docblock": "^5.0",
-    "roave/better-reflection": "^4.0"
-  },
-  "require-dev": {
-    "fzaninotto/faker": "^1.8",
-    "orchestra/testbench": "^5.3|^6.0",
-    "phpunit/phpunit": "^8.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "Vyuldashev\\LaravelOpenApi\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Vyuldashev\\LaravelOpenApi\\Tests\\": "tests/",
-      "Examples\\Petstore\\": "examples/petstore/"
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Vyuldashev\\LaravelOpenApi\\OpenApiServiceProvider"
-      ]
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "vyuldashev/laravel-openapi",
+    "description": "Generate OpenAPI Specification for Laravel Applications",
+    "keywords": [
+        "laravel",
+        "openapi",
+        "api",
+        "documentation",
+        "docs",
+        "rest",
+        "swagger"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Yuldashev",
+            "email": "misterio92@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "doctrine/annotations": "^1.6",
+        "doctrine/dbal": "^2.9",
+        "goldspecdigital/oooas": "^2.7.1",
+        "laravel/framework": "5.8.*|^6.0|^7.0|^8.0",
+        "phpdocumentor/reflection-docblock": "^5.0",
+        "roave/better-reflection": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.3|^6.0",
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vyuldashev\\LaravelOpenApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vyuldashev\\LaravelOpenApi\\Tests\\": "tests/",
+            "Examples\\Petstore\\": "examples/petstore/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vyuldashev\\LaravelOpenApi\\OpenApiServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

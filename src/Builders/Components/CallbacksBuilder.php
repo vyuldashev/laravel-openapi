@@ -8,8 +8,6 @@ use Vyuldashev\LaravelOpenApi\Generator;
 
 class CallbacksBuilder extends Builder
 {
-    protected static $directories = [];
-
     public function build(string $collection = Generator::COLLECTION_DEFAULT): array
     {
         return $this->getAllClasses($collection)

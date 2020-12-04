@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vyuldashev\LaravelOpenApi;
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\CallbacksBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
@@ -23,17 +24,31 @@ class OpenApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
+                __DIR__ . '/../config/openapi.php' => config_path('openapi.php'),
             ], 'openapi-config');
         }
 
         $this->registerAnnotations();
 
-        CallbacksBuilder::in($this->callbacksIn());
-        RequestBodiesBuilder::in($this->requestBodiesIn());
-        ResponsesBuilder::in($this->responsesIn());
-        SchemasBuilder::in($this->schemasIn());
-        SecuritySchemesBuilder::in($this->securitySchemesIn());
+        $this->app->bind(CallbacksBuilder::class, function() {
+            return new CallbacksBuilder($this->getPathsFromConfig('callbacks'));
+        });
+
+        $this->app->bind(RequestBodiesBuilder::class, function() {
+            return new RequestBodiesBuilder($this->getPathsFromConfig('request_bodies'));
+        });
+
+        $this->app->bind(ResponsesBuilder::class, function() {
+            return new ResponsesBuilder($this->getPathsFromConfig('responses'));
+        });
+
+        $this->app->bind(SchemasBuilder::class, function($app) {
+            return new SchemasBuilder($this->getPathsFromConfig('schemas'));
+        });
+
+        $this->app->bind(SecuritySchemesBuilder::class, function() {
+            return new SecuritySchemesBuilder($this->getPathsFromConfig('security_schemes'));
+        });
 
         $this->app->singleton(Generator::class, static function ($app) {
             $config = config('openapi');
@@ -48,7 +63,7 @@ class OpenApiServiceProvider extends ServiceProvider
             );
         });
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
     }
 
     public function register(): void
@@ -77,45 +92,24 @@ class OpenApiServiceProvider extends ServiceProvider
 
     protected function registerAnnotations(): void
     {
-        $files = glob(__DIR__.'/Annotations/*.php');
+        $files = glob(__DIR__ . '/Annotations/*.php');
 
         foreach ($files as $file) {
             AnnotationRegistry::registerFile($file);
         }
     }
 
-    protected function callbacksIn(): array
+    private function getPathsFromConfig(string $type): array
     {
-        return [
-            app_path('OpenApi/Callbacks'),
-        ];
-    }
+        $directories = config('openapi.locations.' . $type, []);
 
-    protected function requestBodiesIn(): array
-    {
-        return [
-            app_path('OpenApi/RequestBodies'),
-        ];
-    }
+        foreach ($directories as &$directory) {
+            $directory = glob($directory, GLOB_ONLYDIR);
+        }
 
-    protected function responsesIn(): array
-    {
-        return [
-            app_path('OpenApi/Responses'),
-        ];
-    }
-
-    protected function schemasIn(): array
-    {
-        return [
-            app_path('OpenApi/Schemas'),
-        ];
-    }
-
-    protected function securitySchemesIn(): array
-    {
-        return [
-            app_path('OpenApi/SecuritySchemes'),
-        ];
+        return (new Collection($directories))
+            ->flatten()
+            ->unique()
+            ->toArray();
     }
 }
