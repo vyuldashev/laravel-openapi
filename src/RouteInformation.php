@@ -44,7 +44,7 @@ class RouteInformation
                     return Str::lower($value);
                 })
                 ->filter(static function ($value) {
-                    return !in_array($value, ['head', 'options'], true);
+                    return ! in_array($value, ['head', 'options'], true);
                 })
                 ->first();
 
