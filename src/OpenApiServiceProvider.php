@@ -24,29 +24,29 @@ class OpenApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/openapi.php' => config_path('openapi.php'),
+                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
             ], 'openapi-config');
         }
 
         $this->registerAnnotations();
 
-        $this->app->bind(CallbacksBuilder::class, function() {
+        $this->app->bind(CallbacksBuilder::class, function () {
             return new CallbacksBuilder($this->getPathsFromConfig('callbacks'));
         });
 
-        $this->app->bind(RequestBodiesBuilder::class, function() {
+        $this->app->bind(RequestBodiesBuilder::class, function () {
             return new RequestBodiesBuilder($this->getPathsFromConfig('request_bodies'));
         });
 
-        $this->app->bind(ResponsesBuilder::class, function() {
+        $this->app->bind(ResponsesBuilder::class, function () {
             return new ResponsesBuilder($this->getPathsFromConfig('responses'));
         });
 
-        $this->app->bind(SchemasBuilder::class, function($app) {
+        $this->app->bind(SchemasBuilder::class, function ($app) {
             return new SchemasBuilder($this->getPathsFromConfig('schemas'));
         });
 
-        $this->app->bind(SecuritySchemesBuilder::class, function() {
+        $this->app->bind(SecuritySchemesBuilder::class, function () {
             return new SecuritySchemesBuilder($this->getPathsFromConfig('security_schemes'));
         });
 
@@ -63,13 +63,13 @@ class OpenApiServiceProvider extends ServiceProvider
             );
         });
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/openapi.php',
+            __DIR__.'/../config/openapi.php',
             'openapi'
         );
 
@@ -92,7 +92,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
     protected function registerAnnotations(): void
     {
-        $files = glob(__DIR__ . '/Annotations/*.php');
+        $files = glob(__DIR__.'/Annotations/*.php');
 
         foreach ($files as $file) {
             AnnotationRegistry::registerFile($file);
@@ -101,7 +101,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
     private function getPathsFromConfig(string $type): array
     {
-        $directories = config('openapi.locations.' . $type, []);
+        $directories = config('openapi.locations.'.$type, []);
 
         foreach ($directories as &$directory) {
             $directory = glob($directory, GLOB_ONLYDIR);

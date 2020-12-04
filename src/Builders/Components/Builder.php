@@ -43,7 +43,7 @@ abstract class Builder
 
                 return
                     ($collectionAnnotation && $collectionAnnotation->name === ['*']) ||
-                    (!$collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
+                    (! $collectionAnnotation && $collection === Generator::COLLECTION_DEFAULT) ||
                     ($collectionAnnotation && in_array($collection, $collectionAnnotation->name ?? [], true));
             })
             ->map(static function (ReflectionClass $reflectionClass) {

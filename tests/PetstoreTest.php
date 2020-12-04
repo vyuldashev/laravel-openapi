@@ -22,7 +22,7 @@ class PetstoreTest extends TestCase
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('openapi.locations.schemas', [
-            __DIR__ . '/../examples/petstore/OpenApi/Schemas',
+            __DIR__.'/../examples/petstore/OpenApi/Schemas',
         ]);
     }
 
