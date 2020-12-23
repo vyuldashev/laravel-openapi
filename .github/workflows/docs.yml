@@ -16,7 +16,7 @@ jobs:
 
       - name: Build
         uses: actions/setup-node@v1
-        run: |
-          npm ci
-          npm run docs:build
+
+      - run: npm ci
+      - run: npm run docs:build
 
