@@ -1,0 +1,22 @@
+name: Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: actions/setup-node@v1
+        run: |
+          npm ci
+          npm run docs:build
+
