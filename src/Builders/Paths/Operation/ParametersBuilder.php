@@ -35,6 +35,9 @@ class ParametersBuilder
                         return $reflectionParameter->name === $parameter['name'];
                     });
 
+                // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
+                if($reflectionParameter && $reflectionParameter->getType() == null) return;
+                
                 if ($reflectionParameter) {
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
@@ -49,7 +52,8 @@ class ParametersBuilder
                     ->required()
                     ->description(optional(optional($description)->getDescription())->render())
                     ->schema($schema);
-            });
+            })
+            ->filter();
     }
 
     protected function buildAnnotation(RouteInformation $route): Collection
