@@ -36,11 +36,10 @@ class ParametersBuilder
                     });
  
                 if ($reflectionParameter) {
-                    // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)    
-                    if($reflectionParameter->getType() == null) {
+                    // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
+                    if ($reflectionParameter->getType() == null) {
                         return null;
                     }
-                    
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
 
