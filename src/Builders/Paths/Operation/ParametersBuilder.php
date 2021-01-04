@@ -37,7 +37,7 @@ class ParametersBuilder
 
                 // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
                  if ($reflectionParameter && $reflectionParameter->getType() == null) {
-+                    return;
++                    return null;
 +                }
                 
                 if ($reflectionParameter) {
