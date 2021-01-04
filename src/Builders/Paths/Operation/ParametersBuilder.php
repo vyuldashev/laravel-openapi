@@ -34,13 +34,13 @@ class ParametersBuilder
                     ->first(static function (ReflectionParameter $reflectionParameter) use ($parameter) {
                         return $reflectionParameter->name === $parameter['name'];
                     });
-
-                // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
-                 if ($reflectionParameter && $reflectionParameter->getType() == null) {
-+                    return null;
-+                }
-                
+ 
                 if ($reflectionParameter) {
+                    // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)    
+                    if($reflectionParameter->getType() == null) {
+                        return null;
+                    }
+                    
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
 
