@@ -25,14 +25,15 @@ class UserCreateRequestBody extends RequestBodyFactory
 Use a request body in your controller like this:
 
 ```php
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+
 class UserController extends Controller
 {
     /**
      * Create a user.
-     *
-     * @OpenApi\Operation(tags="user")
-     * @OpenApi\RequestBody(factory="UserCreateRequestBody")
      */
+    #[OpenApi\Operation(tags: ['user'])]
+    #[OpenApi\RequestBody(factory: UserCreateRequestBody::class)]
     public function store(Request $request)
     {
     }

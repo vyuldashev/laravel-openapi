@@ -13,9 +13,7 @@ class ServersBuilder
     public function build(array $config): array
     {
         return collect($config)
-            ->map(static function (array $server) {
-                return Server::create()->url($server['url']);
-            })
+            ->map(static fn(array $server) => Server::create()->url($server['url']))
             ->toArray();
     }
 }

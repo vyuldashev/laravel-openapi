@@ -4,26 +4,24 @@ namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\BaseObject;
 use Illuminate\Support\Collection;
-use Vyuldashev\LaravelOpenApi\Annotations\Extension as ExtensionAnnotation;
+use Vyuldashev\LaravelOpenApi\Attributes\Extension as ExtensionAttribute;
 use Vyuldashev\LaravelOpenApi\Factories\ExtensionFactory;
 
 class ExtensionsBuilder
 {
-    public function build(BaseObject $object, Collection $annotations): void
+    public function build(BaseObject $object, Collection $attributes): void
     {
-        $annotations
-            ->filter(static function ($annotation) {
-                return $annotation instanceof ExtensionAnnotation;
-            })
-            ->each(static function (ExtensionAnnotation $annotation) use ($object): void {
-                if ($annotation->factory) {
+        $attributes
+            ->filter(static fn(object $attribute) => $attribute instanceof ExtensionAttribute)
+            ->each(static function (ExtensionAttribute $attribute) use ($object): void {
+                if ($attribute->factory) {
                     /** @var ExtensionFactory $factory */
-                    $factory = app($annotation->factory);
+                    $factory = app($attribute->factory);
                     $key = $factory->key();
                     $value = $factory->value();
                 } else {
-                    $key = $annotation->key;
-                    $value = $annotation->value;
+                    $key = $attribute->key;
+                    $value = $attribute->value;
                 }
 
                 $object->x(

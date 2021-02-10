@@ -4,48 +4,52 @@ declare(strict_types=1);
 
 namespace Vyuldashev\LaravelOpenApi;
 
-use Doctrine\Common\Annotations\AnnotationReader;
+use Attribute;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Collection;
+use Illuminate\Support\HigherOrderTapProxy;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
-use ReflectionMethod;
+use ReflectionAttribute;
+use ReflectionClass;
+use ReflectionException;
 use ReflectionParameter;
 
 class RouteInformation
 {
-    public $domain;
-    public $method;
-    public $uri;
-    public $name;
-    public $controller;
+    public ?string $domain;
+    public string $method;
+    public string $uri;
+    public ?string $name;
+    public string $controller;
 
-    public $parameters;
+    public array $parameters;
 
-    /** @var array */
-    public $controllerAnnotations;
+    /** @var Collection|Attribute[] */
+    public Collection|array $controllerAttributes;
 
-    public $action;
+    public string $action;
 
     /** @var ReflectionParameter[] */
-    public $actionParameters;
+    public array $actionParameters;
 
-    /** @var array */
-    public $actionAnnotations;
+    /** @var Collection|Attribute[] */
+    public Collection|array $actionAttributes;
 
-    /** @var DocBlock|null */
-    public $actionDocBlock;
+    public ?DocBlock $actionDocBlock;
 
-    public static function createFromRoute(Route $route)
+    /**
+     * @param Route $route
+     * @return HigherOrderTapProxy|mixed|RouteInformation
+     * @throws ReflectionException
+     */
+    public static function createFromRoute(Route $route): mixed
     {
         return tap(new static(), static function (self $instance) use ($route): void {
             $method = collect($route->methods())
-                ->map(static function ($value) {
-                    return Str::lower($value);
-                })
-                ->filter(static function ($value) {
-                    return ! in_array($value, ['head', 'options'], true);
-                })
+                ->map(static fn($value) => Str::lower($value))
+                ->filter(static fn($value) => ! in_array($value, ['head', 'options'], true))
                 ->first();
 
             $actionNameParts = explode('@', $route->getActionName());
@@ -57,26 +61,27 @@ class RouteInformation
                 $action = '__invoke';
             }
 
-            preg_match_all('/\{(.*?)\}/', $route->uri, $parameters);
+            preg_match_all('/{(.*?)}/', $route->uri, $parameters);
             $parameters = $parameters[1];
 
             if (count($parameters) > 0) {
-                $parameters = collect($parameters)->map(static function ($parameter) {
-                    return [
-                        'name' => Str::replaceLast('?', '', $parameter),
-                        'required' => ! Str::endsWith($parameter, '?'),
-                    ];
-                });
+                $parameters = collect($parameters)->map(static fn($parameter) => [
+                    'name' => Str::replaceLast('?', '', $parameter),
+                    'required' => ! Str::endsWith($parameter, '?'),
+                ]);
             }
 
-            $reflectionMethod = new ReflectionMethod($controller, $action);
+            $reflectionClass = new ReflectionClass($controller);
+            $reflectionMethod = $reflectionClass->getMethod($action);
 
             $docComment = $reflectionMethod->getDocComment();
             $docBlock = $docComment ? DocBlockFactory::createInstance()->create($docComment) : null;
 
-            $reader = new AnnotationReader();
-            $controllerAnnotations = $reader->getClassAnnotations($reflectionMethod->getDeclaringClass());
-            $actionAnnotations = $reader->getMethodAnnotations($reflectionMethod);
+            $controllerAttributes = collect($reflectionClass->getAttributes())
+                ->map(fn(ReflectionAttribute $attribute) => $attribute->newInstance());
+
+            $actionAttributes = collect($reflectionMethod->getAttributes())
+                ->map(fn(ReflectionAttribute $attribute) => $attribute->newInstance());
 
             $instance->domain = $route->domain();
             $instance->method = $method;
@@ -84,10 +89,10 @@ class RouteInformation
             $instance->name = $route->getName();
             $instance->controller = $controller;
             $instance->parameters = $parameters;
-            $instance->controllerAnnotations = $controllerAnnotations;
+            $instance->controllerAttributes = $controllerAttributes;
             $instance->action = $action;
             $instance->actionParameters = $reflectionMethod->getParameters();
-            $instance->actionAnnotations = $actionAnnotations;
+            $instance->actionAttributes = $actionAttributes;
             $instance->actionDocBlock = $docBlock;
         });
     }

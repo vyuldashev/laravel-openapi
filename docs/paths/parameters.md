@@ -32,17 +32,18 @@ class ListUsersParameters extends ParametersFactory
 
 ```
 
-Finally, add `Parameters` annotation below `Operation` annotation:
+Finally, add `Parameters` attribute below `Operation` attribute:
 
 ```php
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+
 class UserController extends Controller 
 {
     /**
      * List users.
-     *
-     * @Operation()
-     * @Parameters(factory="ListUsersParameters")
      */
+    #[OpenApi\Operation]
+    #[OpenApi\Parameters(factory: ListUsersParameters::class)]
     public function index() 
     {
         //
@@ -79,18 +80,19 @@ The following definition will be generated:
  
 Let's assume we have route `Route::get('/users/{user}', 'UserController@show')`. 
 
-There is no need to add `Parameters` annotation as route parameters are automatically added to parameters definition:
+There is no need to add `Parameters` attribute as route parameters are automatically added to parameters definition:
 
 ```php
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+
 class UserController extends Controller 
 {
     /**
      * Show user.
-     *
-     * @Operation()
-     *
+     * 
      * @param User $user User ID
      */
+     #[OpenApi\Operation]
     public function show(User $user)
     {
         //
