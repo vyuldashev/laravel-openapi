@@ -34,6 +34,11 @@ class ParametersBuilder
                     ->first(static fn(ReflectionParameter $reflectionParameter) => $reflectionParameter->name === $parameter['name']);
 
                 if ($reflectionParameter) {
+                    // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
+                    if ($reflectionParameter->getType() === null) {
+                        return null;
+                    }
+
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
 
@@ -45,7 +50,8 @@ class ParametersBuilder
                     ->required()
                     ->description(optional(optional($description)->getDescription())->render())
                     ->schema($schema);
-            });
+            })
+            ->filter();
     }
 
     protected function buildAttribute(RouteInformation $route): Collection
