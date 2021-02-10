@@ -18,9 +18,9 @@ class ParametersBuilder
     public function build(RouteInformation $route): array
     {
         $pathParameters = $this->buildPath($route);
-        $annotatedParameters = $this->buildAttribute($route);
+        $attributedParameters = $this->buildAttribute($route);
 
-        return $pathParameters->merge($annotatedParameters)->toArray();
+        return $pathParameters->merge($attributedParameters)->toArray();
     }
 
     protected function buildPath(RouteInformation $route): Collection
