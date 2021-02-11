@@ -12,16 +12,16 @@ use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
 class Generator
 {
-    public $version = OpenApi::OPENAPI_3_0_2;
+    public string $version = OpenApi::OPENAPI_3_0_2;
 
     public const COLLECTION_DEFAULT = 'default';
 
-    protected $config;
-    protected $infoBuilder;
-    protected $serversBuilder;
-    protected $tagsBuilder;
-    protected $pathsBuilder;
-    protected $componentsBuilder;
+    protected array $config;
+    protected InfoBuilder $infoBuilder;
+    protected ServersBuilder $serversBuilder;
+    protected TagsBuilder $tagsBuilder;
+    protected PathsBuilder $pathsBuilder;
+    protected ComponentsBuilder $componentsBuilder;
 
     public function __construct(
         array $config,
@@ -49,7 +49,7 @@ class Generator
         $paths = $this->pathsBuilder->build($collection, Arr::get($middlewares, 'paths', []));
         $components = $this->componentsBuilder->build($collection);
 
-        $openApi = OpenApi::create()
+        return OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
@@ -57,7 +57,5 @@ class Generator
             ->components($components)
             ->security(...Arr::get($this->config, 'collections.'.$collection.'.security', []))
             ->tags(...$tags);
-
-        return $openApi;
     }
 }

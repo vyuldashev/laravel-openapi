@@ -19,14 +19,12 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "ext-json": "*",
-        "doctrine/annotations": "^1.6",
-        "doctrine/dbal": "^2.9",
+        "doctrine/dbal": "^2.6|^3.0",
         "goldspecdigital/oooas": "^2.7.1",
         "laravel/framework": "5.8.*|^6.0|^7.0|^8.0",
-        "phpdocumentor/reflection-docblock": "^5.0",
-        "roave/better-reflection": "^4.0"
+        "phpdocumentor/reflection-docblock": "^5.0"
     },
     "require-dev": {
         "orchestra/testbench": "^5.3|^6.0",

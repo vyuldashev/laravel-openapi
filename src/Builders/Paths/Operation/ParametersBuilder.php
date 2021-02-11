@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use ReflectionParameter;
-use Vyuldashev\LaravelOpenApi\Annotations\Parameters;
+use Vyuldashev\LaravelOpenApi\Attributes\Parameters;
 use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 use Vyuldashev\LaravelOpenApi\SchemaHelpers;
@@ -18,9 +18,9 @@ class ParametersBuilder
     public function build(RouteInformation $route): array
     {
         $pathParameters = $this->buildPath($route);
-        $annotatedParameters = $this->buildAnnotation($route);
+        $attributedParameters = $this->buildAttribute($route);
 
-        return $pathParameters->merge($annotatedParameters)->toArray();
+        return $pathParameters->merge($attributedParameters)->toArray();
     }
 
     protected function buildPath(RouteInformation $route): Collection
@@ -31,23 +31,20 @@ class ParametersBuilder
 
                 /** @var ReflectionParameter|null $reflectionParameter */
                 $reflectionParameter = collect($route->actionParameters)
-                    ->first(static function (ReflectionParameter $reflectionParameter) use ($parameter) {
-                        return $reflectionParameter->name === $parameter['name'];
-                    });
- 
+                    ->first(static fn(ReflectionParameter $reflectionParameter) => $reflectionParameter->name === $parameter['name']);
+
                 if ($reflectionParameter) {
                     // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
-                    if ($reflectionParameter->getType() == null) {
+                    if ($reflectionParameter->getType() === null) {
                         return null;
                     }
+
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
 
                 /** @var Param $description */
                 $description = collect($route->actionDocBlock->getTagsByName('param'))
-                    ->first(static function (Param $param) use ($parameter) {
-                        return Str::snake($param->getVariableName()) === Str::snake($parameter['name']);
-                    });
+                    ->first(static fn(Param $param) => Str::snake($param->getVariableName()) === Str::snake($parameter['name']));
 
                 return Parameter::path()->name($parameter['name'])
                     ->required()
@@ -57,12 +54,10 @@ class ParametersBuilder
             ->filter();
     }
 
-    protected function buildAnnotation(RouteInformation $route): Collection
+    protected function buildAttribute(RouteInformation $route): Collection
     {
         /** @var Parameters|null $parameters */
-        $parameters = collect($route->actionAnnotations)->first(static function ($annotation) {
-            return $annotation instanceof Parameters;
-        }, []);
+        $parameters = $route->actionAttributes->first(static fn($attribute) => $attribute instanceof Parameters, []);
 
         if ($parameters) {
             /** @var ParametersFactory $parametersFactory */

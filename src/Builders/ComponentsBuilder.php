@@ -12,11 +12,11 @@ use Vyuldashev\LaravelOpenApi\Generator;
 
 class ComponentsBuilder
 {
-    protected $callbacksBuilder;
-    protected $requestBodiesBuilder;
-    protected $responsesBuilder;
-    protected $schemasBuilder;
-    protected $securitySchemesBuilder;
+    protected CallbacksBuilder $callbacksBuilder;
+    protected RequestBodiesBuilder $requestBodiesBuilder;
+    protected ResponsesBuilder $responsesBuilder;
+    protected SchemasBuilder $schemasBuilder;
+    protected SecuritySchemesBuilder $securitySchemesBuilder;
 
     public function __construct(
         CallbacksBuilder $callbacksBuilder,

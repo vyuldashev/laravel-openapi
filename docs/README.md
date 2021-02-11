@@ -25,8 +25,6 @@ php artisan vendor:publish --provider="Vyuldashev\LaravelOpenApi\OpenApiServiceP
 
 ## Additional information
 
-*This package use some annotations. If you are using PhpStorm consider installing [PHP Annotations](https://plugins.jetbrains.com/plugin/7320-php-annotations/) plugin.*
-
 Before starting using this package you need to be familiar with OpenAPI specification and it's terms.
 
 Here are some useful links that will help to gain enough knowledge:

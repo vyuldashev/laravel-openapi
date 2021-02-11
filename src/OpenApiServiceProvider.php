@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Vyuldashev\LaravelOpenApi;
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\CallbacksBuilder;
@@ -28,8 +27,6 @@ class OpenApiServiceProvider extends ServiceProvider
             ], 'openapi-config');
         }
 
-        $this->registerAnnotations();
-
         $this->app->bind(CallbacksBuilder::class, function () {
             return new CallbacksBuilder($this->getPathsFromConfig('callbacks'));
         });
@@ -42,7 +39,7 @@ class OpenApiServiceProvider extends ServiceProvider
             return new ResponsesBuilder($this->getPathsFromConfig('responses'));
         });
 
-        $this->app->bind(SchemasBuilder::class, function ($app) {
+        $this->app->bind(SchemasBuilder::class, function () {
             return new SchemasBuilder($this->getPathsFromConfig('schemas'));
         });
 
@@ -87,15 +84,6 @@ class OpenApiServiceProvider extends ServiceProvider
                 Console\SchemaFactoryMakeCommand::class,
                 Console\SecuritySchemeFactoryMakeCommand::class,
             ]);
-        }
-    }
-
-    protected function registerAnnotations(): void
-    {
-        $files = glob(__DIR__.'/Annotations/*.php');
-
-        foreach ($files as $file) {
-            AnnotationRegistry::registerFile($file);
         }
     }
 

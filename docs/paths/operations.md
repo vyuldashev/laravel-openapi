@@ -2,24 +2,21 @@
 
 Routes are not automatically added to specification.
 
-In order to add route, you need to add `PathItem` annotation to controller class and `Operation` to particular action method.
-This annotations will indicate that route which has `UserController@store` definition should be included in `paths`.
+In order to add route, you need to add `PathItem` attribute to controller class and `Operation` to particular action method.
+This attribute will indicate that route which has `UserController@store` definition should be included in `paths`.
 
 ```php
-use Vyuldashev\LaravelOpenApi\Annotations as OpenApi;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
-/**
- * @OpenApi\PathItem()
- */
+#[OpenApi\PathItem]
 class UserController extends Controller
 {
     /**
      * Create new user.
      *
      * Creates new user or returns already existing user by email.
-     *
-     * @OpenApi\Operation()
      */
+     #[OpenApi\Operation]
     public function store(Request $request)
     {
         //
@@ -64,18 +61,19 @@ To use tags, first set them up in `config/openapi.php`:
     ],
 ```
 
-Then add them using in the `Operation` annotation on your controller:
+Then add them using in the `Operation` attribute on your controller:
 
 ```php
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+
 class UserController extends Controller
 {
     /**
      * Create new user.
      *
      * Creates new user or returns already existing user by email.
-     *
-     * @Operation(tags="user")
      */
+     #[OpenApi\Operation(tags: ['user'])]
     public function store(Request $request)
     {
         //
@@ -89,9 +87,11 @@ When using [resource controllers](https://laravel.com/docs/master/controllers#re
 
 When a controller method accepts multiple methods, by default only the first is included in the generated documentation.
 
-To override which verb or method should be used on a particular operation, add the `method` parameter the `Operation` annotation on your controller:
+To override which verb or method should be used on a particular operation, add the `method` parameter the `Operation` attribute on your controller:
 
 ```php
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+
 class UserController extends Controller
 {
     /**
@@ -99,8 +99,8 @@ class UserController extends Controller
      *
      * Updates a user.
      *
-     * @Operation(tags="user",method="PATCH")
      */
+    #[OpenApi\Operation(tags: ['tags'], method: 'PATCH')]
     public function update(Request $request)
     {
         //

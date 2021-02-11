@@ -2,20 +2,19 @@
 
 namespace Examples\Petstore;
 
-use Vyuldashev\LaravelOpenApi\Annotations as OpenApi;
+use Examples\Petstore\OpenApi\Parameters\ListPetsParameters;
+use Examples\Petstore\OpenApi\Responses\ErrorValidationResponse;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
-/**
- * @OpenApi\PathItem()
- */
+#[OpenApi\PathItem]
 class PetController
 {
     /**
      * List all pets.
-     *
-     * @OpenApi\Operation(id="listPets")
-     * @OpenApi\Parameters(factory="Examples\Petstore\OpenApi\Parameters\ListPetsParameters")
-     * @OpenApi\Response(factory="Examples\Petstore\OpenApi\Responses\ErrorValidationResponse", statusCode=422)
      */
+    #[OpenApi\Operation('listPets')]
+    #[OpenApi\Parameters(ListPetsParameters::class)]
+    #[OpenApi\Response(ErrorValidationResponse::class, 422)]
     public function index()
     {
     }
