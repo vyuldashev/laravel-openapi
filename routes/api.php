@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Vyuldashev\LaravelOpenApi\Http\OpenApiController;
 
 Route::group(['as' => 'openapi.'], function () {
-    foreach (config('openapi.collections') as $name => $config) {
+    foreach (config('openapi.collections', []) as $name => $config) {
         $uri = Arr::get($config, 'route.uri');
 
         if (! $uri) {
