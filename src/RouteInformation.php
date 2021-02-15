@@ -24,7 +24,7 @@ class RouteInformation
     public ?string $name;
     public string $controller;
 
-    public array $parameters;
+    public Collection $parameters;
 
     /** @var Collection|Attribute[] */
     public Collection|array $controllerAttributes;
@@ -62,10 +62,10 @@ class RouteInformation
             }
 
             preg_match_all('/{(.*?)}/', $route->uri, $parameters);
-            $parameters = $parameters[1];
+            $parameters = collect($parameters[1]);
 
             if (count($parameters) > 0) {
-                $parameters = collect($parameters)->map(static fn($parameter) => [
+                $parameters = $parameters->map(static fn($parameter) => [
                     'name' => Str::replaceLast('?', '', $parameter),
                     'required' => ! Str::endsWith($parameter, '?'),
                 ]);
