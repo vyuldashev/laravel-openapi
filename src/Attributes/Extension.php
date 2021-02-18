@@ -6,7 +6,7 @@ use Attribute;
 use InvalidArgumentException;
 use Vyuldashev\LaravelOpenApi\Factories\ExtensionFactory;
 
-#[Attribute]
+#[Attribute(Attribute::IS_REPEATABLE)]
 class Extension
 {
     public ?string $factory;

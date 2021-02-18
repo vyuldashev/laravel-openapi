@@ -41,10 +41,10 @@ class RouteInformation
 
     /**
      * @param Route $route
-     * @return HigherOrderTapProxy|mixed|RouteInformation
+     * @return RouteInformation
      * @throws ReflectionException
      */
-    public static function createFromRoute(Route $route): mixed
+    public static function createFromRoute(Route $route): RouteInformation
     {
         return tap(new static(), static function (self $instance) use ($route): void {
             $method = collect($route->methods())
