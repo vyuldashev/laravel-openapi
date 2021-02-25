@@ -9,9 +9,17 @@ class InfoBuilder
 {
     public function build(array $config): Info
     {
-        return Info::create()
+        $info = Info::create()
             ->title(Arr::get($config, 'title'))
             ->description(Arr::get($config, 'description'))
             ->version(Arr::get($config, 'version'));
+
+        $extensions = $config['extensions'] ?? [];
+
+        foreach ($extensions as $key => $value) {
+            $info->x($key, $value);
+        }
+
+        return $info;
     }
 }
