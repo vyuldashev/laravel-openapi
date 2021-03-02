@@ -2,12 +2,10 @@
 
 namespace Vyuldashev\LaravelOpenApi\Factories;
 
-use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
 use Vyuldashev\LaravelOpenApi\Concerns\Referencable;
+use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyFactoryInterface;
 
-abstract class RequestBodyFactory
+abstract class RequestBodyFactory implements RequestBodyFactoryInterface
 {
     use Referencable;
-
-    abstract public function build(): RequestBody;
 }

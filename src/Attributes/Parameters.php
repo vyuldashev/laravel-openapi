@@ -4,7 +4,7 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
-use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
+use Vyuldashev\LaravelOpenApi\Contracts\ParametersFactoryInterface;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 class Parameters
@@ -13,10 +13,10 @@ class Parameters
 
     public function __construct(string $factory)
     {
-        $this->factory = class_exists($factory) ? $factory : app()->getNamespace().'OpenApi\\Parameters\\'.$factory;
+        $this->factory = class_exists($factory) ? $factory : app()->getNamespace() . 'OpenApi\\Parameters\\' . $factory;
 
-        if (! is_a($this->factory, ParametersFactory::class, true)) {
-            throw new InvalidArgumentException('Factory class must be instance of ParametersFactory');
+        if (!is_a($this->factory, ParametersFactoryInterface::class, true)) {
+            throw new InvalidArgumentException('Factory class must be instance of ParametersFactoryInterface');
         }
     }
 }

@@ -17,12 +17,13 @@ class PetstoreTest extends TestCase
         parent::setUp();
 
         Route::get('/pets', [PetController::class, 'index']);
+        Route::post('/pet', [PetController::class, 'create']);
     }
 
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('openapi.locations.schemas', [
-            __DIR__.'/../examples/petstore/OpenApi/Schemas',
+            __DIR__ . '/../examples/petstore/OpenApi/Schemas',
         ]);
     }
 
@@ -80,5 +81,20 @@ class PetstoreTest extends TestCase
                 ],
             ],
         ], $spec['components']['schemas']['Pet']);
+
+        self::assertEquals([
+            'summary' => 'Create pet.',
+            'operationId' => 'createPet',
+            'requestBody' => [
+                "description" => "Pet data",
+                "content" => [
+                    "application/json" => [
+                        "schema" => [
+                            '$ref' => "#/components/schemas/Pet",
+                        ]
+                    ],
+                ],
+            ],
+        ], $spec['paths']['/pet']['post']);
     }
 }
