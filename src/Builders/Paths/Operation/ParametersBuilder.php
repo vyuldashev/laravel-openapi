@@ -62,7 +62,8 @@ class ParametersBuilder
         if ($parameters) {
             /** @var ParametersFactoryInterface $parametersFactory */
             $parametersFactory = app($parameters->factory);
-
+            // little bit magic, add custom data into factory
+            $parametersFactory->data = $parameters->data;
             $parameters = $parametersFactory->build();
         }
 

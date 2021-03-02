@@ -15,9 +15,12 @@ class Response
 
     public ?string $description;
 
-    public function __construct(string $factory, int $statusCode = null, string $description = null)
+    public $data;
+
+    public function __construct(string $factory, int $statusCode = null, string $description = null, $data = null)
     {
         $this->factory = class_exists($factory) ? $factory : app()->getNamespace() . 'OpenApi\\Responses\\' . $factory;
+        $this->data = $data;
 
         if (!is_a($this->factory, ResponseFactoryInterface::class, true)) {
             throw new InvalidArgumentException('Factory class must be instance of ResponseFactoryInterface');

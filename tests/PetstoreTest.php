@@ -43,7 +43,7 @@ class PetstoreTest extends TestCase
                 [
                     'name' => 'limit',
                     'in' => 'query',
-                    'description' => 'How many items to return at one time (max 100)',
+                    'description' => 'How many items to return at one time (max 100) Parameters custom data',
                     'required' => false,
                     'schema' => [
                         'format' => 'int32',
@@ -86,7 +86,7 @@ class PetstoreTest extends TestCase
             'summary' => 'Create pet.',
             'operationId' => 'createPet',
             'requestBody' => [
-                "description" => "Pet data",
+                "description" => "My custom data",
                 "content" => [
                     "application/json" => [
                         "schema" => [

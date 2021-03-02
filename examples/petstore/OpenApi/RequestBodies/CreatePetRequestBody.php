@@ -18,7 +18,7 @@ class CreatePetRequestBody implements RequestBodyFactoryInterface
     public function build(): RequestBody
     {
         return RequestBody::create('UserCreate')
-            ->description('Pet data')
+            ->description($this->data['custom'])
             ->content(
                 MediaType::json()->schema(PetSchema::ref())
             );
