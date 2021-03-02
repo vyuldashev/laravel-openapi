@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use ReflectionParameter;
 use Vyuldashev\LaravelOpenApi\Attributes\Parameters;
-use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
+use Vyuldashev\LaravelOpenApi\Contracts\ParametersFactoryInterface;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 use Vyuldashev\LaravelOpenApi\SchemaHelpers;
 
@@ -60,7 +60,7 @@ class ParametersBuilder
         $parameters = $route->actionAttributes->first(static fn($attribute) => $attribute instanceof Parameters, []);
 
         if ($parameters) {
-            /** @var ParametersFactory $parametersFactory */
+            /** @var ParametersFactoryInterface $parametersFactory */
             $parametersFactory = app($parameters->factory);
 
             $parameters = $parametersFactory->build();

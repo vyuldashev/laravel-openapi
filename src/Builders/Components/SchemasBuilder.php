@@ -3,7 +3,7 @@
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
-use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
+use Vyuldashev\LaravelOpenApi\Contracts\SchemaFactoryInterface;
 use Vyuldashev\LaravelOpenApi\Generator;
 
 class SchemasBuilder extends Builder
@@ -13,11 +13,11 @@ class SchemasBuilder extends Builder
         return $this->getAllClasses($collection)
             ->filter(static function ($class) {
                 return
-                    is_a($class, SchemaFactory::class, true) &&
+                    is_a($class, SchemaFactoryInterface::class, true) &&
                     is_a($class, Reusable::class, true);
             })
             ->map(static function ($class) {
-                /** @var SchemaFactory $instance */
+                /** @var SchemaFactoryInterface $instance */
                 $instance = app($class);
 
                 return $instance->build();
