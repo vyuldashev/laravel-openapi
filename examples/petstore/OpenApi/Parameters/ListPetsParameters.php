@@ -17,7 +17,7 @@ class ListPetsParameters extends ParametersFactory
 
             Parameter::query()
                 ->name('limit')
-                ->description('How many items to return at one time (max 100)')
+                ->description('How many items to return at one time (max 100) ' . $this->data)
                 ->required(false)
                 ->schema(
                     Schema::integer()->format(Schema::FORMAT_INT32)

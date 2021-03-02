@@ -18,7 +18,8 @@ class RequestBodyBuilder
         if ($requestBody) {
             /** @var RequestBodyFactoryInterface $requestBodyFactory */
             $requestBodyFactory = app($requestBody->factory);
-
+            // little bit magic, add custom data into factory
+            $requestBodyFactory->data = $requestBody->data;
             $requestBody = $requestBodyFactory->build();
 
             if ($requestBodyFactory instanceof Reusable) {
