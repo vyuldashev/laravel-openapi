@@ -50,11 +50,11 @@ class OperationsBuilder
         foreach ($routes as $route) {
             /** @var OperationAttribute|null $operationAttribute */
             $operationAttribute = $route->actionAttributes
-                ->first(static fn(object $attribute) => $attribute instanceof OperationAttribute);
+                ->first(static fn (object $attribute) => $attribute instanceof OperationAttribute);
 
             $operationId = optional($operationAttribute)->id;
             $tags = $operationAttribute->tags ?? [];
-            $security = array_map(fn($s) => SecurityRequirement::create()->securityScheme($s), $operationAttribute->security);
+            $security = array_map(fn ($s) => SecurityRequirement::create()->securityScheme($s), $operationAttribute->security);
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
