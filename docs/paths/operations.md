@@ -39,6 +39,10 @@ The following definition will be generated:
 }
 ```
 
+## Security
+
+See [Security](../security.md#operation-level-example)
+
 ## Tags
 
 Tags can be used for logical grouping of operations by resources or any other qualifier.
