@@ -12,12 +12,16 @@ class Operation
     /** @var array<string> */
     public array $tags;
 
+    /** @var array<string> */
+    public array $security;
+
     public ?string $method;
 
-    public function __construct(string $id = null, array $tags = [], string $method = null)
+    public function __construct(string $id = null, array $tags = [], array $security = [], string $method = null)
     {
         $this->id = $id;
         $this->tags = $tags;
+        $this->security = $security;
         $this->method = $method;
     }
 }
