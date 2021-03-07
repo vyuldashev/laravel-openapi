@@ -42,7 +42,7 @@ class OperationsBuilder
      * @return array
      * @throws InvalidArgumentException
      */
-    public function build(array|Collection $routes): array
+    public function build(array | Collection $routes): array
     {
         $operations = [];
 
@@ -54,7 +54,7 @@ class OperationsBuilder
 
             $operationId = optional($operationAttribute)->id;
             $tags = $operationAttribute->tags ?? [];
-            $security = array_map(fn ($s) => SecurityRequirement::create()->securityScheme($s), $operationAttribute->security);
+            $security = array_map(fn($s) => SecurityRequirement::create()->securityScheme($s), $operationAttribute->security);
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
