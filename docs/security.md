@@ -31,7 +31,7 @@ class UserController extends Controller
      *
      * Creates new user or returns already existing user by email.
      */
-     #[OpenApi\Operation(security: ['BearerToken'])]
+     #[OpenApi\Operation(security: 'BearerToken')]
     public function store(Request $request)
     {
         //

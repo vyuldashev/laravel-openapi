@@ -8,11 +8,14 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
+use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\RequestBodyBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
+use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class OperationsBuilder
@@ -22,19 +25,22 @@ class OperationsBuilder
     protected RequestBodyBuilder $requestBodyBuilder;
     protected ResponsesBuilder $responsesBuilder;
     protected ExtensionsBuilder $extensionsBuilder;
+    protected SecurityBuilder $securityBuilder;
 
     public function __construct(
         CallbacksBuilder $callbacksBuilder,
         ParametersBuilder $parametersBuilder,
         RequestBodyBuilder $requestBodyBuilder,
         ResponsesBuilder $responsesBuilder,
-        ExtensionsBuilder $extensionsBuilder
+        ExtensionsBuilder $extensionsBuilder,
+        SecurityBuilder $securityBuilder
     ) {
         $this->callbacksBuilder = $callbacksBuilder;
         $this->parametersBuilder = $parametersBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;
         $this->responsesBuilder = $responsesBuilder;
         $this->extensionsBuilder = $extensionsBuilder;
+        $this->securityBuilder = $securityBuilder;
     }
 
     /**
@@ -54,12 +60,12 @@ class OperationsBuilder
 
             $operationId = optional($operationAttribute)->id;
             $tags = $operationAttribute->tags ?? [];
-            $security = array_map(fn ($s) => SecurityRequirement::create()->securityScheme($s), $operationAttribute->security);
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
             $responses = $this->responsesBuilder->build($route);
             $callbacks = $this->callbacksBuilder->build($route);
+            $security = $this->securityBuilder->build($route);
 
             $operation = Operation::create()
                 ->action(Str::lower($operationAttribute->method) ?: $route->method)
