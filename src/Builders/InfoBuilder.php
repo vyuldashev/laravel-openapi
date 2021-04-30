@@ -2,9 +2,9 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders;
 
-use Illuminate\Support\Arr;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Contact;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
+use Illuminate\Support\Arr;
 
 class InfoBuilder
 {
