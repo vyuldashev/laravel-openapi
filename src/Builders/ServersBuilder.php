@@ -15,9 +15,9 @@ class ServersBuilder
     public function build(array $config): array
     {
         return collect($config)
-            ->map(static function(array $server) {
+            ->map(static function (array $server) {
                 $variables = collect(Arr::get($server, 'variables'))
-                    ->map(function(array $variable, string $key) {
+                    ->map(function (array $variable, string $key) {
                         $tmp = ServerVariable::create($key)
                             ->default(Arr::get($variable, 'default'))
                             ->description(Arr::get($variable, 'description'));
@@ -25,9 +25,11 @@ class ServersBuilder
                             // exist
                             return $tmp->enum(...Arr::get($variable, 'enum'));
                         }
+
                         return $tmp;
                     })
                     ->toArray();
+
                 return Server::create()
                     ->url(Arr::get($server, 'url'))
                     ->description(Arr::get($server, 'description'))
