@@ -15,6 +15,8 @@ return [
             'servers' => [
                 [
                     'url' => env('APP_URL'),
+                    'description' => null,
+                    'variables' => [],
                 ],
             ],
 
