@@ -26,6 +26,7 @@ module.exports = {
       '/schemas',
       '/collections',
       '/middlewares',
+      '/security'
     ],
     displayAllHeaders: true,
     sidebarDepth: 2,
