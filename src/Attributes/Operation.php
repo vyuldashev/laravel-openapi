@@ -32,11 +32,11 @@ class Operation
         $this->method = $method;
 
         if ($security) {
-            $this->security = class_exists($security) ? $security : app()->getNamespace().'OpenApi\\SecuritySchemes\\'.$security.'SecurityScheme';
+            $this->security = class_exists($security) ? $security : app()->getNamespace().'OpenApi\\SecuritySchemes\\'.$security;
 
             if (! is_a($this->security, SecuritySchemeFactory::class, true)) {
                 throw new InvalidArgumentException(
-                    sprintf('Security class is either not declared or is not an instance of [%s]', SecuritySchemeFactory::class)
+                    sprintf('Security class is either not declared or is not an instance of %s', SecuritySchemeFactory::class)
                 );
             }
         }
