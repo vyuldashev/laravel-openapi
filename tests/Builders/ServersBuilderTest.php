@@ -20,7 +20,6 @@ class ServersBuilderTest extends TestCase
         $SUT = new ServersBuilder();
         $servers = $SUT->build($config);
         $this->assertSameAssociativeArray($expected[0], $servers[0]->toArray());
-        var_dump($servers[0]->toArray());
     }
 
     public function providerBuild(): array

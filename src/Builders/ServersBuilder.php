@@ -18,15 +18,14 @@ class ServersBuilder
             ->map(static function (array $server) {
                 $variables = collect(Arr::get($server, 'variables'))
                     ->map(function (array $variable, string $key) {
-                        $tmp = ServerVariable::create($key)
+                        $serverVariable = ServerVariable::create($key)
                             ->default(Arr::get($variable, 'default'))
                             ->description(Arr::get($variable, 'description'));
                         if (is_array(Arr::get($variable, 'enum'))) {
-                            // exist
-                            return $tmp->enum(...Arr::get($variable, 'enum'));
+                            return $serverVariable->enum(...Arr::get($variable, 'enum'));
                         }
 
-                        return $tmp;
+                        return $serverVariable;
                     })
                     ->toArray();
 
