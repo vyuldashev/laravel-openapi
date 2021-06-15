@@ -37,6 +37,7 @@ class GenerateCommand extends Command
 
         $this->line($this->getContents());
 
+        $this->validateOpenApiSpec();
         if ($this->filePath) {
             $this->saveToFile();
         }
@@ -73,5 +74,31 @@ class GenerateCommand extends Command
             '-openapi-'.now()->toDateString(),
             '.'.strtolower($this->format),
         ])->implode('');
+    }
+
+    private function validateOpenApiSpec(): void
+    {
+        try {
+            $this->openApi->validate();
+        } catch (ValidationException $e) {
+            $this->handleValidationErrors($e);
+        }
+    }
+
+    private function handleValidationErrors(ValidationException $e): void
+    {
+        $errors = $e->getErrors();
+        $this->handleDefaultResponse($errors);
+    }
+
+    private function handleDefaultResponse(array $errors): void
+    {
+        $responsesRequiredNb = collect($errors)->where('message', 'The property responses is required')->count();
+
+        if ($responsesRequiredNb > 0) {
+            $this->warn(__('Your OpenAPI spec is invalid due to :COUNT missing responses please make sure you set the default responses in config/openapi.php', [
+                'count' => $responsesRequiredNb,
+            ]));
+        }
     }
 }

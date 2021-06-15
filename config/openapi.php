@@ -30,6 +30,13 @@ return [
 
             ],
 
+            'responses' => [
+                [
+                    'code' => 200,
+                    'description' => 'OK',
+                ],
+            ],
+
             'security' => [
                 // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
             ],

@@ -4,6 +4,7 @@ namespace Vyuldashev\LaravelOpenApi\Builders\Paths;
 
 use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
@@ -63,6 +64,15 @@ class OperationsBuilder
             $responses = $this->responsesBuilder->build($route);
             $callbacks = $this->callbacksBuilder->build($route);
             $security = $this->securityBuilder->build($route);
+
+            $defaultResponses = config('openapi.collections.default.responses');
+            if (!$responses && $defaultResponses) {
+                $responses = collect($defaultResponses)->map(
+                    fn($response) => Response::create()
+                        ->statusCode($response['code'])
+                        ->description($response['description'])
+                )->toArray();
+            }
 
             $operation = Operation::create()
                 ->action(Str::lower($operationAttribute->method) ?: $route->method)
