@@ -47,7 +47,7 @@ class ParametersBuilder
                     ->first(static fn(Param $param) => Str::snake($param->getVariableName()) === Str::snake($parameter['name']));
 
                 return Parameter::path()->name($parameter['name'])
-                    ->required($parameter['required'] ?? true)
+                    ->required()
                     ->description(optional(optional($description)->getDescription())->render())
                     ->schema($schema);
             })
