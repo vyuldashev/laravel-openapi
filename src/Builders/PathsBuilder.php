@@ -87,7 +87,6 @@ class PathsBuilder
 
         if (config('openapi.clone_routes_with_optional_params', false)) {
             $this->cloneRoutesWithOptionalParameters();
-            dd($this->routes);
         }
 
         return $this->routes;
