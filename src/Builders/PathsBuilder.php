@@ -6,6 +6,7 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Attributes;
 use Vyuldashev\LaravelOpenApi\Attributes\Collection as CollectionAttribute;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
@@ -15,13 +16,11 @@ use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class PathsBuilder
 {
-    protected OperationsBuilder $operationsBuilder;
+    protected Collection $routes;
 
     public function __construct(
-        OperationsBuilder $operationsBuilder
-    ) {
-        $this->operationsBuilder = $operationsBuilder;
-    }
+        protected OperationsBuilder $operationsBuilder
+    ) {}
 
     /**
      * @param string $collection
@@ -73,7 +72,7 @@ class PathsBuilder
     protected function routes(): Collection
     {
         /** @noinspection CollectFunctionInCollectionInspection */
-        return collect(app(Router::class)->getRoutes())
+        $this->routes = collect(app(Router::class)->getRoutes())
             ->filter(static fn(Route $route) => $route->getActionName() !== 'Closure')
             ->map(static fn(Route $route) => RouteInformation::createFromRoute($route))
             ->filter(static function (RouteInformation $route) {
@@ -85,5 +84,32 @@ class PathsBuilder
 
                 return $pathItem && $operation;
             });
+
+        if (config('openapi.clone_routes_with_optional_params', false)) {
+            $this->cloneRoutesWithOptionalParameters();
+            dd($this->routes);
+        }
+
+        return $this->routes;
+    }
+
+    /**
+     * @todo Add support for routes with multiple optional parameters, currently only supports one optional parameter
+     */
+    protected function cloneRoutesWithOptionalParameters(): void
+    {
+        $routes = $this->routes;
+        $routes->filter(
+            fn(RouteInformation $route) => $route->parameters->where('required', false)->isNotEmpty()
+        )->each(function(RouteInformation $route) {
+            $route = clone $route;
+            $uri = Str::of($route->uri);
+            if ($uri->substrCount('?') === 1) {
+                $route->uri = $uri->replaceMatches('/\{(.*?)\}/', '')->rtrim('/');
+                $route->parameters = collect();
+                $route->actionParameters = [];
+                $this->routes->prepend($route);
+            }
+        });
     }
 }

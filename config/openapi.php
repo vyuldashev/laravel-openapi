@@ -75,4 +75,6 @@ return [
         ],
     ],
 
+    'clone_routes_with_optional_params' => true,
+
 ];
