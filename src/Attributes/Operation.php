@@ -1,5 +1,4 @@
 <?php
-
 namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
@@ -31,10 +30,16 @@ class Operation
         $this->tags = $tags;
         $this->method = $method;
 
-        if ($security) {
-            $this->security = class_exists($security) ? $security : app()->getNamespace().'OpenApi\\SecuritySchemes\\'.$security;
+        if ($security === '') {
+            //user wants to turn off security on this operation
+            $this->security = $security;
+            return;
+        }
 
-            if (! is_a($this->security, SecuritySchemeFactory::class, true)) {
+        if ($security) {
+            $this->security = class_exists($security) ? $security : app()->getNamespace() . 'OpenApi\\SecuritySchemes\\' . $security;
+
+            if (!is_a($this->security, SecuritySchemeFactory::class, true)) {
                 throw new InvalidArgumentException(
                     sprintf('Security class is either not declared or is not an instance of %s', SecuritySchemeFactory::class)
                 );
