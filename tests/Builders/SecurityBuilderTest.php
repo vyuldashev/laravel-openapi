@@ -155,6 +155,11 @@ class SecurityBuilderTest extends TestCase
         $routeInfo->action = 'get';
         $routeInfo->name = 'test route';
         $routeInfo->actionAttributes = collect([
+            /**
+             * we can set secuity to null to turn it off, as
+             * that's the default value. So '' is next best
+             * option?
+            */
             new AttributesOperation(security: ''),
         ]);
         $routeInfo->uri = '/example';
