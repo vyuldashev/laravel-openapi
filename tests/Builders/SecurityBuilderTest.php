@@ -1,6 +1,7 @@
 <?php
 namespace Vyuldashev\LaravelOpenApi\Tests\Builders;
 
+use phpDocumentor\Reflection\DocBlock;
 use Vyuldashev\LaravelOpenApi\Tests\TestCase;
 use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
@@ -9,6 +10,7 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Components;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityScheme;
 use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as AttributesOperation;
@@ -152,24 +154,24 @@ class SecurityBuilderTest extends TestCase
             ->securitySchemes($testJwtScheme);
 
         $routeInfo = new RouteInformation;
-        $routeInfo->action = 'get';
+        $routeInfo->parameters = collect();
+        $routeInfo->action = 'foo';
+        $routeInfo->method = 'get';
         $routeInfo->name = 'test route';
+        $routeInfo->actionDocBlock = new DocBlock('Test');
         $routeInfo->actionAttributes = collect([
             /**
-             * we can set secuity to null to turn it off, as
-             * that's the default value. So '' is next best
-             * option?
-            */
+                 * we can set secuity to null to turn it off, as
+                 * that's the default value. So '' is next best
+                 * option?
+                */
             new AttributesOperation(security: ''),
         ]);
-        $routeInfo->uri = '/example';
 
-        /** @var SecurityBuilder */
-        $builder = resolve(SecurityBuilder::class);
+        /** @var OperationsBuilder */
+        $operationsBuilder = resolve(OperationsBuilder::class);
 
-        $operation = Operation::create()
-            ->security(...$builder->build($routeInfo))
-            ->action('get');
+        $operations = $operationsBuilder->build([$routeInfo]);
 
         $openApi = OpenApi::create()
         ->security($globalRequirement)
@@ -177,7 +179,7 @@ class SecurityBuilderTest extends TestCase
         ->paths(
             PathItem::create()
                 ->route('/foo')
-                ->operations($operation)
+                ->operations(...$operations)
         );
 
         self::assertSame([
