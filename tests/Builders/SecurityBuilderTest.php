@@ -186,6 +186,7 @@ class SecurityBuilderTest extends TestCase
             'paths' => [
                 '/foo' => [
                     'get' => [
+                        'summary' => 'Test',
                         'security' => [],
                     ],
                 ],
