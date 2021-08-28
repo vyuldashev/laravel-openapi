@@ -35,8 +35,7 @@ class ComponentsBuilder
     public function build(
         string $collection = Generator::COLLECTION_DEFAULT,
         array $middlewares = []
-    ): ?Components
-    {
+    ): ?Components {
         $callbacks = $this->callbacksBuilder->build($collection);
         $requestBodies = $this->requestBodiesBuilder->build($collection);
         $responses = $this->responsesBuilder->build($collection);
@@ -74,7 +73,7 @@ class ComponentsBuilder
             $components = $components->securitySchemes(...$securitySchemes);
         }
 
-        if (!$hasAnyObjects) {
+        if (! $hasAnyObjects) {
             return null;
         }
 
