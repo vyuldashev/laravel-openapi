@@ -11,8 +11,9 @@ class InfoBuilderTest extends TestCase
 {
     /**
      * @dataProvider providerBuildContact
-     * @param array $config
-     * @param array $expected
+     *
+     * @param  array  $config
+     * @param  array  $expected
      * @return void
      */
     public function testBuildContact(array $config, array $expected): void
@@ -105,8 +106,8 @@ class InfoBuilderTest extends TestCase
     /**
      * Assert equality as an associative array.
      *
-     * @param array $expected
-     * @param array $actual
+     * @param  array  $expected
+     * @param  array  $actual
      * @return void
      */
     protected function assertSameAssociativeArray(array $expected, array $actual): void

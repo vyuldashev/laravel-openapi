@@ -1,9 +1,10 @@
 <?php
+
 namespace Vyuldashev\LaravelOpenApi\Builders\Paths\Operation;
 
-use Vyuldashev\LaravelOpenApi\RouteInformation;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
+use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class SecurityBuilder
 {

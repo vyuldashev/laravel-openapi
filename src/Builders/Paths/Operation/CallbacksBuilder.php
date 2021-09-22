@@ -12,7 +12,7 @@ class CallbacksBuilder
     public function build(RouteInformation $route): array
     {
         return $route->actionAttributes
-            ->filter(static fn(object $attribute) => $attribute instanceof CallbackAttribute)
+            ->filter(static fn (object $attribute) => $attribute instanceof CallbackAttribute)
             ->map(static function (CallbackAttribute $attribute) {
                 $factory = app($attribute->factory);
                 $pathItem = $factory->build();
