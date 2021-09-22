@@ -32,8 +32,10 @@ class ComponentsBuilder
         $this->securitySchemesBuilder = $securitySchemesBuilder;
     }
 
-    public function build(string $collection = Generator::COLLECTION_DEFAULT): ?Components
-    {
+    public function build(
+        string $collection = Generator::COLLECTION_DEFAULT,
+        array $middlewares = []
+    ): ?Components {
         $callbacks = $this->callbacksBuilder->build($collection);
         $requestBodies = $this->requestBodiesBuilder->build($collection);
         $responses = $this->responsesBuilder->build($collection);
@@ -71,6 +73,14 @@ class ComponentsBuilder
             $components = $components->securitySchemes(...$securitySchemes);
         }
 
-        return $hasAnyObjects ? $components : null;
+        if (! $hasAnyObjects) {
+            return null;
+        }
+
+        foreach ($middlewares as $middleware) {
+            app($middleware)->after($components);
+        }
+
+        return $components;
     }
 }

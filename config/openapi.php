@@ -46,6 +46,9 @@ return [
                 'paths' => [
                     //
                 ],
+                'components' => [
+                    //
+                ],
             ],
 
         ],
