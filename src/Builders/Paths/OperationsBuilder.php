@@ -1,18 +1,19 @@
 <?php
+
 namespace Vyuldashev\LaravelOpenApi\Builders\Paths;
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
-use Vyuldashev\LaravelOpenApi\RouteInformation;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
-use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
-use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
-use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
-use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
-use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
-use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
+use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\RequestBodyBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
+use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class OperationsBuilder
 {
@@ -40,11 +41,12 @@ class OperationsBuilder
     }
 
     /**
-     * @param RouteInformation[]|Collection $routes
+     * @param  RouteInformation[]|Collection  $routes
      * @return array
+     *
      * @throws InvalidArgumentException
      */
-    public function build(array | Collection $routes): array
+    public function build(array|Collection $routes): array
     {
         $operations = [];
 

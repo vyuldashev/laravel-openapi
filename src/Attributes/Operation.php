@@ -1,4 +1,5 @@
 <?php
+
 namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
@@ -18,10 +19,11 @@ class Operation
     public ?string $method;
 
     /**
-     * @param string|null $id
-     * @param array $tags
-     * @param \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null $security
-     * @param string|null $method
+     * @param  string|null  $id
+     * @param  array  $tags
+     * @param  \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null  $security
+     * @param  string|null  $method
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null)
@@ -33,6 +35,7 @@ class Operation
         if ($security === '') {
             //user wants to turn off security on this operation
             $this->security = $security;
+
             return;
         }
 

@@ -1,24 +1,25 @@
 <?php
+
 namespace Vyuldashev\LaravelOpenApi\Tests\Builders;
 
-use phpDocumentor\Reflection\DocBlock;
-use Vyuldashev\LaravelOpenApi\Tests\TestCase;
-use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
-use Vyuldashev\LaravelOpenApi\RouteInformation;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Components;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityScheme;
-use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
-use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement;
-use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityScheme;
+use GoldSpecDigital\ObjectOrientedOAS\OpenApi;
+use phpDocumentor\Reflection\DocBlock;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as AttributesOperation;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
+use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
+use Vyuldashev\LaravelOpenApi\RouteInformation;
+use Vyuldashev\LaravelOpenApi\Tests\TestCase;
 
 class SecurityBuilderTest extends TestCase
 {
     /**
-     * We're just making sure we're getting the expected output
+     * We're just making sure we're getting the expected output.
      */
     public function testWeCanBuildUpTheSecurityScheme(): void
     {
@@ -63,14 +64,14 @@ class SecurityBuilderTest extends TestCase
             'security' => [
                 [
                     'JWT' => [],
-                ]
-            ]
+                ],
+            ],
         ], $openApi->toArray());
     }
 
     /**
      * We're just verifying that the builder is capable of
-     * adding security information to the operation
+     * adding security information to the operation.
      */
     public function testWeCanAddOperationSecurityUsingBuilder()
     {
@@ -113,7 +114,7 @@ class SecurityBuilderTest extends TestCase
                     'get' => [
                         'security' => [
                             [
-                                'JWT' => []
+                                'JWT' => [],
                             ],
                         ],
                     ],
@@ -133,8 +134,8 @@ class SecurityBuilderTest extends TestCase
             'security' => [
                 [
                     'JWT' => [],
-                ]
-            ]
+                ],
+            ],
         ], $openApi->toArray());
     }
 
@@ -161,10 +162,10 @@ class SecurityBuilderTest extends TestCase
         $routeInfo->actionDocBlock = new DocBlock('Test');
         $routeInfo->actionAttributes = collect([
             /**
-                 * we can set secuity to null to turn it off, as
-                 * that's the default value. So '' is next best
-                 * option?
-                */
+             * we can set secuity to null to turn it off, as
+             * that's the default value. So '' is next best
+             * option?
+             */
             new AttributesOperation(security: ''),
         ]);
 
@@ -205,8 +206,8 @@ class SecurityBuilderTest extends TestCase
             'security' => [
                 [
                     'JWT' => [],
-                ]
-            ]
+                ],
+            ],
         ], $openApi->toArray());
     }
 }

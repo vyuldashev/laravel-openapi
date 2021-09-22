@@ -12,6 +12,7 @@ class PetSchema extends SchemaFactory implements Reusable
 {
     /**
      * @return Schema
+     *
      * @throws InvalidArgumentException
      */
     public function build(): SchemaContract

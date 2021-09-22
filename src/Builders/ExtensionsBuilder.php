@@ -12,7 +12,7 @@ class ExtensionsBuilder
     public function build(BaseObject $object, Collection $attributes): void
     {
         $attributes
-            ->filter(static fn(object $attribute) => $attribute instanceof ExtensionAttribute)
+            ->filter(static fn (object $attribute) => $attribute instanceof ExtensionAttribute)
             ->each(static function (ExtensionAttribute $attribute) use ($object): void {
                 if ($attribute->factory) {
                     /** @var ExtensionFactory $factory */

@@ -31,7 +31,7 @@ class ParametersBuilder
 
                 /** @var ReflectionParameter|null $reflectionParameter */
                 $reflectionParameter = collect($route->actionParameters)
-                    ->first(static fn(ReflectionParameter $reflectionParameter) => $reflectionParameter->name === $parameter['name']);
+                    ->first(static fn (ReflectionParameter $reflectionParameter) => $reflectionParameter->name === $parameter['name']);
 
                 if ($reflectionParameter) {
                     // The reflected param has no type, so ignore (should be defined in a ParametersFactory instead)
@@ -44,7 +44,7 @@ class ParametersBuilder
 
                 /** @var Param $description */
                 $description = collect($route->actionDocBlock->getTagsByName('param'))
-                    ->first(static fn(Param $param) => Str::snake($param->getVariableName()) === Str::snake($parameter['name']));
+                    ->first(static fn (Param $param) => Str::snake($param->getVariableName()) === Str::snake($parameter['name']));
 
                 return Parameter::path()->name($parameter['name'])
                     ->required()
@@ -57,7 +57,7 @@ class ParametersBuilder
     protected function buildAttribute(RouteInformation $route): Collection
     {
         /** @var Parameters|null $parameters */
-        $parameters = $route->actionAttributes->first(static fn($attribute) => $attribute instanceof Parameters, []);
+        $parameters = $route->actionAttributes->first(static fn ($attribute) => $attribute instanceof Parameters, []);
 
         if ($parameters) {
             /** @var ParametersFactory $parametersFactory */
