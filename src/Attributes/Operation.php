@@ -1,5 +1,4 @@
 <?php
-
 namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
@@ -30,6 +29,12 @@ class Operation
         $this->id = $id;
         $this->tags = $tags;
         $this->method = $method;
+
+        if ($security === '') {
+            //user wants to turn off security on this operation
+            $this->security = $security;
+            return;
+        }
 
         if ($security) {
             $this->security = class_exists($security) ? $security : app()->getNamespace().'OpenApi\\SecuritySchemes\\'.$security;
