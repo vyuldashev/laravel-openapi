@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vyuldashev\LaravelOpenApi\Contracts;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Response;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;

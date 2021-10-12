@@ -14,10 +14,10 @@ class Parameters
 
     public function __construct(string $factory, $data = null)
     {
-        $this->factory = class_exists($factory) ? $factory : app()->getNamespace() . 'OpenApi\\Parameters\\' . $factory;
+        $this->factory = class_exists($factory) ? $factory : app()->getNamespace().'OpenApi\\Parameters\\'.$factory;
         $this->data = $data;
 
-        if (!is_a($this->factory, ParametersFactoryInterface::class, true)) {
+        if (! is_a($this->factory, ParametersFactoryInterface::class, true)) {
             throw new InvalidArgumentException('Factory class must be instance of ParametersFactoryInterface');
         }
     }

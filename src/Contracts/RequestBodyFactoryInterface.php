@@ -1,15 +1,12 @@
 <?php
 
-
 namespace Vyuldashev\LaravelOpenApi\Contracts;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\RequestBody;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 /**
- * Interface RequestBodyFactoryInterface
- * @package Vyuldashev\LaravelOpenApi\Contracts
+ * Interface RequestBodyFactoryInterface.
  * @var $data
  */
 interface RequestBodyFactoryInterface
