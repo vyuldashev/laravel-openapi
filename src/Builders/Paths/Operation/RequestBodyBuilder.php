@@ -13,7 +13,7 @@ class RequestBodyBuilder
     public function build(RouteInformation $route): ?RequestBody
     {
         /** @var RequestBodyAttribute|null $requestBody */
-        $requestBody = $route->actionAttributes->first(static fn(object $attribute) => $attribute instanceof RequestBodyAttribute);
+        $requestBody = $route->actionAttributes->first(static fn (object $attribute) => $attribute instanceof RequestBodyAttribute);
 
         if ($requestBody) {
             /** @var RequestBodyFactoryInterface $requestBodyFactory */
@@ -23,7 +23,7 @@ class RequestBodyBuilder
             $requestBody = $requestBodyFactory->build();
 
             if ($requestBodyFactory instanceof Reusable) {
-                return RequestBody::ref('#/components/requestBodies/' . $requestBody->objectId);
+                return RequestBody::ref('#/components/requestBodies/'.$requestBody->objectId);
             }
         }
 

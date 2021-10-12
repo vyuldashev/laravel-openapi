@@ -14,8 +14,8 @@ class PetController
      * List all pets.
      */
     #[OpenApi\Operation('listPets')]
-    #[OpenApi\Parameters(ListPetsParameters::class, "Parameters custom data")]
-    #[OpenApi\Response(ErrorValidationResponse::class, 422, "", "Response custom data")]
+    #[OpenApi\Parameters(ListPetsParameters::class, 'Parameters custom data')]
+    #[OpenApi\Response(ErrorValidationResponse::class, 422, '', 'Response custom data')]
     public function index()
     {
     }
@@ -24,7 +24,7 @@ class PetController
      * Create pet.
      */
     #[OpenApi\Operation('createPet')]
-    #[OpenApi\RequestBody(CreatePetRequestBody::class, ["custom" => "My custom data"])]
+    #[OpenApi\RequestBody(CreatePetRequestBody::class, ['custom' => 'My custom data'])]
     public function create()
     {
     }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Vyuldashev\LaravelOpenApi\Contracts;
-
 
 use GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\AllOf;

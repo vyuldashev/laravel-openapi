@@ -13,7 +13,7 @@ class ErrorValidationResponse extends ResponseFactory implements Reusable
     public function build(): Response
     {
         $response = Schema::object()->properties(
-            Schema::string('message')->example('The given data was invalid. ' . $this->data),
+            Schema::string('message')->example('The given data was invalid. '.$this->data),
             Schema::object('errors')
                 ->additionalProperties(
                     Schema::array()->items(Schema::string())

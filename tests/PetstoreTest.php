@@ -23,7 +23,7 @@ class PetstoreTest extends TestCase
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('openapi.locations.schemas', [
-            __DIR__ . '/../examples/petstore/OpenApi/Schemas',
+            __DIR__.'/../examples/petstore/OpenApi/Schemas',
         ]);
     }
 
@@ -86,12 +86,12 @@ class PetstoreTest extends TestCase
             'summary' => 'Create pet.',
             'operationId' => 'createPet',
             'requestBody' => [
-                "description" => "My custom data",
-                "content" => [
-                    "application/json" => [
-                        "schema" => [
-                            '$ref' => "#/components/schemas/Pet",
-                        ]
+                'description' => 'My custom data',
+                'content' => [
+                    'application/json' => [
+                        'schema' => [
+                            '$ref' => '#/components/schemas/Pet',
+                        ],
                     ],
                 ],
             ],

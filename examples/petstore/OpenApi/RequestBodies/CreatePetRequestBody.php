@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Examples\Petstore\OpenApi\RequestBodies;
-
 
 use Examples\Petstore\OpenApi\Schemas\PetSchema;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\MediaType;
@@ -12,7 +10,6 @@ use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyFactoryInterface;
 
 class CreatePetRequestBody implements RequestBodyFactoryInterface
 {
-
     use Referencable;
 
     public function build(): RequestBody
@@ -23,5 +20,4 @@ class CreatePetRequestBody implements RequestBodyFactoryInterface
                 MediaType::json()->schema(PetSchema::ref())
             );
     }
-
 }
