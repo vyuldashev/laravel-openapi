@@ -7,6 +7,7 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 /**
  * Interface RequestBodyFactoryInterface.
+ *
  * @var $data
  */
 interface RequestBodyFactoryInterface
