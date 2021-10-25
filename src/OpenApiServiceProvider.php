@@ -20,17 +20,6 @@ use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
 class OpenApiServiceProvider extends ServiceProvider
 {
-    public function boot(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
-            ], 'openapi-config');
-        }
-
-        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
-    }
-
     public function register(): void
     {
         $this->mergeConfigFrom(
@@ -86,6 +75,17 @@ class OpenApiServiceProvider extends ServiceProvider
                 Console\SecuritySchemeFactoryMakeCommand::class,
             ]);
         }
+    }
+
+    public function boot(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
+            ], 'openapi-config');
+        }
+
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
     }
 
     private function getPathsFromConfig(string $type): array
