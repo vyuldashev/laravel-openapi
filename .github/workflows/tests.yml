@@ -14,7 +14,6 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.0, 8.1]
-        stability: [prefer-lowest, prefer-stable]
 
     name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
 
@@ -30,7 +29,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+        run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
