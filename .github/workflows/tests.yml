@@ -15,7 +15,7 @@ jobs:
       matrix:
         php: [8.0, 8.1]
 
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
+    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
