@@ -12,12 +12,16 @@ class Operation
     public ?string $id;
 
     /** @var array<string> */
+    public array $security;
+
+    /** @var array<string> */
     public array $tags;
 
     public ?string $security;
 
     public ?string $method;
 
+<<<<<<< HEAD
     /**
      * @param  string|null  $id
      * @param  array  $tags
@@ -27,9 +31,13 @@ class Operation
      * @throws InvalidArgumentException
      */
     public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null)
+=======
+    public function __construct(string $id = null, array $tags = [], array $security = [], string $method = null)
+>>>>>>> 91eae28 (Add security to Operation Attribute)
     {
         $this->id = $id;
         $this->tags = $tags;
+        $this->security = $security;
         $this->method = $method;
 
         if ($security === '') {
