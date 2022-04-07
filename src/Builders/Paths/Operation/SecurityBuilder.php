@@ -8,6 +8,7 @@ use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class SecurityBuilder
 {
+<<<<<<< HEAD
     public function build(RouteInformation $route): array
     {
         return $route->actionAttributes
@@ -26,4 +27,20 @@ class SecurityBuilder
             ->values()
             ->toArray();
     }
+=======
+  public function build(RouteInformation $route): array
+  {
+    return $route->actionAttributes
+      ->filter(static fn (object $attribute) => $attribute instanceof OperationAttribute)
+      ->filter(static fn (OperationAttribute $attribute) => isset($attribute->security))
+      ->map(static function (OperationAttribute $attribute) {
+        $security = app($attribute->security);
+        $scheme = $security->build();
+
+        return SecurityRequirement::create()->securityScheme($scheme);
+      })
+      ->values()
+      ->toArray();
+  }
+>>>>>>> 4856d12 (Create SecurityBuilder.php)
 }
