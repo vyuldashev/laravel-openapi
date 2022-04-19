@@ -18,6 +18,8 @@ class Operation
 
     public ?string $method;
 
+    public ?array $servers;
+
     /**
      * @param  string|null  $id
      * @param  array  $tags
@@ -26,11 +28,12 @@ class Operation
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null)
+    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null, array $servers = null)
     {
         $this->id = $id;
         $this->tags = $tags;
         $this->method = $method;
+        $this->servers = $servers;
 
         if ($security === '') {
             //user wants to turn off security on this operation

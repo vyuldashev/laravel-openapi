@@ -4,6 +4,8 @@ namespace Vyuldashev\LaravelOpenApi\Builders\Paths;
 
 use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Server;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
@@ -13,6 +15,7 @@ use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ParametersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\RequestBodyBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\SecurityBuilder;
+use Vyuldashev\LaravelOpenApi\Factories\ServerFactory;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class OperationsBuilder
@@ -58,6 +61,11 @@ class OperationsBuilder
 
             $operationId = optional($operationAttribute)->id;
             $tags = $operationAttribute->tags ?? [];
+            $servers = collect($operationAttribute->servers)
+                ->filter(fn ($server) => app($server) instanceof ServerFactory)
+                ->map(static fn ($server) => app($server)->build())
+                ->toArray();
+
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
@@ -74,7 +82,8 @@ class OperationsBuilder
                 ->parameters(...$parameters)
                 ->requestBody($requestBody)
                 ->responses(...$responses)
-                ->callbacks(...$callbacks);
+                ->callbacks(...$callbacks)
+                ->servers(...$servers);
 
             /** Not the cleanest code, we need to call notSecurity instead of security when our security has been turned off */
             if (count($security) === 1 && $security[0]->securityScheme === null) {
