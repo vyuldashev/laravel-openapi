@@ -44,8 +44,9 @@ class OperationsBuilder
     }
 
     /**
-     * @param RouteInformation[]|Collection $routes
+     * @param  RouteInformation[]|Collection  $routes
      * @return array
+     *
      * @throws InvalidArgumentException
      */
     public function build(array | Collection $routes): array
@@ -78,6 +79,13 @@ class OperationsBuilder
                 ->responses(...$responses)
                 ->callbacks(...$callbacks)
                 ->security(...$security);
+
+            /** Not the cleanest code, we need to call notSecurity instead of security when our security has been turned off */
+            if (count($security) === 1 && $security[0]->securityScheme === null) {
+                $operation = $operation->noSecurity();
+            } else {
+                $operation = $operation->security(...$security);
+            }
 
             $this->extensionsBuilder->build($operation, $route->actionAttributes);
 

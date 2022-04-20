@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Vyuldashev\LaravelOpenApi;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Vyuldashev\LaravelOpenApi\Builders\Components\CallbacksBuilder;
@@ -19,13 +20,12 @@ use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
 class OpenApiServiceProvider extends ServiceProvider
 {
-    public function boot(): void
+    public function register(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
-            ], 'openapi-config');
-        }
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/openapi.php',
+            'openapi'
+        );
 
         $this->app->bind(CallbacksBuilder::class, function () {
             return new CallbacksBuilder($this->getPathsFromConfig('callbacks'));
@@ -47,28 +47,18 @@ class OpenApiServiceProvider extends ServiceProvider
             return new SecuritySchemesBuilder($this->getPathsFromConfig('security_schemes'));
         });
 
-        $this->app->singleton(Generator::class, static function ($app) {
+        $this->app->singleton(Generator::class, static function (Application $app) {
             $config = config('openapi');
 
             return new Generator(
                 $config,
-                $app[InfoBuilder::class],
-                $app[ServersBuilder::class],
-                $app[TagsBuilder::class],
-                $app[PathsBuilder::class],
-                $app[ComponentsBuilder::class]
+                $app->make(InfoBuilder::class),
+                $app->make(ServersBuilder::class),
+                $app->make(TagsBuilder::class),
+                $app->make(PathsBuilder::class),
+                $app->make(ComponentsBuilder::class)
             );
         });
-
-        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
-    }
-
-    public function register(): void
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/openapi.php',
-            'openapi'
-        );
 
         $this->commands([
             Console\GenerateCommand::class,
@@ -85,6 +75,17 @@ class OpenApiServiceProvider extends ServiceProvider
                 Console\SecuritySchemeFactoryMakeCommand::class,
             ]);
         }
+    }
+
+    public function boot(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/openapi.php' => config_path('openapi.php'),
+            ], 'openapi-config');
+        }
+
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
     }
 
     private function getPathsFromConfig(string $type): array

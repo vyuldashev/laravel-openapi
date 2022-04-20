@@ -10,11 +10,14 @@ return [
                 'title' => config('app.name'),
                 'description' => null,
                 'version' => '1.0.0',
+                'contact' => [],
             ],
 
             'servers' => [
                 [
                     'url' => env('APP_URL'),
+                    'description' => null,
+                    'variables' => [],
                 ],
             ],
 
@@ -41,6 +44,9 @@ return [
             // Register custom middlewares for different objects.
             'middlewares' => [
                 'paths' => [
+                    //
+                ],
+                'components' => [
                     //
                 ],
             ],

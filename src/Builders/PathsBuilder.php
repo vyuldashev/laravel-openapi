@@ -24,8 +24,8 @@ class PathsBuilder
     }
 
     /**
-     * @param string $collection
-     * @param PathMiddleware[] $middlewares
+     * @param  string  $collection
+     * @param  PathMiddleware[]  $middlewares
      * @return array
      */
     public function build(
@@ -38,7 +38,7 @@ class PathsBuilder
                 $collectionAttribute = collect()
                     ->merge($routeInformation->controllerAttributes)
                     ->merge($routeInformation->actionAttributes)
-                    ->first(static fn(object $item) => $item instanceof CollectionAttribute);
+                    ->first(static fn (object $item) => $item instanceof CollectionAttribute);
 
                 return
                     (! $collectionAttribute && $collection === Generator::COLLECTION_DEFAULT) ||
@@ -51,7 +51,7 @@ class PathsBuilder
 
                 return $item;
             })
-            ->groupBy(static fn(RouteInformation $routeInformation) => $routeInformation->uri)
+            ->groupBy(static fn (RouteInformation $routeInformation) => $routeInformation->uri)
             ->map(function (Collection $routes, $uri) {
                 $pathItem = PathItem::create()->route($uri);
 
@@ -74,14 +74,14 @@ class PathsBuilder
     {
         /** @noinspection CollectFunctionInCollectionInspection */
         return collect(app(Router::class)->getRoutes())
-            ->filter(static fn(Route $route) => $route->getActionName() !== 'Closure')
-            ->map(static fn(Route $route) => RouteInformation::createFromRoute($route))
+            ->filter(static fn (Route $route) => $route->getActionName() !== 'Closure')
+            ->map(static fn (Route $route) => RouteInformation::createFromRoute($route))
             ->filter(static function (RouteInformation $route) {
                 $pathItem = $route->controllerAttributes
-                    ->first(static fn(object $attribute) => $attribute instanceof Attributes\PathItem);
+                    ->first(static fn (object $attribute) => $attribute instanceof Attributes\PathItem);
 
                 $operation = $route->actionAttributes
-                    ->first(static fn(object $attribute) => $attribute instanceof Attributes\Operation);
+                    ->first(static fn (object $attribute) => $attribute instanceof Attributes\Operation);
 
                 return $pathItem && $operation;
             });
