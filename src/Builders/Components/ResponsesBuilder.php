@@ -2,8 +2,8 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
+use Vyuldashev\LaravelOpenApi\Contracts\ResponseFactoryInterface;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
-use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
 use Vyuldashev\LaravelOpenApi\Generator;
 
 class ResponsesBuilder extends Builder
@@ -13,11 +13,11 @@ class ResponsesBuilder extends Builder
         return $this->getAllClasses($collection)
             ->filter(static function ($class) {
                 return
-                    is_a($class, ResponseFactory::class, true) &&
+                    is_a($class, ResponseFactoryInterface::class, true) &&
                     is_a($class, Reusable::class, true);
             })
             ->map(static function ($class) {
-                /** @var ResponseFactory $instance */
+                /** @var ResponseFactoryInterface $instance */
                 $instance = app($class);
 
                 return $instance->build();

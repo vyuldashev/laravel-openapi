@@ -2,15 +2,10 @@
 
 namespace Vyuldashev\LaravelOpenApi\Factories;
 
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Parameter;
 use Vyuldashev\LaravelOpenApi\Concerns\Referencable;
+use Vyuldashev\LaravelOpenApi\Contracts\ParametersFactoryInterface;
 
-abstract class ParametersFactory
+abstract class ParametersFactory implements ParametersFactoryInterface
 {
     use Referencable;
-
-    /**
-     * @return Parameter[]
-     */
-    abstract public function build(): array;
 }

@@ -2,8 +2,8 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders\Components;
 
+use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyFactoryInterface;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
-use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
 use Vyuldashev\LaravelOpenApi\Generator;
 
 class RequestBodiesBuilder extends Builder
@@ -13,11 +13,11 @@ class RequestBodiesBuilder extends Builder
         return $this->getAllClasses($collection)
             ->filter(static function ($class) {
                 return
-                    is_a($class, RequestBodyFactory::class, true) &&
+                    is_a($class, RequestBodyFactoryInterface::class, true) &&
                     is_a($class, Reusable::class, true);
             })
             ->map(static function ($class) {
-                /** @var RequestBodyFactory $instance */
+                /** @var RequestBodyFactoryInterface $instance */
                 $instance = app($class);
 
                 return $instance->build();

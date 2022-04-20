@@ -4,7 +4,7 @@ namespace Vyuldashev\LaravelOpenApi\Attributes;
 
 use Attribute;
 use InvalidArgumentException;
-use Vyuldashev\LaravelOpenApi\Factories\ExtensionFactory;
+use Vyuldashev\LaravelOpenApi\Contracts\ExtensionFactoryInterface;
 
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD)]
 class Extension
@@ -18,8 +18,8 @@ class Extension
         if ($factory) {
             $this->factory = class_exists($factory) ? $factory : app()->getNamespace().'OpenApi\\Extensions\\'.$factory;
 
-            if (! is_a($this->factory, ExtensionFactory::class, true)) {
-                throw new InvalidArgumentException('Factory class must be instance of ExtensionFactory');
+            if (! is_a($this->factory, ExtensionFactoryInterface::class, true)) {
+                throw new InvalidArgumentException('Factory class must be instance of ExtensionFactoryInterface');
             }
         }
 

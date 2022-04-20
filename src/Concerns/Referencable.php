@@ -4,13 +4,13 @@ namespace Vyuldashev\LaravelOpenApi\Concerns;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use InvalidArgumentException;
+use Vyuldashev\LaravelOpenApi\Contracts\CallbackFactoryInterface;
+use Vyuldashev\LaravelOpenApi\Contracts\ParametersFactoryInterface;
+use Vyuldashev\LaravelOpenApi\Contracts\RequestBodyFactoryInterface;
+use Vyuldashev\LaravelOpenApi\Contracts\ResponseFactoryInterface;
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
-use Vyuldashev\LaravelOpenApi\Factories\CallbackFactory;
-use Vyuldashev\LaravelOpenApi\Factories\ParametersFactory;
-use Vyuldashev\LaravelOpenApi\Factories\RequestBodyFactory;
-use Vyuldashev\LaravelOpenApi\Factories\ResponseFactory;
-use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
-use Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory;
+use Vyuldashev\LaravelOpenApi\Contracts\SchemaFactoryInterface;
+use Vyuldashev\LaravelOpenApi\Contracts\SecuritySchemeFactoryInterface;
 
 trait Referencable
 {
@@ -24,17 +24,17 @@ trait Referencable
 
         $baseRef = null;
 
-        if ($instance instanceof CallbackFactory) {
+        if ($instance instanceof CallbackFactoryInterface) {
             $baseRef = '#/components/callbacks/';
-        } elseif ($instance instanceof ParametersFactory) {
+        } elseif ($instance instanceof ParametersFactoryInterface) {
             $baseRef = '#/components/parameters/';
-        } elseif ($instance instanceof RequestBodyFactory) {
+        } elseif ($instance instanceof RequestBodyFactoryInterface) {
             $baseRef = '#/components/requestBodies/';
-        } elseif ($instance instanceof ResponseFactory) {
+        } elseif ($instance instanceof ResponseFactoryInterface) {
             $baseRef = '#/components/responses/';
-        } elseif ($instance instanceof SchemaFactory) {
+        } elseif ($instance instanceof SchemaFactoryInterface) {
             $baseRef = '#/components/schemas/';
-        } elseif ($instance instanceof SecuritySchemeFactory) {
+        } elseif ($instance instanceof SecuritySchemeFactoryInterface) {
             $baseRef = '#/components/securitySchemes/';
         }
 

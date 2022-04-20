@@ -2,12 +2,10 @@
 
 namespace Vyuldashev\LaravelOpenApi\Factories;
 
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Response;
 use Vyuldashev\LaravelOpenApi\Concerns\Referencable;
+use Vyuldashev\LaravelOpenApi\Contracts\ResponseFactoryInterface;
 
-abstract class ResponseFactory
+abstract class ResponseFactory implements ResponseFactoryInterface
 {
     use Referencable;
-
-    abstract public function build(): Response;
 }

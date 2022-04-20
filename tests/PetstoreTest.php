@@ -17,6 +17,7 @@ class PetstoreTest extends TestCase
         parent::setUp();
 
         Route::get('/pets', [PetController::class, 'index']);
+        Route::post('/pet', [PetController::class, 'create']);
     }
 
     protected function getEnvironmentSetUp($app): void
@@ -42,7 +43,7 @@ class PetstoreTest extends TestCase
                 [
                     'name' => 'limit',
                     'in' => 'query',
-                    'description' => 'How many items to return at one time (max 100)',
+                    'description' => 'How many items to return at one time (max 100) Parameters custom data',
                     'required' => false,
                     'schema' => [
                         'format' => 'int32',
@@ -80,5 +81,20 @@ class PetstoreTest extends TestCase
                 ],
             ],
         ], $spec['components']['schemas']['Pet']);
+
+        self::assertEquals([
+            'summary' => 'Create pet.',
+            'operationId' => 'createPet',
+            'requestBody' => [
+                'description' => 'My custom data',
+                'content' => [
+                    'application/json' => [
+                        'schema' => [
+                            '$ref' => '#/components/schemas/Pet',
+                        ],
+                    ],
+                ],
+            ],
+        ], $spec['paths']['/pet']['post']);
     }
 }

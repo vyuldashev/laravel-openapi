@@ -15,6 +15,8 @@ class ResponsesBuilder
             ->filter(static fn (object $attribute) => $attribute instanceof ResponseAttribute)
             ->map(static function (ResponseAttribute $attribute) {
                 $factory = app($attribute->factory);
+                // little bit magic, add custom data into factory
+                $factory->data = $attribute->data;
                 $response = $factory->build();
 
                 if ($factory instanceof Reusable) {
