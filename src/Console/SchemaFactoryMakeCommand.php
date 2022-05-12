@@ -35,7 +35,8 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
 
     protected function buildModel($output, $model)
     {
-        $model = Str::start($model, $this->laravel->getNamespace());
+        $namespace = app()::VERSION[0] >= 8 ? $this->laravel->getNamespace(). 'Models\\' : $this->laravel->getNamespace();
+        $model = Str::start($model, $namespace);
 
         if (! is_a($model, Model::class, true)) {
             throw new InvalidArgumentException('Invalid model');
