@@ -4,8 +4,6 @@ namespace Vyuldashev\LaravelOpenApi\Builders\Paths;
 
 use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Server;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
@@ -65,7 +63,6 @@ class OperationsBuilder
                 ->filter(fn ($server) => app($server) instanceof ServerFactory)
                 ->map(static fn ($server) => app($server)->build())
                 ->toArray();
-
 
             $parameters = $this->parametersBuilder->build($route);
             $requestBody = $this->requestBodyBuilder->build($route);
