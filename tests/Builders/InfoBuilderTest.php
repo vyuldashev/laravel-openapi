@@ -41,7 +41,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [
@@ -52,7 +52,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
             ],
@@ -64,7 +64,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [
@@ -74,7 +74,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
             ],
@@ -86,7 +86,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [
@@ -96,7 +96,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
             ],
@@ -108,7 +108,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [
@@ -118,7 +118,7 @@ class InfoBuilderTest extends TestCase
                     ],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
             ],
@@ -126,13 +126,13 @@ class InfoBuilderTest extends TestCase
                 array_merge($common, [
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
             ],
@@ -141,17 +141,16 @@ class InfoBuilderTest extends TestCase
                     'contact' => [],
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [
                     'license' => [
                         'name'=>'sample_license_name',
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
             ],
-
 
             'If License.name does not exist, the correct json can be output.' => [
                 array_merge($common, [
@@ -161,7 +160,7 @@ class InfoBuilderTest extends TestCase
                         'url' => 'sample_contact_url',
                     ],
                     'license' => [
-                        'url'=>'sample_license_url'
+                        'url'=>'sample_license_url',
                     ],
                 ]),
                 array_merge($common, [

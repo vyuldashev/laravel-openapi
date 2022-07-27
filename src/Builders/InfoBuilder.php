@@ -3,8 +3,8 @@
 namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Contact;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\License;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\License;
 use Illuminate\Support\Arr;
 
 class InfoBuilder
