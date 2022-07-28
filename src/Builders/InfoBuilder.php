@@ -4,6 +4,7 @@ namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Contact;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Info;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\License;
 use Illuminate\Support\Arr;
 
 class InfoBuilder
@@ -25,6 +26,10 @@ class InfoBuilder
             $info = $info->contact($this->buildContact($config['contact']));
         }
 
+        if (Arr::has($config, 'license') && array_key_exists('name', $config['license'])) {
+            $info = $info->license($this->buildLicense($config['license']));
+        }
+
         $extensions = $config['extensions'] ?? [];
 
         foreach ($extensions as $key => $value) {
@@ -39,6 +44,13 @@ class InfoBuilder
         return Contact::create()
             ->name(Arr::get($config, 'name'))
             ->email(Arr::get($config, 'email'))
+            ->url(Arr::get($config, 'url'));
+    }
+
+    protected function buildLicense(array $config): License
+    {
+        return License::create()
+            ->name(Arr::get($config, 'name'))
             ->url(Arr::get($config, 'url'));
     }
 }
