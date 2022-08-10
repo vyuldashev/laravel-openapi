@@ -50,7 +50,7 @@ class Generator
         $components = $this->componentsBuilder->build($collection, Arr::get($middlewares, 'components', []));
         $extensions = Arr::get($this->config, 'collections.'.$collection.'.extensions', []);
 
-        $openApi =  OpenApi::create()
+        $openApi = OpenApi::create()
             ->openapi(OpenApi::OPENAPI_3_0_2)
             ->info($info)
             ->servers(...$servers)
