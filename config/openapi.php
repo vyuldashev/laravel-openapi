@@ -38,11 +38,11 @@ return [
             'extensions' => [
                 // 'x-tagGroups' => [
                 //     [
-				//         'name' => 'General',
-				//         'tags' => [
-				//             'user',
-				//         ],
-				//     ],
+                //         'name' => 'General',
+                //         'tags' => [
+                //             'user',
+                //         ],
+                //     ],
                 // ],
             ],
 
