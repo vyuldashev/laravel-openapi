@@ -34,6 +34,18 @@ return [
                 // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
             ],
 
+            // Non standard attributes used by code/doc generation tools can be added here
+            'extensions' => [
+                // 'x-tagGroups' => [
+                //     [
+                //         'name' => 'General',
+                //         'tags' => [
+                //             'user',
+                //         ],
+                //     ],
+                // ],
+            ],
+
             // Route for exposing specification.
             // Leave uri null to disable.
             'route' => [
