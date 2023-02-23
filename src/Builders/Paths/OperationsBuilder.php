@@ -70,11 +70,14 @@ class OperationsBuilder
             $callbacks = $this->callbacksBuilder->build($route);
             $security = $this->securityBuilder->build($route);
 
+            $description = $route->actionDocBlock?->getDescription()->render();
+            $summary = $route->actionDocBlock?->getSummary();
+
             $operation = Operation::create()
                 ->action(Str::lower($operationAttribute->method) ?: $route->method)
                 ->tags(...$tags)
-                ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
-                ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
+                ->description(empty($description) ? null : $description)
+                ->summary(empty($summary) ? null : $summary)
                 ->operationId($operationId)
                 ->parameters(...$parameters)
                 ->requestBody($requestBody)
