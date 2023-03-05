@@ -20,8 +20,6 @@ class Operation
 
     public ?array $servers;
 
-    public ?bool $deprecated;
-
     /**
      * @param  string|null  $id
      * @param  array  $tags
@@ -30,13 +28,12 @@ class Operation
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null, array $servers = null, bool $deprecated = null)
+    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null, array $servers = null)
     {
         $this->id = $id;
         $this->tags = $tags;
         $this->method = $method;
         $this->servers = $servers;
-        $this->deprecated = $deprecated;
 
         if ($security === '') {
             //user wants to turn off security on this operation

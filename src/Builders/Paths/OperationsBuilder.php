@@ -6,6 +6,7 @@ use GoldSpecDigital\ObjectOrientedOAS\Exceptions\InvalidArgumentException;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Operation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\DocBlock;
 use Vyuldashev\LaravelOpenApi\Attributes\Operation as OperationAttribute;
 use Vyuldashev\LaravelOpenApi\Builders\ExtensionsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\Operation\CallbacksBuilder;
@@ -73,7 +74,7 @@ class OperationsBuilder
             $operation = Operation::create()
                 ->action(Str::lower($operationAttribute->method) ?: $route->method)
                 ->tags(...$tags)
-                ->deprecated($operationAttribute->deprecated)
+                ->deprecated($this->isDeprecated($route->actionDocBlock))
                 ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
                 ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
                 ->operationId($operationId)
@@ -96,5 +97,16 @@ class OperationsBuilder
         }
 
         return $operations;
+    }
+
+    protected function isDeprecated(?DocBlock $actionDocBlock): bool
+    {
+        if ($actionDocBlock === null) {
+            return false;
+        }
+
+        $deprecatedTag = $actionDocBlock->getTagsByName('deprecated');
+
+        return count($deprecatedTag) > 0;
     }
 }
