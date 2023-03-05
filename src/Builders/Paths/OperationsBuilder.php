@@ -73,6 +73,7 @@ class OperationsBuilder
             $operation = Operation::create()
                 ->action(Str::lower($operationAttribute->method) ?: $route->method)
                 ->tags(...$tags)
+                ->deprecated($operationAttribute->deprecated)
                 ->description($route->actionDocBlock->getDescription()->render() !== '' ? $route->actionDocBlock->getDescription()->render() : null)
                 ->summary($route->actionDocBlock->getSummary() !== '' ? $route->actionDocBlock->getSummary() : null)
                 ->operationId($operationId)
