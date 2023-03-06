@@ -27,13 +27,14 @@ class OperationsBuilder
     protected SecurityBuilder $securityBuilder;
 
     public function __construct(
-        CallbacksBuilder $callbacksBuilder,
-        ParametersBuilder $parametersBuilder,
+        CallbacksBuilder   $callbacksBuilder,
+        ParametersBuilder  $parametersBuilder,
         RequestBodyBuilder $requestBodyBuilder,
-        ResponsesBuilder $responsesBuilder,
-        ExtensionsBuilder $extensionsBuilder,
-        SecurityBuilder $securityBuilder
-    ) {
+        ResponsesBuilder   $responsesBuilder,
+        ExtensionsBuilder  $extensionsBuilder,
+        SecurityBuilder    $securityBuilder
+    )
+    {
         $this->callbacksBuilder = $callbacksBuilder;
         $this->parametersBuilder = $parametersBuilder;
         $this->requestBodyBuilder = $requestBodyBuilder;
@@ -43,7 +44,7 @@ class OperationsBuilder
     }
 
     /**
-     * @param  RouteInformation[]|Collection  $routes
+     * @param RouteInformation[]|Collection $routes
      * @return array
      *
      * @throws InvalidArgumentException
@@ -56,13 +57,13 @@ class OperationsBuilder
         foreach ($routes as $route) {
             /** @var OperationAttribute|null $operationAttribute */
             $operationAttribute = $route->actionAttributes
-                ->first(static fn (object $attribute) => $attribute instanceof OperationAttribute);
+                ->first(static fn(object $attribute) => $attribute instanceof OperationAttribute);
 
             $operationId = optional($operationAttribute)->id;
             $tags = $operationAttribute->tags ?? [];
             $servers = collect($operationAttribute->servers)
-                ->filter(fn ($server) => app($server) instanceof ServerFactory)
-                ->map(static fn ($server) => app($server)->build())
+                ->filter(fn($server) => app($server) instanceof ServerFactory)
+                ->map(static fn($server) => app($server)->build())
                 ->toArray();
 
             $parameters = $this->parametersBuilder->build($route);
@@ -99,14 +100,18 @@ class OperationsBuilder
         return $operations;
     }
 
-    protected function isDeprecated(?DocBlock $actionDocBlock): bool
+    protected function isDeprecated(?DocBlock $actionDocBlock): ?bool
     {
         if ($actionDocBlock === null) {
-            return false;
+            return null;
         }
 
         $deprecatedTag = $actionDocBlock->getTagsByName('deprecated');
 
-        return count($deprecatedTag) > 0;
+        if (count($deprecatedTag) > 0) {
+            return true;
+        }
+
+        return null;
     }
 }
