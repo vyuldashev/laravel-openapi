@@ -44,6 +44,7 @@ abstract class Builder
                 return
                     $collectionAttribute->name === ['*'] ||
                     in_array($collection, $collectionAttribute->name ?? [], true);
-            });
+            })
+            ->sort();
     }
 }
