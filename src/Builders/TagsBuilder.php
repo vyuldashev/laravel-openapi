@@ -17,7 +17,7 @@ class TagsBuilder
         return collect($config)
             ->map(static function (array $tag) {
                 if (Arr::has($tag, 'externalDocs')) {
-                    ExternalDocs::create($tag['name'])
+                    $externalDocs = ExternalDocs::create($tag['name'])
                         ->description(Arr::get($tag, 'externalDocs.description'))
                         ->url(Arr::get($tag, 'externalDocs.url'));
                 } else {
