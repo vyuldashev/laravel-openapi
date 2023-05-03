@@ -2,6 +2,7 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Tag;
 use Illuminate\Support\Arr;
 
@@ -15,9 +16,18 @@ class TagsBuilder
     {
         return collect($config)
             ->map(static function (array $tag) {
+                if (Arr::has($tag, 'externalDocs')) {
+                    $externalDocs = ExternalDocs::create($tag['name'])
+                        ->description(Arr::get($tag, 'externalDocs.description'))
+                        ->url(Arr::get($tag, 'externalDocs.url'));
+                } else {
+                    $externalDocs = null;
+                }
+
                 return Tag::create()
                     ->name($tag['name'])
-                    ->description(Arr::get($tag, 'description'));
+                    ->description(Arr::get($tag, 'description'))
+                    ->externalDocs($externalDocs);
             })
             ->toArray();
     }
