@@ -60,6 +60,12 @@ To use tags, first set them up in `config/openapi.php`:
         [
            'name' => 'user',
            'description' => 'Application users',
+
+           // You may optionally add a link to external documentation like so:
+           'externalDocs' => [
+                'description' => 'External API documentation',
+                'url' => 'https://example.com/external-docs',
+            ],
         ],
 
     ],
