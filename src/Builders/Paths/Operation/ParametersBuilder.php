@@ -43,7 +43,7 @@ class ParametersBuilder
                 }
 
                 /** @var Param $description */
-                $description = collect($route->actionDocBlock->getTagsByName('param'))
+                $description = collect($route->actionDocBlock?->getTagsByName('param'))
                     ->first(static fn (Param $param) => Str::snake($param->getVariableName()) === Str::snake($parameter['name']));
 
                 return Parameter::path()->name($parameter['name'])

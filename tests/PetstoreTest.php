@@ -37,6 +37,7 @@ class PetstoreTest extends TestCase
 
         self::assertSame([
             'summary' => 'List all pets.',
+            'description' => 'List all pets from the database.',
             'operationId' => 'listPets',
             'parameters' => [
                 [
@@ -55,6 +56,7 @@ class PetstoreTest extends TestCase
                     '$ref' => '#/components/responses/ErrorValidation',
                 ],
             ],
+            'deprecated' => true,
         ], $spec['paths']['/pets']['get']);
 
         self::assertArrayHasKey('components', $spec);

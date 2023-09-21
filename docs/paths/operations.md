@@ -12,11 +12,13 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 class UserController extends Controller
 {
     /**
-     * Create new user.
+     * The first comment here will serve as the summary.
      *
-     * Creates new user or returns already existing user by email.
+     * The second comment will be used as the description.
+     * 
+     * @deprecated This endpoint is deprecated.
      */
-     #[OpenApi\Operation]
+    #[OpenApi\Operation]
     public function store(Request $request)
     {
         //
@@ -31,12 +33,19 @@ The following definition will be generated:
     "paths": {
         "\/users": {
             "post": {
-                "summary": "Create new user.",
-                "description": "Creates new user or returns already existing user by email."
+                "summary": "Get all users",
+                "description": "Get all users from the database.",
+                "deprecated": true
             }
         }
     }
 }
+```
+
+Alternatively, you can achieve the same result by using the Operation attribute directly:
+
+```php
+#[OpenApi\Operation(summary: 'Get all users', description: 'Get all users from the database.', deprecated: true)]
 ```
 
 ## Security

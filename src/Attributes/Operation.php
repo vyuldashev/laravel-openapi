@@ -20,20 +20,33 @@ class Operation
 
     public ?array $servers;
 
+    public ?string $summary;
+
+    public ?string $description;
+
+    public ?bool $deprecated;
+
     /**
-     * @param  string|null  $id
-     * @param  array  $tags
-     * @param  \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null  $security
-     * @param  string|null  $method
+     * @param string|null $id
+     * @param array $tags
+     * @param \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null $security
+     * @param string|null $method
+     * @param array|null $servers
+     * @param string|null $summary
+     * @param string|null $description
+     * @param bool|null $deprecated
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null, array $servers = null)
+    public function __construct(string $id = null, array $tags = [], string $security = null, string $method = null, array $servers = null, string $summary = null, string $description = null, bool $deprecated = null)
     {
         $this->id = $id;
         $this->tags = $tags;
         $this->method = $method;
         $this->servers = $servers;
+        $this->summary = $summary;
+        $this->description = $description;
+        $this->deprecated = $deprecated;
 
         if ($security === '') {
             //user wants to turn off security on this operation

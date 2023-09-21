@@ -12,7 +12,7 @@ class PetController
     /**
      * List all pets.
      */
-    #[OpenApi\Operation('listPets')]
+    #[OpenApi\Operation(id: 'listPets', summary: 'List all pets.', description: 'List all pets from the database.', deprecated: true)]
     #[OpenApi\Parameters(ListPetsParameters::class)]
     #[OpenApi\Response(ErrorValidationResponse::class, 422)]
     public function index()
