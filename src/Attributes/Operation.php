@@ -27,10 +27,14 @@ class Operation
     public ?bool $deprecated;
 
     /**
-     * @param  string|null  $id
-     * @param  array  $tags
-     * @param  \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null  $security
-     * @param  string|null  $method
+     * @param string|null $id
+     * @param array $tags
+     * @param \Vyuldashev\LaravelOpenApi\Factories\SecuritySchemeFactory|string|null $security
+     * @param string|null $method
+     * @param array|null $servers
+     * @param string|null $summary
+     * @param string|null $description
+     * @param bool|null $deprecated
      *
      * @throws InvalidArgumentException
      */
