@@ -18,7 +18,7 @@ class SecurityBuilder
                 if ($attribute->security === '') {
                     return SecurityRequirement::create()->securityScheme(null);
                 }
-                $security = app($attribute->security, [ 'routeInformation' => $route ]);
+                $security = app($attribute->security, ['routeInformation' => $route]);
                 $scheme = $security->build();
 
                 return SecurityRequirement::create()->securityScheme($scheme);

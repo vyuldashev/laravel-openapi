@@ -2,7 +2,6 @@
 
 namespace Vyuldashev\LaravelOpenApi\Builders;
 
-use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Vyuldashev\LaravelOpenApi\Attributes;
@@ -38,6 +37,7 @@ class RoutesBuilder
                 foreach ($middlewares as $middleware) {
                     $route = app($middleware)->after($route);
                 }
+
                 return $route;
             })
             ->filter(static function (RouteInformation $route): bool {

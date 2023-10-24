@@ -13,7 +13,7 @@ class InsertRequestBodyMiddleware implements RouteInformationMiddleware
     public function after(RouteInformation $routeInformation): RouteInformation
     {
         $routeInformation->actionAttributes[] = new OpenApi\RequestBody(EmptyRequestBody::class);
-        $routeInformation->actionAttributes[] = new OpenApi\Collection([ Generator::COLLECTION_DEFAULT ]);
+        $routeInformation->actionAttributes[] = new OpenApi\Collection([Generator::COLLECTION_DEFAULT]);
 
         return $routeInformation;
     }

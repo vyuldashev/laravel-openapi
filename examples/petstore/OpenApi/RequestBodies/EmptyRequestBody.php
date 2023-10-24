@@ -18,6 +18,6 @@ class EmptyRequestBody extends RequestBodyFactory
     public function build(): RequestBody
     {
         return RequestBody::create('EmptyRequestBody')
-            ->description('Empty ' . $this->routeInformation->method . ' body');
+            ->description('Empty '.$this->routeInformation->method.' body');
     }
 }

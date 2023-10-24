@@ -21,12 +21,12 @@ class RouteInformationTest extends TestCase
     {
         $app['config']->set(
             'openapi.locations.schemas',
-            [ __DIR__.'/../examples/petstore/OpenApi/Schemas' ]
+            [__DIR__.'/../examples/petstore/OpenApi/Schemas']
         );
 
         $app['config']->set(
             'openapi.collections.default.middlewares.routes',
-            [ InsertRequestBodyMiddleware::class ]
+            [InsertRequestBodyMiddleware::class]
         );
     }
 

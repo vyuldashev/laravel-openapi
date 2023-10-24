@@ -14,7 +14,7 @@ class ResponsesBuilder
         return $route->actionAttributes
             ->filter(static fn (object $attribute) => $attribute instanceof ResponseAttribute)
             ->map(static function (ResponseAttribute $attribute) use ($route) {
-                $factory = app($attribute->factory, [ 'routeInformation' => $route ]);
+                $factory = app($attribute->factory, ['routeInformation' => $route]);
                 $response = $factory->build();
 
                 if ($factory instanceof Reusable) {

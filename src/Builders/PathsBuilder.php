@@ -3,10 +3,7 @@
 namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
-use Illuminate\Routing\Route;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
-use Vyuldashev\LaravelOpenApi\Attributes;
 use Vyuldashev\LaravelOpenApi\Attributes\Collection as CollectionAttribute;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
 use Vyuldashev\LaravelOpenApi\Contracts\PathMiddleware;
@@ -24,9 +21,9 @@ class PathsBuilder
     }
 
     /**
-     * @param  string              $collection
+     * @param  string  $collection
      * @param  RouteInformation[]  $routes
-     * @param  PathMiddleware[]    $middlewares
+     * @param  PathMiddleware[]  $middlewares
      * @return array
      */
     public function build(
