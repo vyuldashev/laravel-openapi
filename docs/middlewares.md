@@ -2,6 +2,13 @@
 
 Middlewares are an optional bit of logic to transform the given data at various lifecycle points.
 
+### Routes
+
+To add a route middleware create a class that implements `\Vyuldashev\LaravelOpenApi\Contracts\RouteInformationMiddleware` then register it by referencing it in the  `openapi.collections.default.middlewares.routes` config array like `MyRouteMiddleware::class`
+
+Available lifecycle points are:
+- `after` - after the `RouteInformation` has been built.
+
 ### Path
 
 To add a path middleware create a class that implements `\Vyuldashev\LaravelOpenApi\Contracts\PathMiddleware` then register it by referencing it in the  `openapi.collections.default.middlewares.paths` config array like `MyPathMiddleware::class`

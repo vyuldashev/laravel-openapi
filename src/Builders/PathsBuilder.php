@@ -24,15 +24,17 @@ class PathsBuilder
     }
 
     /**
-     * @param  string  $collection
-     * @param  PathMiddleware[]  $middlewares
+     * @param  string              $collection
+     * @param  RouteInformation[]  $routes
+     * @param  PathMiddleware[]    $middlewares
      * @return array
      */
     public function build(
         string $collection,
+        iterable $routes,
         array $middlewares
     ): array {
-        return $this->routes()
+        return collect($routes)
             ->filter(static function (RouteInformation $routeInformation) use ($collection) {
                 /** @var CollectionAttribute|null $collectionAttribute */
                 $collectionAttribute = collect()
@@ -68,22 +70,5 @@ class PathsBuilder
             })
             ->values()
             ->toArray();
-    }
-
-    protected function routes(): Collection
-    {
-        /** @noinspection CollectFunctionInCollectionInspection */
-        return collect(app(Router::class)->getRoutes())
-            ->filter(static fn (Route $route) => $route->getActionName() !== 'Closure')
-            ->map(static fn (Route $route) => RouteInformation::createFromRoute($route))
-            ->filter(static function (RouteInformation $route) {
-                $pathItem = $route->controllerAttributes
-                    ->first(static fn (object $attribute) => $attribute instanceof Attributes\PathItem);
-
-                $operation = $route->actionAttributes
-                    ->first(static fn (object $attribute) => $attribute instanceof Attributes\Operation);
-
-                return $pathItem && $operation;
-            });
     }
 }

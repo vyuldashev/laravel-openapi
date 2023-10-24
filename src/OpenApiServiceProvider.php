@@ -15,6 +15,7 @@ use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
+use Vyuldashev\LaravelOpenApi\Builders\RoutesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
@@ -52,6 +53,7 @@ class OpenApiServiceProvider extends ServiceProvider
 
             return new Generator(
                 $config,
+                $app->make(RoutesBuilder::class),
                 $app->make(InfoBuilder::class),
                 $app->make(ServersBuilder::class),
                 $app->make(TagsBuilder::class),
