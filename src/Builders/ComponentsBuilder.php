@@ -44,41 +44,34 @@ class ComponentsBuilder
 
         $components = Components::create();
 
-        $hasAnyObjects = false;
-
         if (count($callbacks) > 0) {
-            $hasAnyObjects = true;
-
             $components = $components->callbacks(...$callbacks);
         }
 
         if (count($requestBodies) > 0) {
-            $hasAnyObjects = true;
-
             $components = $components->requestBodies(...$requestBodies);
         }
 
         if (count($responses) > 0) {
-            $hasAnyObjects = true;
             $components = $components->responses(...$responses);
         }
 
         if (count($schemas) > 0) {
-            $hasAnyObjects = true;
             $components = $components->schemas(...$schemas);
         }
 
         if (count($securitySchemes) > 0) {
-            $hasAnyObjects = true;
             $components = $components->securitySchemes(...$securitySchemes);
-        }
-
-        if (! $hasAnyObjects) {
-            return null;
         }
 
         foreach ($middlewares as $middleware) {
             app($middleware)->after($components);
+        }
+
+        $hasAnyObjects = count($components->toArray()) > 0;
+
+        if (! $hasAnyObjects) {
+            return null;
         }
 
         return $components;
