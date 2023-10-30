@@ -15,7 +15,6 @@ use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
-use Vyuldashev\LaravelOpenApi\Builders\RoutesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
