@@ -8,7 +8,9 @@ use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
+use Vyuldashev\LaravelOpenApi\Contracts\ComponentMiddleware;
 use Vyuldashev\LaravelOpenApi\Generator;
+use Vyuldashev\LaravelOpenApi\Middleware;
 
 class ComponentsBuilder
 {
@@ -64,15 +66,13 @@ class ComponentsBuilder
             $components = $components->securitySchemes(...$securitySchemes);
         }
 
-        if (! $hasAnyObjects) {
+        if (! count($components->toArray())) {
             return null;
         }
 
-        foreach ($middlewares as $middleware) {
-            app($middleware)->after($components);
-        }
-
-        $hasAnyObjects = count($components->toArray()) > 0;
+        Middleware::make($middlewares)
+            ->using(ComponentMiddleware::class)
+            ->emit(fn ($middleware) => $middleware->after($components));
 
         return $components;
     }

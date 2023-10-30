@@ -4,11 +4,11 @@ namespace Examples\Petstore\OpenApi\Middlewares;
 
 use Examples\Petstore\OpenApi\RequestBodies\EmptyRequestBody;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
-use Vyuldashev\LaravelOpenApi\Contracts\RouteInformationMiddleware;
+use Vyuldashev\LaravelOpenApi\Contracts\RoutesBuilderMiddleware;
 use Vyuldashev\LaravelOpenApi\Generator;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
-class InsertRequestBodyMiddleware implements RouteInformationMiddleware
+class InsertRequestBodyMiddleware implements RoutesBuilderMiddleware
 {
     public function after(RouteInformation $routeInformation): RouteInformation
     {

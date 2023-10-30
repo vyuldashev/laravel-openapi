@@ -53,7 +53,6 @@ class OpenApiServiceProvider extends ServiceProvider
 
             return new Generator(
                 $config,
-                $app->make(RoutesBuilder::class),
                 $app->make(InfoBuilder::class),
                 $app->make(ServersBuilder::class),
                 $app->make(TagsBuilder::class),

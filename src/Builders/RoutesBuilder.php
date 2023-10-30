@@ -5,7 +5,8 @@ namespace Vyuldashev\LaravelOpenApi\Builders;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Vyuldashev\LaravelOpenApi\Attributes;
-use Vyuldashev\LaravelOpenApi\Contracts\RouteInformationMiddleware;
+use Vyuldashev\LaravelOpenApi\Contracts\RoutesBuilderMiddleware;
+use Vyuldashev\LaravelOpenApi\Middleware;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class RoutesBuilder
@@ -24,7 +25,7 @@ class RoutesBuilder
     }
 
     /**
-     * @param  RouteInformationMiddleware[]  $middlewares
+     * @param  RoutesBuilderMiddleware[]  $middlewares
      * @return array
      */
     public function build(array $middlewares): array
@@ -34,11 +35,10 @@ class RoutesBuilder
             ->filter(static fn (Route $route) => $route->getActionName() !== 'Closure')
             ->map(static fn (Route $route) => RouteInformation::createFromRoute($route))
             ->map(static function (RouteInformation $route) use ($middlewares): RouteInformation {
-                foreach ($middlewares as $middleware) {
-                    $route = app($middleware)->after($route);
-                }
-
-                return $route;
+                return Middleware::make($middlewares)
+                    ->using(RoutesBuilderMiddleware::class)
+                    ->send($route)
+                    ->through(fn ($middleware, $route) => $middleware->after($route));
             })
             ->filter(static function (RouteInformation $route): bool {
                 $pathItem = $route->controllerAttributes

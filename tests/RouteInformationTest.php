@@ -25,7 +25,7 @@ class RouteInformationTest extends TestCase
         );
 
         $app['config']->set(
-            'openapi.collections.default.middlewares.routes',
+            'openapi.collections.default.middlewares.paths',
             [InsertRequestBodyMiddleware::class]
         );
     }

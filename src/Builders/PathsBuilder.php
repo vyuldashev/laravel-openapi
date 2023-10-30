@@ -3,11 +3,15 @@
 namespace Vyuldashev\LaravelOpenApi\Builders;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\PathItem;
+use Illuminate\Routing\Route;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
+use Vyuldashev\LaravelOpenApi\Attributes;
 use Vyuldashev\LaravelOpenApi\Attributes\Collection as CollectionAttribute;
 use Vyuldashev\LaravelOpenApi\Builders\Paths\OperationsBuilder;
 use Vyuldashev\LaravelOpenApi\Contracts\PathMiddleware;
 use Vyuldashev\LaravelOpenApi\Generator;
+use Vyuldashev\LaravelOpenApi\Middleware;
 use Vyuldashev\LaravelOpenApi\RouteInformation;
 
 class PathsBuilder
@@ -22,16 +26,14 @@ class PathsBuilder
 
     /**
      * @param  string  $collection
-     * @param  RouteInformation[]  $routes
      * @param  PathMiddleware[]  $middlewares
      * @return array
      */
     public function build(
         string $collection,
-        iterable $routes,
         array $middlewares
     ): array {
-        return collect($routes)
+        return $this->routes($middlewares)
             ->filter(static function (RouteInformation $routeInformation) use ($collection) {
                 /** @var CollectionAttribute|null $collectionAttribute */
                 $collectionAttribute = collect()
@@ -43,12 +45,11 @@ class PathsBuilder
                     (! $collectionAttribute && $collection === Generator::COLLECTION_DEFAULT) ||
                     ($collectionAttribute && in_array($collection, $collectionAttribute->name, true));
             })
-            ->map(static function (RouteInformation $item) use ($middlewares) {
-                foreach ($middlewares as $middleware) {
-                    app($middleware)->before($item);
-                }
-
-                return $item;
+            ->map(static function (RouteInformation $routeInformation) use ($middlewares) {
+                Middleware::make($middlewares)
+                    ->using(PathMiddleware::class)
+                    ->emit(fn ($middleware) => $middleware->before($routeInformation));
+                return $routeInformation;
             })
             ->groupBy(static fn (RouteInformation $routeInformation) => $routeInformation->uri)
             ->map(function (Collection $routes, $uri) {
@@ -59,13 +60,17 @@ class PathsBuilder
                 return $pathItem->operations(...$operations);
             })
             ->map(static function (PathItem $item) use ($middlewares) {
-                foreach ($middlewares as $middleware) {
-                    $item = app($middleware)->after($item);
-                }
-
-                return $item;
+                return Middleware::make($middlewares)
+                    ->using(PathMiddleware::class)
+                    ->send($item)
+                    ->through(fn ($middleware, $item) => $middleware->after($item));
             })
             ->values()
             ->toArray();
+    }
+
+    protected function routes(array $middlewares): Collection
+    {
+        return collect(app(RoutesBuilder::class)->build($middlewares));
     }
 }
