@@ -8,6 +8,7 @@ use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
+use Vyuldashev\LaravelOpenApi\Contracts\ComponentCreateMiddleware;
 use Vyuldashev\LaravelOpenApi\Contracts\ComponentMiddleware;
 use Vyuldashev\LaravelOpenApi\Generator;
 use Vyuldashev\LaravelOpenApi\Middleware;
@@ -44,7 +45,10 @@ class ComponentsBuilder
         $schemas = $this->schemasBuilder->build($collection);
         $securitySchemes = $this->securitySchemesBuilder->build($collection);
 
-        $components = Components::create();
+        $components = Middleware::make($middlewares)
+            ->using(RoutesBuilderMiddleware::class)
+            ->send(Components::create())
+            ->through(fn ($middleware, $components) => $middleware->before($components));
 
         if (count($callbacks) > 0) {
             $components = $components->callbacks(...$callbacks);
