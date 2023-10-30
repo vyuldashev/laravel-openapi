@@ -17,7 +17,7 @@ class RequestBodyBuilder
 
         if ($requestBody) {
             /** @var RequestBodyFactory $requestBodyFactory */
-            $requestBodyFactory = app($requestBody->factory);
+            $requestBodyFactory = app($requestBody->factory, ['routeInformation' => $route]);
 
             $requestBody = $requestBodyFactory->build();
 

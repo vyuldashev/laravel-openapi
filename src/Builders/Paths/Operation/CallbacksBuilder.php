@@ -13,8 +13,8 @@ class CallbacksBuilder
     {
         return $route->actionAttributes
             ->filter(static fn (object $attribute) => $attribute instanceof CallbackAttribute)
-            ->map(static function (CallbackAttribute $attribute) {
-                $factory = app($attribute->factory);
+            ->map(static function (CallbackAttribute $attribute) use ($route) {
+                $factory = app($attribute->factory, ['routeInformation' => $route]);
                 $pathItem = $factory->build();
 
                 if ($factory instanceof Reusable) {

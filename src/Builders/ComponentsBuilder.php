@@ -8,7 +8,10 @@ use Vyuldashev\LaravelOpenApi\Builders\Components\RequestBodiesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\ResponsesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SchemasBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\Components\SecuritySchemesBuilder;
+use Vyuldashev\LaravelOpenApi\Contracts\ComponentCreateMiddleware;
+use Vyuldashev\LaravelOpenApi\Contracts\ComponentMiddleware;
 use Vyuldashev\LaravelOpenApi\Generator;
+use Vyuldashev\LaravelOpenApi\Middleware;
 
 class ComponentsBuilder
 {
@@ -42,44 +45,38 @@ class ComponentsBuilder
         $schemas = $this->schemasBuilder->build($collection);
         $securitySchemes = $this->securitySchemesBuilder->build($collection);
 
-        $components = Components::create();
-
-        $hasAnyObjects = false;
+        $components = Middleware::make($middlewares)
+            ->using(ComponentCreateMiddleware::class)
+            ->send(Components::create())
+            ->through(fn ($middleware, $components) => $middleware->before($components));
 
         if (count($callbacks) > 0) {
-            $hasAnyObjects = true;
-
             $components = $components->callbacks(...$callbacks);
         }
 
         if (count($requestBodies) > 0) {
-            $hasAnyObjects = true;
-
             $components = $components->requestBodies(...$requestBodies);
         }
 
         if (count($responses) > 0) {
-            $hasAnyObjects = true;
             $components = $components->responses(...$responses);
         }
 
         if (count($schemas) > 0) {
-            $hasAnyObjects = true;
             $components = $components->schemas(...$schemas);
         }
 
         if (count($securitySchemes) > 0) {
-            $hasAnyObjects = true;
             $components = $components->securitySchemes(...$securitySchemes);
         }
 
-        if (! $hasAnyObjects) {
+        if (! count($components->toArray())) {
             return null;
         }
 
-        foreach ($middlewares as $middleware) {
-            app($middleware)->after($components);
-        }
+        Middleware::make($middlewares)
+            ->using(ComponentMiddleware::class)
+            ->emit(fn ($middleware) => $middleware->after($components));
 
         return $components;
     }

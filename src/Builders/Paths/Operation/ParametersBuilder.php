@@ -61,7 +61,7 @@ class ParametersBuilder
 
         if ($parameters) {
             /** @var ParametersFactory $parametersFactory */
-            $parametersFactory = app($parameters->factory);
+            $parametersFactory = app($parameters->factory, ['routeInformation' => $route]);
 
             $parameters = $parametersFactory->build();
         }
