@@ -46,7 +46,7 @@ class ComponentsBuilder
         $securitySchemes = $this->securitySchemesBuilder->build($collection);
 
         $components = Middleware::make($middlewares)
-            ->using(RoutesBuilderMiddleware::class)
+            ->using(ComponentCreateMiddleware::class)
             ->send(Components::create())
             ->through(fn ($middleware, $components) => $middleware->before($components));
 
