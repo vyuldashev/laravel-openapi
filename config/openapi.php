@@ -55,9 +55,6 @@ return [
 
             // Register custom middlewares for different objects.
             'middlewares' => [
-                'routes' => [
-                    //
-                ],
                 'paths' => [
                     //
                 ],
