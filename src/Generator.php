@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Vyuldashev\LaravelOpenApi\Builders\ComponentsBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\InfoBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\PathsBuilder;
-use Vyuldashev\LaravelOpenApi\Builders\RoutesBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\ServersBuilder;
 use Vyuldashev\LaravelOpenApi\Builders\TagsBuilder;
 
@@ -18,7 +17,6 @@ class Generator
     public const COLLECTION_DEFAULT = 'default';
 
     protected array $config;
-    protected RoutesBuilder $routesBuilder;
     protected InfoBuilder $infoBuilder;
     protected ServersBuilder $serversBuilder;
     protected TagsBuilder $tagsBuilder;
@@ -27,7 +25,6 @@ class Generator
 
     public function __construct(
         array $config,
-        RoutesBuilder $routesBuilder,
         InfoBuilder $infoBuilder,
         ServersBuilder $serversBuilder,
         TagsBuilder $tagsBuilder,
@@ -35,7 +32,6 @@ class Generator
         ComponentsBuilder $componentsBuilder
     ) {
         $this->config = $config;
-        $this->routesBuilder = $routesBuilder;
         $this->infoBuilder = $infoBuilder;
         $this->serversBuilder = $serversBuilder;
         $this->tagsBuilder = $tagsBuilder;
@@ -47,12 +43,10 @@ class Generator
     {
         $middlewares = Arr::get($this->config, 'collections.'.$collection.'.middlewares');
 
-        $routes = $this->routesBuilder->build(Arr::get($middlewares, 'routes', []));
-
         $info = $this->infoBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.info', []));
         $servers = $this->serversBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.servers', []));
         $tags = $this->tagsBuilder->build(Arr::get($this->config, 'collections.'.$collection.'.tags', []));
-        $paths = $this->pathsBuilder->build($collection, $routes, Arr::get($middlewares, 'paths', []));
+        $paths = $this->pathsBuilder->build($collection, Arr::get($middlewares, 'paths', []));
         $components = $this->componentsBuilder->build($collection, Arr::get($middlewares, 'components', []));
         $extensions = Arr::get($this->config, 'collections.'.$collection.'.extensions', []);
 
