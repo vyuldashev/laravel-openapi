@@ -64,15 +64,15 @@ class ComponentsBuilder
             $components = $components->securitySchemes(...$securitySchemes);
         }
 
+        if (! $hasAnyObjects) {
+            return null;
+        }
+
         foreach ($middlewares as $middleware) {
             app($middleware)->after($components);
         }
 
         $hasAnyObjects = count($components->toArray()) > 0;
-
-        if (! $hasAnyObjects) {
-            return null;
-        }
 
         return $components;
     }
