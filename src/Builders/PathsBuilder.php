@@ -46,6 +46,7 @@ class PathsBuilder
                 Middleware::make($middlewares)
                     ->using(PathMiddleware::class)
                     ->emit(fn ($middleware) => $middleware->before($routeInformation));
+
                 return $routeInformation;
             })
             ->groupBy(static fn (RouteInformation $routeInformation) => $routeInformation->uri)
