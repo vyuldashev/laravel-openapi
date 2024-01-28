@@ -41,9 +41,9 @@ class ParametersBuilder
 
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
-                
+
                 if (is_null($route->actionDocBlock)) {
-                    throw new \Exception('Missing docblock for route: ' . $route->uri);
+                    throw new \Exception('Missing docblock for route: '.$route->uri);
                 }
                 /** @var Param $description */
                 $description = collect($route->actionDocBlock->getTagsByName('param'))
