@@ -41,7 +41,10 @@ class ParametersBuilder
 
                     $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
                 }
-
+                
+                if (is_null($route->actionDocBlock)) {
+                    throw new \Exception('Missing docblock for route: ' . $route->uri);
+                }
                 /** @var Param $description */
                 $description = collect($route->actionDocBlock->getTagsByName('param'))
                     ->first(static fn (Param $param) => Str::snake($param->getVariableName()) === Str::snake($parameter['name']));
