@@ -23,7 +23,7 @@ class TagsBuilderTest extends TestCase
         $this->assertSameAssociativeArray($expected[0], $tags[0]->toArray());
     }
 
-    public function providerBuild(): array
+    public static function providerBuild(): array
     {
         return [
             'If the external docs do not exist, it can output the correct json.' => [
