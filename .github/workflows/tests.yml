@@ -13,9 +13,15 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.0, 8.1, 8.2]
+        php: ["8.0", "8.1", "8.2", "8.3"]
+        laravel: ["^9.0", "^10.0"]
+        exclude:
+          - { php: "8.0", laravel: "^10.0"}
+          - { php: "8.0", laravel: "^11.0"}
+          - { php: "8.1", laravel: "^11.0"}
+          - { php: "8.3", laravel: "^9.0"}
 
-    name: PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
 
     steps:
       - name: Checkout code
@@ -27,6 +33,9 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip
           coverage: none
+
+      - name: Set laravel version
+        run: composer require "laravel/framework=${{ matrix.laravel }}" --no-update --no-interaction --no-progress
 
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction --no-progress

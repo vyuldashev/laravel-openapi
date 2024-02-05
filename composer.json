@@ -27,7 +27,7 @@
         "phpdocumentor/reflection-docblock": "^5.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.3|^6.0|^7.0",
+        "orchestra/testbench": "^5.3|^6.0|^7.0|^8.0",
         "phpunit/phpunit": "^9.5.13"
     },
     "autoload": {
