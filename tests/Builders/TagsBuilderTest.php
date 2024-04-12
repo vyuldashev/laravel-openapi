@@ -12,8 +12,8 @@ class TagsBuilderTest extends TestCase
     /**
      * @dataProvider providerBuild
      *
-     * @param  array  $config
-     * @param  array  $expected
+     * @param array $config
+     * @param array $expected
      * @return void
      */
     public function testBuild(array $config, array $expected): void
@@ -23,7 +23,7 @@ class TagsBuilderTest extends TestCase
         $this->assertSameAssociativeArray($expected[0], $tags[0]->toArray());
     }
 
-    public function providerBuild(): array
+    public static function providerBuild(): array
     {
         return [
             'If the external docs do not exist, it can output the correct json.' => [
@@ -60,8 +60,8 @@ class TagsBuilderTest extends TestCase
     /**
      * Assert equality as an associative array.
      *
-     * @param  array  $expected
-     * @param  array  $actual
+     * @param array $expected
+     * @param array $actual
      * @return void
      */
     protected function assertSameAssociativeArray(array $expected, array $actual): void

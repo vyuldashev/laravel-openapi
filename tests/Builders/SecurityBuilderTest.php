@@ -100,13 +100,13 @@ class SecurityBuilderTest extends TestCase
             ->action('get');
 
         $openApi = OpenApi::create()
-        ->security($globalRequirement)
-        ->components($components)
-        ->paths(
-            PathItem::create()
-                ->route('/foo')
-                ->operations($operation)
-        );
+            ->security($globalRequirement)
+            ->components($components)
+            ->paths(
+                PathItem::create()
+                    ->route('/foo')
+                    ->operations($operation)
+            );
 
         self::assertSame([
             'paths' => [
@@ -175,13 +175,13 @@ class SecurityBuilderTest extends TestCase
         $operations = $operationsBuilder->build([$routeInfo]);
 
         $openApi = OpenApi::create()
-        ->security($globalRequirement)
-        ->components($components)
-        ->paths(
-            PathItem::create()
-                ->route('/foo')
-                ->operations(...$operations)
-        );
+            ->security($globalRequirement)
+            ->components($components)
+            ->paths(
+                PathItem::create()
+                    ->route('/foo')
+                    ->operations(...$operations)
+            );
 
         self::assertSame([
             'paths' => [

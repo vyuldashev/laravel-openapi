@@ -12,8 +12,8 @@ class ServersBuilderTest extends TestCase
     /**
      * @dataProvider providerBuild
      *
-     * @param  array  $config
-     * @param  array  $expected
+     * @param array $config
+     * @param array $expected
      * @return void
      */
     public function testBuild(array $config, array $expected): void
@@ -23,7 +23,7 @@ class ServersBuilderTest extends TestCase
         $this->assertSameAssociativeArray($expected[0], $servers[0]->toArray());
     }
 
-    public function providerBuild(): array
+    public static function providerBuild(): array
     {
         return [
             'If the variables field does not exist, it is possible to output the correct json.' => [
@@ -129,8 +129,8 @@ class ServersBuilderTest extends TestCase
     /**
      * Assert equality as an associative array.
      *
-     * @param  array  $expected
-     * @param  array  $actual
+     * @param array $expected
+     * @param array $actual
      * @return void
      */
     protected function assertSameAssociativeArray(array $expected, array $actual): void
