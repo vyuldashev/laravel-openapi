@@ -1,22 +1,20 @@
 name: Docs
 
 on:
-  push:
-    branches:
-      - main
+    push:
+        branches:
+            - main
 
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+            uses: actions/checkout@master
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build
-        uses: actions/setup-node@v4
-
-      - run: npm ci
-      - run: npm run docs:build
-
+            - name: vuepress-deploy
+            uses: jenkey2011/vuepress-deploy@master
+            env:
+                ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                BUILD_SCRIPT: yarn && yarn docs:build
+                BUILD_DIR: docs/.vuepress/dist
