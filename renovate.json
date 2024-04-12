@@ -1,0 +1,89 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended"
+    ],
+    "packageRules": [
+        {
+            "groupName": "Actions dependencies",
+            "groupSlug": "actions-minor-patch",
+            "matchManagers": [
+                "github-actions"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "addLabels": [
+                "🤖 actions"
+            ]
+        },
+        {
+            "groupName": "frontend dependencies",
+            "groupSlug": "frontend-minor-patch",
+            "matchManagers": [
+                "npm"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "addLabels": [
+                "🌐 frontend"
+            ]
+        },
+        {
+            "groupName": "backend dependencies",
+            "groupSlug": "backend-minor-patch",
+            "matchManagers": [
+                "composer"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "addLabels": [
+                "🔙 backend"
+            ]
+        },
+        {
+            "groupName": "docker dependencies",
+            "groupSlug": "docker-minor-patch",
+            "matchManagers": [
+                "dockerfile",
+                "docker-compose"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ],
+            "addLabels": [
+                "🐳 docker"
+            ]
+        },
+        {
+            "matchUpdateTypes": [
+                "major"
+            ],
+            "addLabels": [
+                "🚨 major"
+            ]
+        },
+        {
+            "matchUpdateTypes": [
+                "minor"
+            ],
+            "addLabels": [
+                "✨ minor"
+            ]
+        },
+        {
+            "matchUpdateTypes": [
+                "patch"
+            ],
+            "addLabels": [
+                "🛠️ patch"
+            ]
+        }
+    ]
+}
