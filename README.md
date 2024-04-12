@@ -7,7 +7,7 @@
 
 ## Documentation
 
-You'll find the documentation on https://vyuldashev.github.io/laravel-openapi.
+You'll find the documentation on https://tartanlegrand.github.io/laravel-openapi.
 
 ## License
 
