@@ -1,5 +1,5 @@
 {
-    "name": "vyuldashev/laravel-openapi",
+    "name": "tartanlegrand/laravel-openapi",
     "description": "Generate OpenAPI Specification for Laravel Applications",
     "keywords": [
         "laravel",
