@@ -33,6 +33,9 @@ class ResponsesBuilder
                         ->values()
                         ->toArray();
                 }
+                if ($attribute->factory === null) {
+                    throw new \InvalidArgumentException('Factory class must be instance of ResponseFactory');
+                }
                 $factory = app($attribute->factory);
                 if (!is_a($factory, ResponseFactory::class, true)) {
                     throw new \InvalidArgumentException('Factory class must be instance of ResponseFactory');
