@@ -2,11 +2,6 @@
 
 namespace Vyuldashev\LaravelOpenApi\Console;
 
-use Doctrine\DBAL\Types\BooleanType;
-use Doctrine\DBAL\Types\DateTimeType;
-use Doctrine\DBAL\Types\DateType;
-use Doctrine\DBAL\Types\DecimalType;
-use Doctrine\DBAL\Types\IntegerType;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema as SchemaFacade;
@@ -46,62 +41,59 @@ class SchemaFactoryMakeCommand extends GeneratorCommand
         /** @var Model $model */
         $model = app($model);
         
-        $columns = SchemaFacade::connection($model->getConnectionName())->getColumnListing(config('database.connections.' . config('database.default') . '.prefix', '') . $model->getTable());
-        $connection = $model->getConnection();
-        
-        $tableName = config('database.connections.' . config('database.default') . '.prefix', '') . $model->getTable();
-        
-        $connection->getSchemaGrammar();
+        $columns = SchemaFacade::getColumns($model->getTable());
         
         $definition = 'return Schema::object(\'' . class_basename($model) . '\')' . PHP_EOL;
         $definition .= '            ->properties(' . PHP_EOL;
         
         $properties = collect($columns)
-            ->map(static function ($columnName) use ($model, $connection, $tableName) {
-                $columnType = null;
-                $default = null;
-                $notNull = false;
-                
-                // Use the schema builder to get the columns of the table
-                $tableColumns = $connection->getSchemaBuilder()->getColumns($tableName);
-                
-                // Iterate over each column in the table
-                foreach ($tableColumns as $column) {
-                    // Check if the current column is the one we're interested in
-                    if ($column['name'] == $columnName) {
-                        // If it is, then retrieve its type, default value, and nullability
-                        // If these values are not set, provide a default value
-                        $columnType = $column['type'] ?? "";
-                        $defaultValue = $column['default'] ?? null;
-                        $isNotNull = ($column['nullable'] ?? false) === false;
-                        
-                        // Once we've found our column, we don't need to check the others
-                        break;
-                    }
-                }
-                
-                $name = $columnName;
+            ->map(static function (array $column) {
+                $columnType = $column['type_name'];
+                $default = $column['default'] ?? null;
+                $notNull = ! $column['nullable'];
+                $name = $column['name'];
                 
                 switch ($columnType) {
-                    case IntegerType::class:
+                    case 'integer':
+                    case 'bigint':
+                    case 'smallint':
                         $format = 'Schema::integer(%s)->default(%s)';
                         $args = [$name, $notNull ? (int)$default : null];
                         break;
-                    case BooleanType::class:
+                    case 'boolean':
                         $format = 'Schema::boolean(%s)->default(%s)';
                         $args = [$name, $notNull ? $default : null];
                         break;
-                    case DateType::class:
+                    case 'date':
+                    case 'date_immutable':
                         $format = 'Schema::string(%s)->format(Schema::FORMAT_DATE)->default(%s)';
                         $args = [$name, $notNull ? $default : null];
                         break;
-                    case DateTimeType::class:
+                    case 'datetime':
+                    case 'datetime_immutable':
+                    case 'datetimetz':
+                    case 'datetimetz_immutable':
                         $format = 'Schema::string(%s)->format(Schema::FORMAT_DATE_TIME)->default(%s)';
                         $args = [$name, $notNull ? $default : null];
                         break;
-                    case DecimalType::class:
+                    case 'decimal':
+                    case 'float':
                         $format = 'Schema::number(%s)->format(Schema::FORMAT_FLOAT)->default(%s)';
                         $args = [$name, $notNull ? (float)$default : null];
+                        break;
+                    case 'array':
+                    case 'json':
+                        $format = 'Schema::array(%s)->default(%s)';
+                        $args = [$name, $notNull ? (array)$default : null];
+                        break;
+                    case 'guid':
+                    case 'uuid':
+                        $format = 'Schema::string(%s)->format(Schema::FORMAT_UUID)->default(%s)';
+                        $args = [$name, $notNull ? (array)$default : null];
+                        break;
+                    case 'binary':
+                        $format = 'Schema::string(%s)->format(Schema::FORMAT_BINARY)->default(%s)';
+                        $args = [$name, $notNull ? $default : null];
                         break;
                     default:
                         $format = 'Schema::string(%s)->default(%s)';

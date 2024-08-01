@@ -21,9 +21,8 @@
     "require": {
         "php": "^8.0",
         "ext-json": "*",
-        "doctrine/dbal": "^2.6|^3.0",
         "goldspecdigital/oooas": "^2.7.1",
-        "laravel/framework": "5.8.*|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0",
+        "laravel/framework": "^11.0",
         "phpdocumentor/reflection-docblock": "^5.0"
     },
     "require-dev": {
