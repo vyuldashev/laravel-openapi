@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/TartanLeGrand/laravel-openapi/compare/v1.13.1...v2.0.0) (2024-08-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires Laravel 11
+
+### Miscellaneous Chores
+
+* remove doctrine ([#17](https://github.com/TartanLeGrand/laravel-openapi/issues/17)) ([ae4695e](https://github.com/TartanLeGrand/laravel-openapi/commit/ae4695e9973fe6b9e70c4c132bdc324c57075635))
+
 ## [1.13.1](https://github.com/TartanLeGrand/laravel-openapi/compare/v1.13.0...v1.13.1) (2024-07-13)
 
 
