@@ -39,7 +39,9 @@ class ParametersBuilder
                         return null;
                     }
 
-                    $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
+                    if ($reflectionParameter->getType() instanceof \ReflectionNamedType) {
+                        $schema = SchemaHelpers::guessFromReflectionType($reflectionParameter->getType());
+                    }
                 }
 
                 /** @var Param $description */
