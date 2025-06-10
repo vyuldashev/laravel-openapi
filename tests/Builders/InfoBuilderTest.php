@@ -23,7 +23,7 @@ class InfoBuilderTest extends TestCase
         $this->assertSameAssociativeArray($expected, $info->toArray());
     }
 
-    public function providerBuildContact(): array
+    public static function providerBuildContact(): array
     {
         $common = [
             'title' => 'sample_title',
