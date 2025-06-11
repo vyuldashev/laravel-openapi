@@ -23,7 +23,7 @@ class ServersBuilderTest extends TestCase
         $this->assertSameAssociativeArray($expected[0], $servers[0]->toArray());
     }
 
-    public function providerBuild(): array
+    public static function providerBuild(): array
     {
         return [
             'If the variables field does not exist, it is possible to output the correct json.' => [
