@@ -16,6 +16,7 @@ git init
 git add -A
 git commit -m 'docs'
 
-git push -f git@github.com:vyuldashev/laravel-openapi.git master:gh-pages
+# Push from the current branch (HEAD) to gh-pages branch
+git push -f git@github.com:vyuldashev/laravel-openapi.git HEAD:gh-pages
 
 cd -

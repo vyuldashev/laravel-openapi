@@ -6,7 +6,7 @@ use Attribute;
 use InvalidArgumentException;
 use Vyuldashev\LaravelOpenApi\Factories\CallbackFactory;
 
-#[Attribute]
+#[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class Callback
 {
     public string $factory;
